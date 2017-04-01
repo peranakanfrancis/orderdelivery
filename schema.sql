@@ -102,7 +102,7 @@ CREATE TABLE deliveryperson (
     postal char(5) not null
     cust_warning text null,
 
-)
+);
 
 /*Menu items will be created here. All items will be linked to chef_id and will include
 name of food item, menu which it belongs to, price, and rating.*/
