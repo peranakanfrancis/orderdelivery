@@ -1,6 +1,5 @@
-from flask import Flask
-
-app = Flask(__name__)
+from flask import Flask, render_template #import class
+app = Flask(__name__) 	#create instance of class
 
 app.config["DATABASE"] = 'losquatroamigos.db'
 app.config['DEBUG'] = True
@@ -10,4 +9,12 @@ app.config['DEBUG'] = True
 #app.config["USERNAME"] = "Eric"
 #app.config["PASSWORD"] = "Schles"
 
-from app import views, models
+#Chin - commented out the bottom
+#from app import views, models
+
+@app.route("/")	#tells Flask what URL should trigger our function
+def main():
+	return render_template('index.html')
+	
+if __name__ == "__main__":
+	app.run()
