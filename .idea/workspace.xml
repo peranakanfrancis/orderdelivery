@@ -2,12 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="10256117-37d1-4177-a8e1-3b7423c2725d" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/templates/directory.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/templates/homepage.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/templates/info.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/templates/layout.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/templates/login.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/templates/oldindex.html" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -461,7 +455,14 @@
       <option name="project" value="LOCAL" />
       <updated>1491519200321</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="File Management">
+      <created>1491521140433</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1491521140433</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -512,7 +513,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added 'static' folder" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added 'static' folder" />
+    <MESSAGE value="File Management" />
+    <option name="LAST_COMMIT_MESSAGE" value="File Management" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
