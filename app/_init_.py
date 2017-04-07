@@ -1,29 +1,53 @@
-'''
+"""
 ============================
 This is the main home page
 ============================
-'''
+"""
 
-from flask import Flask, render_template, request
-app = Flask(__name__)  # create instance of class
+# Third Party Imports
+from flask import Flask
+from flask import render_template  # for html
+from flask import request  # for reading posted values
+
+# Create Instance of Class
+app = Flask(__name__)
 
 app.config["DATABASE"] = 'losquatroamigos.db'
 app.config['DEBUG'] = True
 
-# don't know what this stuff is for.
-# app.config["SECRET_KEY"] = "like I'd tell you"
-# app.config["USERNAME"] = "Eric"
-# app.config["PASSWORD"] = "Schles"
 
-# Chin - commented out the bottom
-# from app import views, models
-
-#Run HomePage
+# Run HomePage
 @app.route('/')
 def index():
+    return render_template('index.html')
+
+# Run MenuPage
+@app.route('/menu')
+def showMenu():
+    return render_template('Menu.html')
+
+# Run SignUpPage
+@app.route('/showSignUp')
+def showRegister():
     return render_template('signup.html')
 
+# Run Register
+@app.route('/signUp')
+def register():
 
+    #read the posted values from the UI
+    _name = request.form['inputName']
+    _email = request.form['inputEmail']
+    _password = request.form['inputPassword']
+
+    #validate the received values
+   # if _name and _email and _password
+
+
+
+
+#Import all of our routes from routes.py
+    #from routes import *;
 
 #For Dynamic Pages Per User
     #name is generated with the dynamic argument
