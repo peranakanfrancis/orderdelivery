@@ -4,13 +4,13 @@ Surfers
 ======================
 """
 
-from flask_login import UserMixin
+#from flask_login import UserMixin
 
-class surfers(UserMixin):
+#class surfers(UserMixin):
 
-    @property
-    def password(self):
-        """
+    #@property
+    #def password(self):
+"""
         Prevent password from being accessed
         """
-        raise AttributeError('password is not a readable attribute')
+     #   raise AttributeError('password is not a readable attribute')

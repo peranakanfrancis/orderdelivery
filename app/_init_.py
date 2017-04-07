@@ -45,7 +45,7 @@ def signUp():
 
 @app.errorhandler(404)
 def PageNotFound(error):
-    return render_template('/errors/404.html'), 404
+    return render_template('errors/404.html'), 404
 
 
 #Import all of our routes from routes.py
