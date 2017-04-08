@@ -62,7 +62,7 @@ CREATE TABLE complaints (
     user_id nchar(9) not null,
     emp_id nchar(5) not null,
     complaint text,
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (emp_id) REFERENCES employees(emp_id)
     );
 
@@ -72,7 +72,7 @@ CREATE TABLE compliments (
     user_id nchar(9) not null,
     emp_id nchar(5) not null,
     compliment text,
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (emp_id) REFERENCES employees(emp_id)
     );
 
