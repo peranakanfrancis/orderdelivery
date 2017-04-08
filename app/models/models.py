@@ -44,7 +44,7 @@ def insert_complaints(user_id, emp_id, complaint):
 def insert_compliments(user_id,emp_id,compliment):
     with sql.connect("losquatroamigos.db") as con:
         cur = con.cursor()
-        cur.execute("INSERT INTO complimets (user_id, emp_id,compliemnt) VALUES(?,?,?)", (user_id, emp_id, compliment) )
+        cur.execute("INSERT INTO compliments (user_id, emp_id,compliment) VALUES(?,?,?)", (user_id, emp_id, compliment) )
         con.commit()
 
 def insert_orders(order_id,user_id, chef_id, menu_id,menuItem,price, rating):
@@ -73,4 +73,3 @@ def insert_menu(chef_id, menu_id, item_name, price, rating):
         con.execute("INSERT INTO menu (chef_id, menu_id, item_name, price, rating) VALUES (?,?,?,?,?)",
                     (chef_id, menu_id, item_name, price, rating))
         con.commit()
-
