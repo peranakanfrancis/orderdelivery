@@ -18,6 +18,11 @@ def showMenu():
 def showSignUp():
     return render_template('signup.html')
 
+# Run Juan Menu
+@app.route('/Juan_Menu/')
+def Juan_Menu():
+    return render_template('Juan_Menu.html')
+
 # Run Register
 @app.route('/signUp/')
 def signUp():
