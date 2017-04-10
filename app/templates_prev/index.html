@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>Los Quatro Amigos</title>
+        <style type="text/css">
+            #Header
+            {
+                color: #EF4B4D;
+                text-align: center;
+                font-size: x-large;
+                padding-top: 0px ;
+                font-family: "Comic Sans MS";
+
+            }
+            .topbar-section
+            {
+                float: left;
+                border-left: white;
+                height: 100%;
+
+            }
+            .topbar-menu
+            {
+                font-size: 20px;
+                font-weight: bold;
+                text-align: center;
+                font-family: "Comic Sans MS";
+                padding-top: 15px;
+                padding-bottom: 15px;
+                padding-left: 15px;
+                padding-right: 15px;
+                margin-left: auto;
+                margin-right: auto;
+                height:27px;
+            }
+            #background1
+            {
+                height: 100%;
+            }
+            a.hover
+            {
+                text-decoration: none;
+            }
+            .body
+            {
+                padding: 0px;
+                margin: 0px;
+                background-color:#092046 ;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <div id="Header">
+
+            <h1> Los Quatro Amigos</h1>
+
+        </div>
+
+        <div>
+
+            <div class="topbar-section topbar-menu">
+                <a href="#home"> HOME </a>
+            </div>
+
+            <div class="topbar-section topbar-menu">
+                <a href="#aboutus"> ABOUT US </a>
+            </div>
+
+            <div class="topbar-section topbar-menu">
+                <a href="menu"> MENU </a>
+            </div>
+
+            <div class="topbar-section topbar-menu">
+                <a href="#order"> ORDER </a>
+            </div>
+
+            <div class="topbar-section topbar-menu">
+                <a href="#contactus"> CONTACT US </a>
+            </div>
+        </div>
+
+
+    <div id="background1">
+
+        <img src="{{url_for('static', filename='LQA_Background.png')}}" style="width: 100%">
+
+    </div>
+
+        <p id="home">
+            Back to home?
+        </p>
+
+        <p id="aboutus">
+            About us
+        </p>
+
+        <p id="menu">
+            MENU
+        </p>
+
+        <p id="order">
+            ORDER
+        </p>
+
+        <p id="contactus">
+            CONTACT US
+        </p>
+
+    </body>
+
+</html>
