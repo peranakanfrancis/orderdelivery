@@ -9,10 +9,10 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Global Bootstrap CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/stylish-portfolio.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='stylish-portfolio.css') }}" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
     <!-- JQuery Libraries -->
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -152,29 +152,29 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="portfolio-item">
-                                <a href="monica-Menu.html">
-                                    <img class="img-portfolio img-responsive" src="img/lime-chicken-tacos.jpg">
+                                <a href="{{ url_for('monica_Menu') }}">
+                                    <img class="img-portfolio img-responsive" src="../static/img/lime-chicken-tacos.jpg">
                                 </a>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="portfolio-item">
-                                <a href="miguel-Menu.html">
-                                    <img class="img-portfolio img-responsive" src="img/mole-oaxaca.jpg">
+                                <a href="{{ url_for('miguel_Menu') }}">
+                                    <img class="img-portfolio img-responsive" src="../static/img/mole-oaxaca.jpg">
                                 </a>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="portfolio-item">
-                                <a href="Juan-Menu.html">
-                                    <img class="img-portfolio img-responsive" src="img/tres_leches_cake.jpg">
+                                <a href="{{ url_for('Juan_Menu') }}">
+                                    <img class="img-portfolio img-responsive" src="../static/img/tres_leches_cake.jpg">
                                 </a>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="portfolio-item">
-                                <a href="Rosita-Menu.html">
-                                    <img class="img-portfolio img-responsive" src="img/yucanta-comida.jpg">
+                                <a href="{{ url_for('Rosita_Menu') }}">
+                                    <img class="img-portfolio img-responsive" src="../static/img/yucanta-comida.jpg">
                                 </a>
                             </div>
                         </div>
@@ -243,10 +243,10 @@
     </footer>
 
     <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+    <script src="../static/bootstrap/js/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="../static/bootstrap/js/bootstrap.min.js"></script>
 
     <!-- Custom Theme JavaScript -->
     <script>
@@ -337,4 +337,5 @@
 
 </html>
 
-AIzaSyCWIVXafBg8Ut1Nrd61eYYnbS6V3LkN2cw
+//Why is this here?
+//AIzaSyCWIVXafBg8Ut1Nrd61eYYnbS6V3LkN2cw
