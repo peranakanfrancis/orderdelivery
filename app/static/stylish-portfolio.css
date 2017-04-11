@@ -141,13 +141,14 @@ hr.small {
 }
 
 /* Header */
+/* Note that the paths are relative to the style sheet */
 
 .header {
     display: table;
     position: relative;
     width: 100%;
     height: 100%;
-    background: url('../static/img/bg.jpg') no-repeat center center scroll;
+    background: url(img/bg.jpg) no-repeat center center scroll;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
@@ -171,13 +172,12 @@ hr.small {
 }
 
 /* Callout */
-
+/* Note I removed the Callout.jpg from here */
 .callout {
     display: table;
     width: 100%;
     height: 400px;
     color: #fff;
-    background: url(../static/img/callout.jpg) no-repeat center center scroll;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
