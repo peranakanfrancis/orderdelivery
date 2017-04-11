@@ -1,5 +1,5 @@
 import sqlite3
-import app
+
 
 with sqlite3.connect("losquatroamigos.db") as connection:
     c = connection.cursor()
