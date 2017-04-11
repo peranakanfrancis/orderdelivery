@@ -8,6 +8,11 @@ from .models import *
 def index():
     return render_template('index.html')
 
+# Run LogInPage
+@app.route('/showLogIn')
+def showLogIn():
+    return render_template('Log-In.html')
+
 # Run MenuPage
 @app.route('/menu/')
 def showMenu():
