@@ -48,10 +48,11 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     )""")
 
     #ratings##
-    c.execute('DROP TABLE if EXISTS ratings')
+    c.execute('DROP TABLE if EXISTS foodrating')
     c.execute("""CREATE TABLE foodRating (
     user_id nchar(9) not null,
     menu_id nchar(5) not null,
+    menu_item varchar(50) not null,
     rating nchar(1),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
     )""")
@@ -79,17 +80,19 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     #orders##
     c.execute('DROP TABLE if EXISTS orders')
     c.execute("""CREATE TABLE orders (
-    order_id int not null,
+    order_id INTEGER PRIMARY KEY,
     user_id nchar(9) not null,
     chef_id int NOT NULL,
     menu_id nchar(5) not null,
-    menuItem varchar(20) not null,
+    menu_Item varchar(20) not null,
     price decimal(5,2) not null,
-    rating nchar(1),
-    PRIMARY KEY (order_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (chef_id) REFERENCES chefs(chef_id)
     )""")
+
+    #figuring out how autoincrement works.
+    #c.execute('INSERT INTO orders VALUES(NULL,"U0001","C0001","M0001","STEAK", "10.00")')
+
 
     ##chefs##
     c.execute('DROP TABLE if EXISTS chefs')
@@ -103,7 +106,7 @@ with sqlite3.connect("losquatroamigos.db") as connection:
 
     ##delivery information##
     c.execute('DROP TABLE if EXISTS deliveryinfo')
-    c.execute("""CREATE TABLE deliveryperson (
+    c.execute("""CREATE TABLE deliveryinfo (
     order_id int not null,
     emp_id nchar(5) not null,
     user_id nchar(9) not null,
@@ -127,3 +130,4 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     rating varchar(1),
     FOREIGN KEY (chef_id) REFERENCES chefs(chef_id)
     )""")
+

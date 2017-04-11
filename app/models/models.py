@@ -29,10 +29,10 @@ def insert_users(user_id,user_fname,user_lname,address,postal,phone,memb_since,a
                     (user_id,user_fname,user_lname,address,postal,phone,memb_since,acc_funds) )
         con.commit()
 
-def insert_ratings(user_id, menu_id, rating):
+def insert_ratings(user_id, menu_id, menu_item, rating):
     with sql.connect("losquatroamigos.db") as con:
         cur = con.cursor()
-        cur.execure("INSERT INTO ratings(user_id, menu_id, rating) VALUES(?,?,?)", (user_id, menu_id, rating))
+        cur.execure("INSERT INTO ratings(user_id, menu_id, rating) VALUES(?,?,?)", (user_id, menu_id, menu_item, rating))
         con.commit()
 
 def insert_complaints(user_id, emp_id, complaint):
@@ -47,29 +47,32 @@ def insert_compliments(user_id,emp_id,compliment):
         cur.execute("INSERT INTO compliments (user_id, emp_id,compliment) VALUES(?,?,?)", (user_id, emp_id, compliment) )
         con.commit()
 
-def insert_orders(order_id,user_id, chef_id, menu_id,menuItem,price, rating):
+def insert_orders(order_id,user_id, chef_id, menu_id,menuItem,price):
     with sql.connect("losquatroamigos.db") as con:
         cur = con.cursor()
-        cur.execute("INSERT INTO orders (order_id,user_id, chef_id, menu_id,menuItem,price, rating) VALUES(?,?,?,?,?,?,?",
-                    (order_id,user_id, chef_id, menu_id,menuItem,price, rating) )
+        cur.execute("INSERT INTO orders (order_id,user_id, chef_id, menu_id,menuItem,price, rating) VALUES(?,?,?,?,?,?",
+                    (order_id,user_id, chef_id, menu_id,menuItem,price) )
         con.commit()
 
 def insert_chefs(chef_id,emp_id,chef_rating):
     with sql.connect("losquatroamigos.db") as con:
         cur = con.cursor()
-        con.execute("INSERT INTO chefs(chef_id, emp_id, chef_rating) VALUES (?,?,?)", (chef_id,emp_id,chef_rating) )
+        cur.execute("INSERT INTO chefs(chef_id, emp_id, chef_rating) VALUES (?,?,?)", (chef_id,emp_id,chef_rating) )
         con.commit()
 
 def insert_deliveryinfo(emp_id, user_id, user_name,address,city,postal, cust_warning):
     with sql.connect("losquatroamigos.db") as con:
         cur = con.cursor()
-        con.execute("INSERT INTO deliveryinfo (emp_id, user_id, user_name,address,city,postal, cust_warning) VALUES (?,?,?,?,?,?,?)",
+        cur.execute("INSERT INTO deliveryinfo (emp_id, user_id, user_name,address,city,postal, cust_warning) VALUES (?,?,?,?,?,?,?)",
                     (emp_id, user_id, user_name,address,city,postal, cust_warning) )
         con.commit()
 
 def insert_menu(chef_id, menu_id, item_name, price, rating):
     with sql.connect("losquatroamigos.db") as con:
         cur = con.cursor()
-        con.execute("INSERT INTO menu (chef_id, menu_id, item_name, price, rating) VALUES (?,?,?,?,?)",
+        cur.execute("INSERT INTO menu (chef_id, menu_id, item_name, price, rating) VALUES (?,?,?,?,?)",
                     (chef_id, menu_id, item_name, price, rating))
         con.commit()
+
+def select_top5_ratings(user_id):
+    
