@@ -23,6 +23,21 @@ def showSignUp():
 def Juan_Menu():
     return render_template('Juan_Menu.html')
 
+# Run miguel Menu
+@app.route('/miguel_Menu/')
+def miguel_Menu():
+    return render_template('miguel_Menu.html')
+
+# Run Rosita Menu
+@app.route('/Rosita_Menu/')
+def Rosita_Menu():
+    return render_template('Rosita_Menu.html')
+
+# Run monica Menu
+@app.route('/monica_Menu/')
+def monica_Menu():
+    return render_template('monica_Menu.html')
+
 # Run Register
 @app.route('/signUp/')
 def signUp():
