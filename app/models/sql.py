@@ -1,4 +1,5 @@
 import sqlite3
+import app
 
 with sqlite3.connect("losquatroamigos.db") as connection:
     c = connection.cursor()
@@ -49,7 +50,7 @@ with sqlite3.connect("losquatroamigos.db") as connection:
 
     #ratings##
     c.execute('DROP TABLE if EXISTS foodrating')
-    c.execute("""CREATE TABLE foodRating (
+    c.execute("""CREATE TABLE foodrating (
     user_id nchar(9) not null,
     menu_id nchar(5) not null,
     menu_item varchar(50) not null,
@@ -91,7 +92,8 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     )""")
 
     #figuring out how autoincrement works.
-    #c.execute('INSERT INTO orders VALUES(NULL,"U0001","C0001","M0001","STEAK", "10.00")')
+    c.execute('INSERT INTO orders VALUES(NULL,"U0001","C0001","M0001","STEAK", "10.00")')
+    #select_top5_ratings("U0001")
 
 
     ##chefs##
