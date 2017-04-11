@@ -74,5 +74,3 @@ def insert_menu(chef_id, menu_id, item_name, price, rating):
                     (chef_id, menu_id, item_name, price, rating))
         con.commit()
 
-def select_top5_ratings(user_id):
-    
