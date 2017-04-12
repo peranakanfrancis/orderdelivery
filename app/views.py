@@ -1,7 +1,6 @@
 from app import app
 from flask import render_template,redirect, request, flash,g,session,url_for,json
 from .models import *
-import os #for secret key
 
 
 # Run HomePage
@@ -75,6 +74,7 @@ def signUp():
    # if _name and _email and _password
     return json.dumps({'html':'<span> all good'});
 
+# Handles Any Page That Doesn't Exist
 @app.errorhandler(404)
 def PageNotFound(error):
     return render_template('errors/404.html'), 404
@@ -92,6 +92,6 @@ def PageNotFound(error):
 
 #Develop Web Server
 #if __name__ == "__main__":
-    app.secret_key = os.urandom(12)
+    #app.secret_key = os.urandom(12)
  #   app.run(debug=True)
 
