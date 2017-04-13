@@ -1,20 +1,26 @@
 import sqlite3 as sql
-"""TEMPLATE INSERT TO METHOD
-def insert_account_holder(email,username,phone,password):
-    with sql.connect("database.db") as con:
-        cur = con.cursor()
-        cur.execute("INSERT INTO account_holder (email,username,phone,password) VALUES (?,?,?,?)", (email,username,phone,password) )
-        con.commit()
-"""
 
-def add_money(user, amount_to_add):
-    with sql.connect("database.db") as con:
-        cur = con.cursor()
-        cur.execute("UPDATE users SET acc_funds = acc_funds + amount_to_add WHERE user_id = user")
-        con.commit()
 
-def delete_account(user):
-    with sql.connect("database.db") as con:
+
+
+
+#get users top 5 rated foods.
+def select_top5_rated(user_id):
+    with sql.connect("losquatroamigos.db") as con:
         cur = con.cursor()
-        cur.execute("DELETE FROM users WHERE user_id = user")
-        con.commit()
+        result = cur.execute("SELECT menu_item,rating FROM ratings WHERE user_id = '%s' ORDER BY rate DESC LIMIT 5" %user_id).fetchall()
+    return result
+
+#retrieve complaints
+def select_complaints(user_id):
+    with sql.connect("losquatroamigos.db") as con:
+        cur = con.cursor()
+        result = cur.execute("SELECT complaint, date_posted FROM complaints WHERE user_id = '%s'" %user_id).fetchall()
+    return result
+
+#retrive compliments
+def select_compliments(user_id):
+    with sql.connect("losquatroamigos.db") as con:
+        cur = con.cursor()
+        result = cur.execute("SELECT compliment, date_posted FROM compliments WHERE user_id = '%s'" %user_id).fetchall()
+    return result
