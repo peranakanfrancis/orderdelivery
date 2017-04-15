@@ -7,6 +7,7 @@ from models.models import *
 # Run HomePage
 @app.route('/')
 def index():
+    print(session.get('user'))
     return render_template('index.html')
 
 # Run LogInPage
@@ -46,7 +47,7 @@ def showSignUp():
 def Juan_Menu():
     # if session.get('logged_in'):
     #     top_menu = select_top5_rated()
-    print(session.get('session_id'))
+
     return render_template('Juan_Menu.html')
 
 # Run miguel Menu
@@ -74,11 +75,11 @@ def sign_up():
 
     insert_users(_user_id,"bob", "who", _password, "137-10 Geranium Avenue Flushing NY 11355",
                 "Flushing", "NY", "11355", "", 6469825000)
-
+    session["user"] = _user_id
 
     #validate the received values
    # if _name and _email and _password
-    return render_template("index.html", username=_user_id)
+    return redirect("/")
 
 # Handles Any Page That Doesn't Exist
 @app.errorhandler(404)
