@@ -97,7 +97,7 @@ def select_employee_info(emp_id):
 def select_user_info(user_id):
     with sql.connect("losquatroamigos.db") as con:
         cur = con.cursor()
-        result = cur.execute("SELECT * FROM user WHERE user_id = '%s'" %user_id).fetchall()
+        result = cur.execute("SELECT * FROM users WHERE user_id = '%s'" %user_id).fetchall()
     return result
 
 # USERS CAN DELETE THEIR ACCOUNT IF THEY WISH TO DO SO. (MANAGERS MAY ALSO USE THIS TO REMOVE USER FROM WEBSITE)

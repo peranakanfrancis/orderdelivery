@@ -1,7 +1,7 @@
 from app import app
 from flask import render_template,redirect, request, flash,g,session,url_for,json
 from models.models import *
-# import models as dbHandler
+
 
 
 # Run HomePage
@@ -17,6 +17,22 @@ def showLogIn():
         return render_template('Log-In.html')
     else:
         return render_template("managerLogIn.html")
+
+@app.route('/login', methods=["GET",'POST'])
+def login():
+    user_id = request.form['username']
+    password =  request.form['password']
+
+    user_check= select_user_info(user_id)
+
+    if user_check and user_check[0][3] == password:
+        print "logged in"
+        session["user"] = user_id
+        return redirect("/")
+    else:
+        print "not logged in"
+        return render_template("Log-In.html")
+
 
 
 
@@ -73,9 +89,12 @@ def sign_up():
     _user_id = request.form['inputName']
     _password = request.form['inputPassword']
 
-    insert_users(_user_id,"bob", "who", _password, "137-10 Geranium Avenue Flushing NY 11355",
-                "Flushing", "NY", "11355", "", 6469825000)
-    session["user"] = _user_id
+    try:
+        insert_users(_user_id,"bob", "who", _password, "137-10 Geranium Avenue Flushing NY 11355",
+                    "Flushing", "NY", "11355", "", 6469825000)
+        session["user"] = _user_id
+    except:
+        return render_template("signup.html")
 
     #validate the received values
    # if _name and _email and _password

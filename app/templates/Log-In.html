@@ -2,7 +2,7 @@
 {% if session['logged_in'] %}
 <p>You're logged in already!</p>
 {% else %}
-<form action="/manager_login" method="POST">
+<form action="/login" method="POST">
   <input type="username" name="username" placeholder="Username">
   <input type="password" name="password" placeholder="Password">
   <input type="submit" value="Log in">
