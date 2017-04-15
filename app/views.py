@@ -1,6 +1,7 @@
 from app import app
 from flask import render_template,redirect, request, flash,g,session,url_for,json
-from .models import *
+from models.models import *
+# import models as dbHandler
 
 
 # Run HomePage
@@ -43,6 +44,9 @@ def showSignUp():
 # Run Juan Menu
 @app.route('/Juan_Menu/')
 def Juan_Menu():
+    # if session.get('logged_in'):
+    #     top_menu = select_top5_rated()
+    print(session.get('session_id'))
     return render_template('Juan_Menu.html')
 
 # Run miguel Menu
@@ -61,18 +65,20 @@ def monica_Menu():
     return render_template('monica_Menu.html')
 
 # Run Register
-@app.route('/signUp/', methods=['POST'])
-def signUp():
-
+@app.route('/sign_up/', methods=["GET",'POST'])
+def sign_up():
+    print("here")
     #read the values from the UI
-    _name = request.form['inputName']
-    _email = request.form['inputEmail']
+    _user_id = request.form['inputName']
     _password = request.form['inputPassword']
+
+    insert_users(_user_id,"bob", "who", _password, "137-10 Geranium Avenue Flushing NY 11355",
+                "Flushing", "NY", "11355", "", 6469825000)
 
 
     #validate the received values
    # if _name and _email and _password
-    return json.dumps({'html':'<span> all good'});
+    return render_template("index.html", username=_user_id)
 
 # Handles Any Page That Doesn't Exist
 @app.errorhandler(404)
@@ -94,4 +100,3 @@ def PageNotFound(error):
 #if __name__ == "__main__":
     #app.secret_key = os.urandom(12)
  #   app.run(debug=True)
-

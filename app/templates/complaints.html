@@ -1,10 +1,10 @@
 {% if session['logged_in'] %}
 <form action="{{ url_for('submitted_complaint') }}" method="POST">
-  <input type="username" name="username" placeholder="Username">
+  <input type="text" name="complaint" placeholder="Type Complaint">
   <input type="password" name="password" placeholder="Password">
   <input type="submit" value="Log in">
 </form>
 {% else %}
-<p>You're logged in already!</p>
+<p>You need to log in to do that!</p>
 {% endif %}
 {% endblock %}
