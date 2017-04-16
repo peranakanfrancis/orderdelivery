@@ -1,13 +1,13 @@
 from app import app
 from flask import render_template,redirect, request, flash,g,session,url_for,json
-from models.models import *
+from .models.models import *
 
 
 
 # Run HomePage
 @app.route('/')
 def index():
-    print(session.get('user'))
+    print(session.get("user"))
     return render_template('index.html')
 
 # Run LogInPage
@@ -26,15 +26,30 @@ def login():
     user_check= select_user_info(user_id)
 
     if user_check and user_check[0][3] == password:
-        print "logged in"
         session["user"] = user_id
+        session["logged_in"] = True
         return redirect("/")
     else:
-        print "not logged in"
+        flash("Login Failed :(")
         return render_template("Log-In.html")
 
+@app.route('/show_complaint_form')
+def show_complaint_form():
+    # print(session.get('logged_in'))
+    print(session.get("user"))
+    return render_template("complaints.html")
 
-
+@app.route('/submit_complaint', methods=["GET",'POST'])
+def submit_complaint():
+    chef = request.form["chef"]
+    user = session['user']
+    complaint = request.form["complaint"]
+    try:
+        insert_complaints(user,chef,complaint)
+    except:
+        flash("Submittion failed")
+        return render_template("complaints.html")
+    return redirect("/")
 
 
 # Authenticate LogIn
@@ -84,7 +99,6 @@ def monica_Menu():
 # Run Register
 @app.route('/sign_up/', methods=["GET",'POST'])
 def sign_up():
-    print("here")
     #read the values from the UI
     _user_id = request.form['inputName']
     _password = request.form['inputPassword']

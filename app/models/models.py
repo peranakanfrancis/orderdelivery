@@ -38,10 +38,11 @@ def insert_ratings(user_id, menu_id, menu_item, rating):
         cur.execure("INSERT INTO ratings(user_id, menu_id, rating) VALUES(?,?,?)", (user_id, menu_id, menu_item, rating))
         con.commit()
 
-def insert_complaints(user_id, emp_id, date_posted, complaint):
+def insert_complaints(user_id, emp_id, complaint):
+    date = datetime.now()
     with sql.connect("losquatroamigos.db") as con:
         cur = con.cursor()
-        cur.execute("INSERT INTO complaints (user_id, emp_id, date_posted complaint) VALUES(?,?,?)", (user_id, emp_id, date_posted, complaint) )
+        cur.execute("INSERT INTO complaints (user_id, emp_id, date_posted, complaint) VALUES(?,?,?,?)", (user_id, emp_id, date, complaint) )
         con.commit()
 
 def insert_compliments(user_id,emp_id, date_posted, compliment):
