@@ -1,0 +1,25 @@
+{% block body %}
+{% if session['logged_in'] == True %}
+{%print(session['logged_in'])%}
+<form action="{{ url_for('submit_compliment') }}" method="POST">
+  <input type="radio" name="chef" value="Juan" checked> Juan<br>
+  <input type="radio" name="chef" value="Miguel"> Miguel<br>
+  <input type="radio" name="chef" value="Rosita"> Rosita<br>
+  <input type="radio" name="chef" value="Monica"> Monica<br>
+
+  <textarea name="compliment" cols="50" rows="5">
+  Enter your compliment
+  </textarea>
+  <br />
+  <input type="submit" value="Submit compliment">
+</form>
+
+
+
+</form>
+{% else %}
+
+
+<p>You need to log in to do that!</p>
+{% endif %}
+{% endblock %}

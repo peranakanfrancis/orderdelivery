@@ -35,8 +35,6 @@ def login():
 
 @app.route('/show_complaint_form')
 def show_complaint_form():
-    # print(session.get('logged_in'))
-    print(session.get("user"))
     return render_template("complaints.html")
 
 @app.route('/submit_complaint', methods=["GET",'POST'])
@@ -49,6 +47,23 @@ def submit_complaint():
     except:
         flash("Submittion failed")
         return render_template("complaints.html")
+    return redirect("/")
+
+@app.route('/show_compliment_form')
+def show_compliment_form():
+    return render_template("compliments.html")
+
+@app.route('/submit_compliment', methods=["GET",'POST'])
+def submit_compliment():
+    chef = request.form["chef"]
+    user = session['user']
+    compliment = request.form["compliment"]
+    try:
+        insert_compliments(user,chef,compliment)
+    except:
+        print("failed")
+        flash("Submittion failed")
+        return render_template("compliments.html")
     return redirect("/")
 
 
