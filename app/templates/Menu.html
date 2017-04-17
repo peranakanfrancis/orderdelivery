@@ -1,146 +1,68 @@
 <!DOCTYPE html>
-
-<html>
+<html >
     <head>
-        <style>
+        <meta charset="UTF-8">
+        <title>Shopping Cart</title>
 
-
-            #myInput
-            {
-                background-position: 10px 10px;
-                background-repeat: no-repeat;
-                width: 100%;
-                font-size: 16px;
-                padding: 12px 20px 12px 40px;
-                border: 1px solid #ddd;
-                margin-bottom: 12px;
-            }
-
-            #myTable
-            {
-                border-collapse: collapse;
-                width: 100%;
-                border: 1px solid #ddd;
-                font-size: 18px;
-            }
-
-            #myTable th, #myTable td
-            {
-                text-align: left;
-                padding: 12px;
-            }
-
-            #myTable tr
-            {
-                border-bottom: 1px solid #ddd;
-            }
-
-            #myTable tr.header, #myTable tr:hover
-            {
-                background-color: #f1f1f1;
-            }
-
-            .rating {
-              unicode-bidi: bidi-override;
-              direction: rtl;
-            }
-            .rating > span {
-              display: inline-block;
-              position: relative;
-              width: 1.1em;
-            }
-            .rating > span:hover:before,
-            .rating > span:hover ~ span:before {
-               content: "\2605";
-               position: absolute;
-            }
-        </style>
+        <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Rock+Salt' rel='stylesheet' type='text/css'>
+        <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css'>
+        <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css'>
+        <link rel="stylesheet" href="bootstrap/css/MenuStyling.css">
 
     </head>
 
     <body>
-
-<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for dish..." title="Type in a name">
-
-<table id="myTable">
-    <tr class="header">
-
-        <th style="width:30%;">Name</th>
-        <th style="width:30%;">Rating</th>
-    </tr>
-    <tr>
-        <td>Bistec (steak)</td>
-        <td>
-            <div class="rating">
-                <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
-            </div
-        </td>
-    </tr>
-    <tr>
-        <td>Cecine (jerky style beef)</td>
-        <td> $5.00 </td>
-    </tr>
-    <tr>
-        <td>Pierna (roasted pork)</td>
-        <td> $5.00 </td>
-    </tr>
-    <tr>
-        <td>Queso Blanco (fresh white cheese)</td>
-        <td> $5.00 </td>
-    </tr>
-    <tr>
-        <td>Queso De Puerco (Pork head cheese)</td>
-        <td> $5.00 </td>
-    </tr>
-    <tr>
-        <td>Pollo (chicken)</td>
-        <td> $5.00 </td>
-    </tr>
-    <tr>
-        <td>Carne Enchilada (hot and spicy pork)</td>
-        <td> $5.00 </td>
-    </tr>
-    <tr>
-        <td>Jamon (ham)</td>
-        <td> $5.00 </td>
-    </tr>
-    <tr>
-        <td>Chorizo (mexican sausage)</td>
-        <td> $5.00 </td>
-    </tr>
-    <tr>
-        <td>Milanesa (breaded steak)</td>
-        <td> $5.00 </td>
-    </tr>
-
-</table>
-
-    <script>
-        function myFunction()
-        {
-            var input, filter, table, tr, td, i;
-            input = document.getElementById("myInput");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("myTable");
-            tr = table.getElementsByTagName("tr");
-            for (i = 0; i < tr.length; i++)
-            {
-                td = tr[i].getElementsByTagName("td")[0];
-                if (td)
-                {
-                    if (td.innerHTML.toUpperCase().indexOf(filter) > -1)
-                    {
-                    tr[i].style.display = "";
-                    }
-                    else
-                    {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
-        }
-    </script>
+        <div id="app">
+            <div class="header">
+                <h2>Chef Miguel's Menu</h2>
+                <div>
+                    <button @click="showCart = !showCart" v-show="!verified">
+                        {{ items.length + (items.length > 1 || items.length === 0 ? " items" : " item") }}
+                    </button>
+                </div>
+            </div>
+            <div class="cart" v-show="showCart">
+                <div v-show="items.length > 0">
+                    <ul>
+                        <li v-for="item in items" transition="fade">
+                            <p><strong>{{ item.quantity }}</strong> - {{ item.name }} <i class="fa fa-trash" @click="removeFromCart(item)"></i></p>
+                        </li>
+                    </ul>
+                    <div><button @click="verified = true, showCart = false">Check out</button></div>
+                </div>
+                <div v-show="items.length === 0">
+                    <p>Your cart is empty!</p>
+                </div>
+            </div>
+            <div class="container">
+                <div class="shop" v-show="!verified">
+                    <h3>Menu Items</h3>
+                    <ul>
+                        <li v-for="item in shop">
+                            <div>
+                                <h5>{{ item.name }}</h5>
+                                <p>${{ item.price }}</p>
+                                <button @click="addToCart(item)">Add to cart</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="checkout" v-show="verified">
+                    <h3>Your Cart</h3>
+                    <h5 v-for="item in items"><strong>{{ item.quantity }}</strong> - {{ item.name }}<span>${{ item.price * item.quantity }}</span></h5>
+                    <hr />
+                    <div class="row">
+                        <div class="u-pull-right">
+                            <h5>Total: <span>{{ total | currency }}</span></h5>
+                            <button>Check Out</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Java Script Library/File -->
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js'></script>
+        <script src="bootstrap/js/MenuJS.js"></script>
 
     </body>
-
 </html>
