@@ -1,7 +1,6 @@
 # losquatroamigos
 
-CSC 332 - Software Engineering Project
-Restaurant Delivery System
+CSC 332 - Software Engineering Project - Restaurant Delivery System
 
 ##language
 python3
