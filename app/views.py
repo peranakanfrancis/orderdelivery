@@ -96,6 +96,7 @@ def Juan_Menu():
 
     return render_template('Juan_Menu.html')
 
+
 # Run miguel Menu
 @app.route('/miguel_Menu/')
 def miguel_Menu():
