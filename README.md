@@ -1,5 +1,6 @@
 # losquatroamigos
-CSC 332 - Software Engineering Project
+
+CSC 332 - Software Engineering Project - Restaurant Delivery System
 
 To run:
 - clone repo

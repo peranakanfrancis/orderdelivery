@@ -10,7 +10,8 @@ def index():
     print(session.get("user"))
     return render_template('index.html')
 
-# Run LogInPage
+
+# Run LogInPage replace all log-in with create-account
 @app.route('/showLogIn/')
 def showLogIn():
     if not session.get('logged_in'):
@@ -21,7 +22,7 @@ def showLogIn():
 @app.route('/login', methods=["GET",'POST'])
 def login():
     user_id = request.form['username']
-    password =  request.form['password']
+    password = request.form['password']
 
     user_check= select_user_info(user_id)
 
@@ -52,6 +53,7 @@ def submit_complaint():
 @app.route('/show_compliment_form')
 def show_compliment_form():
     return render_template("compliments.html")
+
 
 @app.route('/submit_compliment', methods=["GET",'POST'])
 def submit_compliment():
@@ -100,7 +102,7 @@ def Juan_Menu():
 # Run miguel Menu
 @app.route('/miguel_Menu/')
 def miguel_Menu():
-    return render_template('miguel_Menu.html')
+    return render_template('Menu.html')
 
 # Run Rosita Menu
 @app.route('/Rosita_Menu/')

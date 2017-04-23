@@ -12,11 +12,11 @@
     <link href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='stylish-portfolio.css') }}" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="{{ url_for('static', filename='font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='font-awesome-4.7.0/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
     <!-- JQuery Libraries -->
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 
     <title>Los Quatro Amigos</title>
 </head>
@@ -84,52 +84,48 @@
                         <div class="col-md-3 col-sm-6">
                             <div class="service-item">
                                 <span class="fa-stack fa-4x">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-cloud fa-stack-1x text-primary"></i>
+                                <i class="fa fa-user-circle" aria-hidden="true"></i>
                             </span>
                                 <h4>
-                                    <strong> Chef Juan </strong>
+                                    <strong> Chef Miguel </strong>
                                 </h4>
-                                <p> Chef Juan comes from Oaxaca, which is sometimes called the Land of the Seven Moles. Mole is more of a technique, than a recipe, and only Oaxaqueno's know the secret to the countless variations of mole.</p>
+                                <p> Chef Miguel, creates delicious mexican entrees, perfect for any time of the day.</p>
                                 <a href="{{ url_for('Juan_Menu') }}" class="btn btn-light">See Menu</a> <!-- insert menu file here -->
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6">
                             <div class="service-item">
                                 <span class="fa-stack fa-4x">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-compass fa-stack-1x text-primary"></i>
+                                <i class="fa fa-user-circle" aria-hidden="true"></i>
                             </span>
                                 <h4>
-                                    <strong> Chef Rosita </strong>
+                                    <strong> Chef Monica </strong>
                                 </h4>
-                                <p> Chef Rosita hails from Veracruz, which stretches over 400 miles along the Gulf of Mexico. So, seafood is her speciality.</p>
+                                <p> Chef Monica, creates a fusion of asian hispanic cuisine, perfect for dinner. </p>
                                 <a href="{{ url_for('Rosita_Menu') }}" class="btn btn-light">See Menu</a> <!-- insert menu file here -->
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6">
                             <div class="service-item">
                                 <span class="fa-stack fa-4x">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-flask fa-stack-1x text-primary"></i>
+                                <i class="fa fa-user-circle" aria-hidden="true"></i>
                             </span>
                                 <h4>
-                                    <strong> Chef Miguel </strong>
+                                    <strong> Chef Rosita </strong>
                                 </h4>
-                                <p> Chef Miguel, comes from the West or Baja California. The food from this region is what people from California have been exposed to for years. Since it's separated from the mainland, their food is predictably seafood-based. </p>
+                                <p> Chef Rosita, creates a traditional hispanic meals, great for big families.  </p>
                                 <a href="{{ url_for('miguel_Menu') }}" class="btn btn-light">See Menu</a> <!-- insert menu file here -->
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6">
                             <div class="service-item">
                                 <span class="fa-stack fa-4x">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-shield fa-stack-1x text-primary"></i>
-                            </span>
+                                    <i class="fa fa-user-circle" aria-hidden="true"></i>
+                                </span>
                                 <h4>
-                                    <strong> Chef Monica </strong>
+                                    <strong> Chef Luigi </strong>
                                 </h4>
-                                <p>Chef Monica,specializes in Mexican pastries such as tamales, mexican bread, and your traditional pastries such as flan and tres leches pastel </p>
+                                <p>Chef Luigi, creates amazing Italian entrees, great for fancy or romantic nights.  </p>
                                 <a href="{{ url_for('monica_Menu') }}" class="btn btn-light">See Menu</a> <!-- insert menu file here -->
                             </div>
                         </div>
@@ -183,13 +179,12 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <a href="#" class="btn btn-dark">View More Items</a> -->
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Call to Action -->
+    <!-- COMPLIMENTS / COMPLAIN -->
     <aside class="call-to-action bg-primary">
         <div class="container">
             <div class="row">
@@ -252,7 +247,6 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="../static/bootstrap/js/bootstrap.min.js"></script>
 
-    <!-- Custom Theme JavaScript -->
     <script>
     // Closes the sidebar menu
     $("#menu-close").click(function(e)

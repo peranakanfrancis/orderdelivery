@@ -1,68 +1,68 @@
 <!DOCTYPE html>
 <html >
-    <head>
-        <meta charset="UTF-8">
-        <title>Shopping Cart</title>
+  <head>
+      <meta charset="UTF-8">
+      <title>Shopping Cart</title>
 
-        <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Rock+Salt' rel='stylesheet' type='text/css'>
-        <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css'>
-        <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css'>
-        <link rel="stylesheet" href="bootstrap/css/MenuStyling.css">
+      <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Rock+Salt' rel='stylesheet' type='text/css'>
+      <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css'>
+      <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css'>
+      <link rel="stylesheet" href="bootstrap/css/MenuStyling.css">
 
-    </head>
+  </head>
 
-    <body>
-        <div id="app">
-            <div class="header">
-                <h2>Chef Miguel's Menu</h2>
-                <div>
-                    <button @click="showCart = !showCart" v-show="!verified">
-                        {{ items.length + (items.length > 1 || items.length === 0 ? " items" : " item") }}
-                    </button>
-                </div>
-            </div>
-            <div class="cart" v-show="showCart">
-                <div v-show="items.length > 0">
-                    <ul>
-                        <li v-for="item in items" transition="fade">
-                            <p><strong>{{ item.quantity }}</strong> - {{ item.name }} <i class="fa fa-trash" @click="removeFromCart(item)"></i></p>
-                        </li>
-                    </ul>
-                    <div><button @click="verified = true, showCart = false">Check out</button></div>
-                </div>
-                <div v-show="items.length === 0">
-                    <p>Your cart is empty!</p>
-                </div>
-            </div>
-            <div class="container">
-                <div class="shop" v-show="!verified">
-                    <h3>Menu Items</h3>
-                    <ul>
-                        <li v-for="item in shop">
-                            <div>
-                                <h5>{{ item.name }}</h5>
-                                <p>${{ item.price }}</p>
-                                <button @click="addToCart(item)">Add to cart</button>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="checkout" v-show="verified">
-                    <h3>Your Cart</h3>
-                    <h5 v-for="item in items"><strong>{{ item.quantity }}</strong> - {{ item.name }}<span>${{ item.price * item.quantity }}</span></h5>
-                    <hr />
-                    <div class="row">
-                        <div class="u-pull-right">
-                            <h5>Total: <span>{{ total | currency }}</span></h5>
-                            <button>Check Out</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <body>
+      <div id="app">
+      <div class="header">
+        <h2>Chef Miguel's Menu</h2>
+        <div>
+          <button onclick="showCart = !showCart" v-show="!verified">
+            {{ items.length + (items.length > 1 || items.length === 0 ? " items" : " item") }}
+          </button>
         </div>
-        <!-- Java Script Library/File -->
+      </div>
+      <div class="cart" v-show="showCart">
+        <div v-show="items.length > 0">
+          <ul>
+            <li v-for="item in items" transition="fade">
+              <p><strong>{{ item.quantity }}</strong> - {{ item.name }} <i class="fa fa-trash" @click="removeFromCart(item)"></i></p>
+            </li>
+          </ul>
+          <div><button @click="verified = true, showCart = false">Check out</button></div>
+        </div>
+        <div v-show="items.length === 0">
+          <p>Your cart is empty!</p>
+        </div>
+      </div>
+      <div class="container">
+        <div class="shop" v-show="!verified">
+          <h3>Menu Items</h3>
+          <ul>
+            <li v-for="item in shop">
+              <div>
+                <h5>{{ item.name }}</h5>
+                <p>${{ item.price }}</p>
+                <button onclick="addToCart(item)">Add to cart</button>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="checkout" v-show="verified">
+          <h3>Your Cart</h3>
+          <h5 v-for="item in items"><strong>{{ item.quantity }}</strong> - {{ item.name }}<span>${{ item.price * item.quantity }}</span></h5>
+          <hr />
+          <div class="row">
+            <div class="u-pull-right">
+              <h5>Total: <span>{{ total | currency }}</span></h5>
+              <button>Check Out</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+         <!-- Java Script Library/File -->
         <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js'></script>
         <script src="bootstrap/js/MenuJS.js"></script>
 
-    </body>
+  </body>
 </html>
