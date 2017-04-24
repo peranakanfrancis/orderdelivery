@@ -11,20 +11,21 @@ def index():
     return render_template('index.html')
 
 
-# Run LogInPage replace all log-in with create-account
+# Run LogInPage
 @app.route('/showLogIn/')
 def showLogIn():
     if not session.get('logged_in'):
         return render_template('Log-In.html')
     else:
-        return render_template("managerLogIn.html")
+        return render_template("loginUSER.html")
+    #replace this with the designated customer/chef/ manager
 
 @app.route('/login', methods=["GET",'POST'])
 def login():
     user_id = request.form['username']
     password = request.form['password']
 
-    user_check= select_user_info(user_id)
+    user_check = select_user_info(user_id)
 
     if user_check and user_check[0][3] == password:
         session["user"] = user_id

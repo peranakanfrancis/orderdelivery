@@ -36,10 +36,10 @@
                             </ul>
                         </div>
                         <div class="cont_text_inputs">
-                            <input type="text" class="input_form_sign " placeholder="NAME" name="name_us" />
+                            <input type="text" class="input_form_sign " placeholder="Name" name="name_us" />
                             <input type="username" class="input_form_sign d_block active_inp" name="username"  placeholder="Username">
                             <input type="password" class="input_form_sign d_block active_inp" name="password" placeholder="Password">
-                            <input type="password" class="input_form_sign" placeholder="CONFIRM PASSWORD" name="conf_pass_us" />
+                            <input type="password" class="input_form_sign" placeholder="Confirm Password" name="conf_pass_us" />
                             <a href="#" class="link_forgot_pass d_block" >Forgot Password ?</a>
                             <div class="terms_and_cons d_none">
                         <p><input type="checkbox" name="terms_and_cons" /> <label for="terms_and_cons">Accept  Terms and Conditions.</label></p>
@@ -51,14 +51,16 @@
                     </form>
                     {% with messages = get_flashed_messages() %}
                         {% if messages %}
-      {% for message in messages %}
-         {{ message }}
-      {% endfor %}
-   {% endif %}
-{% endwith %}
+                            {% for message in messages %}
+                                {{ message }}
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                {% endif %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
 
-{% endif %}
-{% endblock %}
-        </div></div></div>
 </body>
 </html>
