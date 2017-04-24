@@ -1,4 +1,7 @@
-{% extends'log-in.html' %}
+{% extends'index.html' %}
+
+<!-- Read up on what extends works as -->
+
 {% block body %}
 {% if session['logged_in'] == True %}
 {%print(session['logged_in'])%}
