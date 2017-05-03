@@ -18,7 +18,7 @@ def showLogIn():
         return render_template('Log-In.html')
     else:
         return render_template("loginUSER.html")
-    #replace this with the designated customer/chef/ manager
+    # replace this with the designated customer/chef/ manager
 
 @app.route('/login', methods=["GET",'POST'])
 def login():
