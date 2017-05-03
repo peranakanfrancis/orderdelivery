@@ -113,6 +113,12 @@ def select_all_hired_employees():
         result = cur.execute("SELECT * FROM employees WHERE hired = 1").fetchall()
     return result
 
+def select_all_pending_employees():
+    with sql.connect("losquatroamigos.db") as con:
+        cur = con.cursor()
+        result = cur.execute("SELECT * FROM employees WHERE hired = 0").fetchall()
+    return result
+
 
 
 #GENERAL USER INFO

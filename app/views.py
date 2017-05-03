@@ -145,9 +145,10 @@ def sign_up():
 def view_management_page():
     unregistered_users = select_all_unregistered_users()
     registered = select_all_registered_users()
-    employees = select_all_hired_employees()
+    hired_employees = select_all_hired_employees()
+    unhired_employees = select_all_pending_employees()
 
-    return render_template("loginMANAGER.html", registered_users=registered, unregistered=unregistered_users, hired_employees=employees)
+    return render_template("loginMANAGER.html", registered_users=registered, unregistered=unregistered_users, hired_employees=hired_employees, unhired_employees=unhired_employees )
 
 # EMPLOYEE MANAGEMENT TOOLS
 @app.route('/accept_user/<user>', methods=['GET'])
