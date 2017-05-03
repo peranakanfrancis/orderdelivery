@@ -13,4 +13,5 @@ app.config['DEBUG'] = True
 
 
 
-from app import views, models
+from app import models
+from app.models import views

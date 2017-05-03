@@ -1,6 +1,6 @@
 from app import app
 from flask import render_template,redirect, request, flash,g,session,url_for,json
-from .models.models import *
+from app.models.models import *
 
 
 
