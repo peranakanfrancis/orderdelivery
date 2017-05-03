@@ -147,6 +147,29 @@ def accept_user(user):
     register(user)
     return view_management_page()
 
+@app.route('/hire_chef/<chef>', methods=['GET'])
+def hire_employee(empl_name):
+    hire(empl_name)
+    return view_management_page()
+
+@app.route('/fire_chef/<chef>', methods=['GET'])
+def fire_employee(empl_name):
+    fire(empl_name)
+    return view_management_page()
+
+
+@app.route('/promote_chef/<chef>', methods=['GET'])
+def promote_employee(empl_name):
+    promote(empl_name)
+    return view_management_page()
+
+@app.route('/promote_chef/<chef>', methods=['GET'])
+def demote_employee(empl_name):
+    demote(empl_name)
+    return view_management_page()
+
+
+
 
 # Handles Any Page That Doesn't Exist
 @app.errorhandler(404)
