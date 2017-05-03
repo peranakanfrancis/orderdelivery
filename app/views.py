@@ -18,7 +18,7 @@ def showLogIn():
         return render_template('Log-In.html')
     else:
         return render_template("loginUSER.html")
-    # replace this with the designated customer/chef/ manager
+    #replace this with the designated customer/chef/ manager
 
 @app.route('/login', methods=["GET",'POST'])
 def login():
@@ -30,10 +30,10 @@ def login():
     if user_check and user_check[0][3] == password:
         session["user"] = user_id
         session["logged_in"] = True
-        return render_template('loginUSER.html')
+        return redirect("/")
     else:
         flash("Login Failed :(")
-        return render_template('Log-In.html')
+        return render_template("Log-In.html")
 
 @app.route('/show_complaint_form')
 def show_complaint_form():
@@ -47,7 +47,7 @@ def submit_complaint():
     try:
         insert_complaints(user,chef,complaint)
     except:
-        flash("Submission failed")
+        flash("Submittion failed")
         return render_template("complaints.html")
     return redirect("/")
 
@@ -79,13 +79,7 @@ def do_admin_login():
         flash('wrong password!')
     return showLogIn()
 
-# Controlling Logging Out
-@app.route('/logout/')
-def logout():
-    # remove the un from the session if it is there
-    session.pop('user', None)
-    session["logged_in"] = False
-    return redirect('/')
+
 
 # Run MenuPage
 @app.route('/menu/')
@@ -142,10 +136,10 @@ def sign_up():
 @app.route('/loginManager')
 def view_management_page():
     unregistered_users = select_all_unregistered_users()
-    registered_users = select_all_registered_users()
+    registered = select_all_registered_users()
     employees = select_all_hired_employees()
 
-    return render_template("loginMANAGER.html", registered=registered_users, unregistered=unregistered_users, hired_employees=employees)
+    return render_template("loginMANAGER.html", registered_users=registered, unregistered=unregistered_users, hired_employees=employees)
 
 # EMPLOYEE MANAGEMENT TOOLS
 @app.route('/accept_user/<user>', methods=['GET'])
@@ -169,11 +163,39 @@ def promote_employee(empl_name):
     promote(empl_name)
     return view_management_page()
 
-@app.route('/promote_chef/<chef>', methods=['GET'])
+@app.route('/demote_chef/<chef>', methods=['GET'])
 def demote_employee(empl_name):
     demote(empl_name)
+    if select_demote_count(empl_name) > 1:
+        fire(empl_name)
     return view_management_page()
 
+@app.route('/add_warning/<user>', methods=['GET'])
+def add_warning(user_id):
+    add_warning_to(user_id)
+    return view_management_page()
+
+@app.route('/add_complaint/<user>', methods=['GET'])
+def accept_complaint(complaint_id):
+    confirm_complaint(complaint_id)
+    employee = select_complaint(complaint_id).empl_id
+    if check_complaints(employee) >= 3:
+        demote_employee(employee)
+
+        if count_demotions(employee) >= 2:
+            fire_employee(employee)
+
+    return view_management_page()
+
+@app.route('/add_compliment/<user>', methods=['GET'])
+def accept_compliment(compliment_id):
+    confirm_compliment(compliment_id)
+    employee = select_compliment(compliment_id).empl_id
+    if check_compliments(employee) >= 3:
+        promote_employee(employee)
+    delete_complaint(employee)
+
+    return view_management_page()
 
 
 
