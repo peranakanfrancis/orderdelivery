@@ -30,10 +30,10 @@ def login():
     if user_check and user_check[0][3] == password:
         session["user"] = user_id
         session["logged_in"] = True
-        return redirect("/")
+        return render_template('loginUSER.html')
     else:
         flash("Login Failed :(")
-        return render_template("Log-In.html")
+        return render_template('Log-In.html')
 
 @app.route('/show_complaint_form')
 def show_complaint_form():
@@ -47,7 +47,7 @@ def submit_complaint():
     try:
         insert_complaints(user,chef,complaint)
     except:
-        flash("Submittion failed")
+        flash("Submission failed")
         return render_template("complaints.html")
     return redirect("/")
 
@@ -79,7 +79,13 @@ def do_admin_login():
         flash('wrong password!')
     return showLogIn()
 
-
+# Controlling Logging Out
+@app.route('/logout/')
+def logout():
+    # remove the un from the session if it is there
+    session.pop('user', None)
+    session["logged_in"] = False
+    return redirect('/')
 
 # Run MenuPage
 @app.route('/menu/')
