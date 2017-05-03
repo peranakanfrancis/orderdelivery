@@ -35,7 +35,7 @@ def insert_funds(user_id,new_funds):
 def insert_ratings(user_id, menu_id, menu_item, rating):
     with sql.connect("losquatroamigos.db") as con:
         cur = con.cursor()
-        cur.execure("INSERT INTO ratings(user_id, menu_id, rating) VALUES(?,?,?)", (user_id, menu_id, menu_item, rating))
+        cur.execute("INSERT INTO ratings(user_id, menu_id, rating) VALUES(?,?,?)", (user_id, menu_id, menu_item, rating))
         con.commit()
 
 def insert_complaints(user_id, emp_id, complaint):
@@ -164,11 +164,71 @@ def select_compliments(user_id):
 
 ########## MANAGEMENT FUNCTIONS ##########################
 
+#Accept Registration
 def register(user_id):
     with sql.connect("losquatroamigos.db") as con:
         cur = con.cursor()
-        result = cur.execute("UPDATE users SET registered=1 WHERE user_id = '%s'" %user_id)
-    return result
+        cur.execute("UPDATE users SET registered=1 WHERE user_id = '%s'" %user_id)
+        con.commit()
+
+#hire employee
+def hire_employee(emp_id):
+    with sql.connect("losquatroamigos.db") as con:
+        cur = con.cursor()
+        cur.execute("UPDATE employees SET hired = 1 where emp_id ='%s'" %emp_id)
+        con.commit()
+
+def add_demotions(emp_id):
+    with sql.connect("losquatroamigos.db") as con:
+        cur = con.execute()
+        cur.execute("UPDATE employees SET demotions = demotions + 1 WHERE emp_id = '%s'" %emp_id)
+        con.commit()
+
+def decrease_demotions(emp_id):
+    with sql.connect("losquatroamigos.db") as con:
+        cur = con.execute()
+        cur.execute("UPDATE employees SET demotions = demotions - 1 WHERE emp_id = '%s'" %emp_id)
+        con.commit()
+
+def check_demotions(emp_id):
+    with sql.connect("losquatroamigos.db") as con:
+        cur = con.execute()
+        result = cur.execute("SELECT demotions FROM employees WHERE emp_id = '%s'" %emp_id).fetchone()
+        return result
+
+def fire_employee(emp_id):
+    with sql.connect("losquatroamigos.db") as con:
+        cur = con.cursor()
+        cur.execute("UPDATE employees SET hired = 0 where emp_id '%s'" %emp_id)
+        con.commit()
+
+#Promoting employee increases their salary by 5 dollars.
+def check_compliments(emp_id):
+    with sql.connect("losquatroamigos.db") as con:
+        cur = con.cursor()
+        result = cur.execute("SELECT count(*) FROM compliments WHERE emp_id = '%s'" %emp_id).fetchall()
+        return result
+
+def promote_employee(emp_id):
+    with sql.connect("losquatroamigos.db") as con:
+        cur = con.cursor()
+        cur.execute("UPDATE employees SET salary = salary + 5 where emp_id = '%s'" %emp_id)
+        con.commit()
+
+#demoting employee
+def check_complaints(emp_id):
+    with sql.connect("losquatroamigos.db") as con:
+        cur = con.cursor()
+        result = cur.execute("SELECT count(*) FROM complaints WHERE emp_id '%s'" %emp_id).fetchall()
+        return result
+
+def demote_employee(emp_id):
+    with sql.connect("losquatroamgos.db") as con:
+        cur = con.cursor()
+        cur.execute("UPDATE employees SET salary = salary - 5 WHERE emp_id = '%s'" %emp_id)
+        con.commit()
+
+
 
 ############### START DELIVERY INFORMATION#########################################
 
@@ -193,6 +253,16 @@ def register(user_id):
 #                              "INNER JOIN deliveryinfo ON users.user_id = deliveryinfo.user_id where status in"
 #                              "(SELECT status FROM deliveryinfo WHERE status = 1) ").fetchall()
 #     return result
+
+#update warnings in users table. Do this by counting the number of true boolean values a user has in the warnings column
+# of delivery info table.
+def update_warnings(user_id):
+    with sql.connect("losquatroamigos.db") as con:
+        cur = con.cursor()
+        cur.execute("UPDATE users set warnings = (SELECT count(cust_warning) FROM deliveryinfo where user_id = '%s')"
+                    %user_id)
+        con.commit()
+
 
 def update_delivery_stat(order_id):
    with sql.connect("losquatroamigos.db") as con:

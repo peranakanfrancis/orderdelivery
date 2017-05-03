@@ -36,6 +36,9 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     salary decimal(5,2) not null,
     date_hired [timestamp] timestamp,
     hired nchar(1) not null,
+    demotions int,
+    compliments int,
+    complaints int,
     PRIMARY KEY (emp_id)
     )""")
 
@@ -55,6 +58,7 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     memb_since DATE not null,
     acc_funds decimal(7,2) not null,
     registered nchar(1) not null,
+    warnings int,
     PRIMARY KEY (user_id)
     )""")
 
@@ -71,6 +75,7 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     #complaints##
     c.execute('DROP TABLE if EXISTS complaints')
     c.execute("""CREATE TABLE complaints (
+    complaint_id INT PRIMARY KEY,
     user_id VARCHAR(9) not null,
     emp_id VARCHAR(5) not null,
     complaint text,
@@ -83,7 +88,8 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     #compliments##
     c.execute('DROP TABLE if EXISTS compliments')
     c.execute("""CREATE TABLE compliments (
-    user_id VARCHAR(9) PRIMARY KEY NOT NULL,
+    compliment_id INT PRIMARY KEY,
+    user_id VARCHAR(9) NOT NULL,
     emp_id VARCHAR(5) NOT NULL,
     date_posted [timestamp] timestamp,
     compliment text,
@@ -128,7 +134,7 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     emp_id VARCHAR(5) not null,
     user_id VARCHAR(9) not null,
     status ncahr(1) not null,
-    cust_warning text,
+    cust_warning boolean,
     FOREIGN KEY (emp_id) REFERENCES employees(emp_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
     )""")
@@ -154,44 +160,44 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     ##CHEFS##
         #CHEF JUAN#
     c.execute('INSERT INTO employees VALUES ("C1","Juan","Gonzalez","160 Convent Ave",'
-              '"New York","NY", "10031","4L","2126507000","123456789","1985-05-21","25.50","2017-01-01", 1)')
+              '"New York","NY", "10031","4L","2126507000","123456789","1985-05-21","25.50","2017-01-01", 1,0,0,0)')
     c.execute('INSERT INTO chefs VALUES ("1","C1","Juan\'s Mole","")')
 
         #CHEF MIGGY#
     c.execute('INSERT INTO employees VALUES ("C2","Miguel","Dominguez","160 Convent Ave",'
-              '"New York", "NY", "10031", "5L","2126507000","123456789","1979-02-02","25.50","2017-01-01", 1)')
+              '"New York", "NY", "10031", "5L","2126507000","123456789","1979-02-02","25.50","2017-01-01", 1,0,0,0)')
     c.execute('INSERT INTO chefs VALUES("2","C2","Miggy\'s Seafood","")')
 
         #Chef Monica#
     c.execute('INSERT INTO employees VALUES ("C3","Monica","Gonzalez","160 Convent Ave",'
-              '"New York","NY", "10031","6L","2126507000","123456789","1991-08-21","25.50","2017-01-01", 1)')
+              '"New York","NY", "10031","6L","2126507000","123456789","1991-08-21","25.50","2017-01-01", 1,0,0,0)')
     c.execute('INSERT INTO chefs VALUES ("3","C3","Monica\'s Sweets","")')
 
         #Chef Rosita#
     c.execute('INSERT INTO employees VALUES ("C4","Rosita","Rodriguez","160 Convent Ave",'
-              '"New York","NY", "10031","2L","2126507000","123456789","1980-05-21","25.50","2017-01-01", 1)')
+              '"New York","NY", "10031","2L","2126507000","123456789","1980-05-21","25.50","2017-01-01", 1,0,0,0)')
     c.execute('INSERT INTO chefs VALUES ("4","C4","Rosita\'s Gill Grill","") ')
 
     ##Delivery Personnel##
 
         #Delivery Boy Dave
     c.execute('INSERT INTO employees VALUES ("D1","David","Jones","160 Convent Ave",'
-              '"New York","NY", "10031","4A","2126507000","123456789","1994-08-21","10.50","2017-01-01", 1)')
+              '"New York","NY", "10031","4A","2126507000","123456789","1994-08-21","10.50","2017-01-01", 1,0,0,0)')
 
         #Delivery Boy Max
     c.execute('INSERT INTO employees VALUES ("D2","Max","Young","160 Convent Ave",'
-              '"New York","NY", "10031","2P","2126507000","123456789","1990-09-11","10.50","2017-01-01", 1)')
+              '"New York","NY", "10031","2P","2126507000","123456789","1990-09-11","10.50","2017-01-01", 1,0,0,0)')
 
     ##END OF DELIVERY PERSONNEL DATA##
 
     ##Managers##
         #Manager Emily#
     c.execute('INSERT INTO employees VALUES ("M1","Emily","Dickerson","160 Convent Ave",'
-              '"New York","NY", "10031","4B","2126507000","123456789","1985-01-21","27.50","2017-01-01", 0)')
+              '"New York","NY", "10031","4B","2126507000","123456789","1985-01-21","27.50","2017-01-01", 0,0,0,0)')
 
         #Manager Jeff#
     c.execute('INSERT INTO employees VALUES ("M2","Jeff","Edwards","160 Convent Ave",'
-              '"New York","NY", "10031","1C","2126507000","123456789","1994-08-21","10.50","2017-01-01", 0)')
+              '"New York","NY", "10031","1C","2126507000","123456789","1994-08-21","10.50","2017-01-01", 0,0,0,0)')
 
     ###### END OF MANAGER DATA##
 
