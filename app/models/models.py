@@ -10,19 +10,19 @@ def insert_restaurant(res_id,name, address, city, state, postal, phone):
                      (res_id, name,address,phone,postal) )
         con.commit()
 
-def insert_employees(emp_id,emp_fname, emp_lname, address, city, state, postal, apt, phone, ssn, birthdate,salary,date_hired):
+def insert_employees(emp_id,emp_fname, emp_lname, address, city, state, postal, apt, phone, ssn, birthdate,salary,date_hired, hired=0):
     with sql.connect("losquatroamigos.db") as con:
         cur = con.cursor()
-        cur.execute("INSERT INTO employees (emp_id,emp_fname,emp_lname,address,city, state, postal, apt, phone, ssn, birthdate, salary, date_hired) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)",
-                    (emp_id, emp_fname, emp_lname, address, city, state, postal, apt, phone, ssn, birthdate, salary, date_hired) )
+        cur.execute("INSERT INTO employees (emp_id,emp_fname,emp_lname,address,city, state, postal, apt, phone, ssn, birthdate, salary, date_hired, hired) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                    (emp_id, emp_fname, emp_lname, address, city, state, postal, apt, phone, ssn, birthdate, salary, date_hired,hired) )
         con.commit()
 
-def insert_users(user_id,f_name, l_name, password, address, city, state, postal, apt, phone, acc_funds=100):
+def insert_users(user_id,f_name, l_name, password, address, city, state, postal, apt, phone, acc_funds=100,registered=0):
     with sql.connect("losquatroamigos.db") as con:
         cur = con.cursor()
         memb_since = datetime.now()
-        cur.execute("INSERT INTO users (user_id,f_name, l_name,password,address, city,state, apt, postal,phone,memb_since,acc_funds) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
-                    (user_id, f_name, l_name, password, address, city, state, postal, apt, phone, memb_since, acc_funds) )
+        cur.execute("INSERT INTO users (user_id,f_name, l_name,password,address, city,state, apt, postal,phone,memb_since,acc_funds,registered) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                    (user_id, f_name, l_name, password, address, city, state, postal, apt, phone, memb_since, acc_funds,registered))
         con.commit()
 
 #INSERT MORE MONEY INTO ACCOUNT
@@ -94,6 +94,26 @@ def select_employee_info(emp_id):
 
 
 ################# USER SELECT FUNCTIONS#########################################
+#SELECT ALL UNREGISTERED USERS
+def select_all_unregistered_users():
+    with sql.connect("losquatroamigos.db") as con:
+        cur = con.cursor()
+        result = cur.execute("SELECT * FROM users WHERE registered = 0").fetchall()
+    return result
+
+def select_all_registered_users():
+    with sql.connect("losquatroamigos.db") as con:
+        cur = con.cursor()
+        result = cur.execute("SELECT * FROM users").fetchall()
+    return result
+
+def select_all_hired_employees():
+    with sql.connect("losquatroamigos.db") as con:
+        cur = con.cursor()
+        result = cur.execute("SELECT * FROM employees WHERE hired = 1").fetchall()
+    return result
+
+
 
 #GENERAL USER INFO
 def select_user_info(user_id):
@@ -141,6 +161,14 @@ def select_compliments(user_id):
 
 ############### END OF USER SELECT FUNCTIONS#######################################
 ###################################################################################
+
+########## MANAGEMENT FUNCTIONS ##########################
+
+def register(user_id):
+    with sql.connect("losquatroamigos.db") as con:
+        cur = con.cursor()
+        result = cur.execute("UPDATE users SET registered=1 WHERE user_id = '%s'" %user_id)
+    return result
 
 ############### START DELIVERY INFORMATION#########################################
 

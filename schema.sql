@@ -43,6 +43,7 @@ CREATE TABLE users (
     phone nchar(10) not null,
     memb_since DATE not null,
     acc_funds decimal(7,2) not null,
+    registered nchar(1) not null,
     PRIMARY KEY (user_id)
     );
 

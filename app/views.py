@@ -133,6 +133,21 @@ def sign_up():
    # if _name and _email and _password
     return redirect("/")
 
+@app.route('/loginManager')
+def view_management_page():
+    unregistered_users = select_all_unregistered_users()
+    registered_users = select_all_registered_users()
+    employees = select_all_hired_employees()
+
+    return render_template("loginMANAGER.html", registered=registered_users, unregistered=unregistered_users, hired_employees=employees)
+
+# EMPLOYEE MANAGEMENT TOOLS
+@app.route('/accept_user/<user>', methods=['GET'])
+def accept_user(user):
+    register(user)
+    return view_management_page()
+
+
 # Handles Any Page That Doesn't Exist
 @app.errorhandler(404)
 def PageNotFound(error):
