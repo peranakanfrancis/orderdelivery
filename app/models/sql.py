@@ -80,7 +80,7 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     user_id VARCHAR(9) not null,
     emp_id VARCHAR(5) not null,
     complaint text,
-    approval varchar(10),
+    approval boolean,
     date_posted [timestamp] timestamp,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (emp_id) REFERENCES employees(emp_id)
@@ -94,7 +94,7 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     emp_id VARCHAR(5) NOT NULL,
     date_posted [timestamp] timestamp,
     compliment text,
-    approval VARCHAR(10),
+    approval boolean,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
     FOREIGN KEY (emp_id) REFERENCES employees(emp_id)
     )""")

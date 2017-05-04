@@ -30,31 +30,23 @@ def login():
     user_check = select_user_info(user_id)
     empl_check = select_employee_info(user_id)
 
-    print(empl_check[0])
     # Check user details against db
     if user_check and user_check[0][3] == password:
         session["user"] = user_id
         session["logged_in"] = True
         return render_template("loginUSER.html")
 
-    if empl_check[0][0][0] == 'M': # and empl_check[0][1] == password:
+    if empl_check[0][0] == 'M' and empl_check[1] == password:
         session["logged_in"] = True
         return render_template("loginMANAGER.html")
 
-    if empl_check[0][0][0] == 'C': #  and empl_check[0][1] == password:
+    if empl_check[0][0] == 'C' and empl_check[1] == password:
         session["logged_in"] = True
-
-
-        # this is a chef
         return render_template("loginCHEF.html") #  and empl_check[0][1] == password:
 
-    if empl_check[0][0][0] == 'D': #  and empl_check[0][1] == password:
+    if empl_check[0][1] == 'D' and empl_check[1] == password:
         session["logged_in"] = True
-
-        # this is a delivery guy
         return render_template("loginDELIVERY.html")
-
-
 
     else:
         flash("Login Failed :(")
@@ -178,7 +170,6 @@ def view_management_page():
 # EMPLOYEE MANAGEMENT TOOLS
 @app.route('/accept_user/<user>', methods=['GET'])
 def accept_user(user):
-    print(user)
     register(user)
     return view_management_page()
 
@@ -189,7 +180,7 @@ def hire(empl_name):
 
 @app.route('/fire_chef/<chef>', methods=['GET'])
 def fire_employee(empl_name):
-    fire(empl_name)
+    fire_employee(empl_name)
     return view_management_page()
 
 @app.route('/upgrade_user/<user>', methods=['GET'])
@@ -200,29 +191,30 @@ def upgrade_user(empl_name):
 
 @app.route('/promote_chef/<chef>', methods=['GET'])
 def promote_employee(empl_name):
-    promote(empl_name)
+    promote_employee(empl_name)
     return view_management_page()
 
 @app.route('/demote_chef/<chef>', methods=['GET'])
 def demote_employee(empl_name):
-    demote(empl_name)
-    if select_demote_count(empl_name) > 1:
-        fire(empl_name)
+    demote_employee(empl_name)
+    if check_demotions(empl_name) > 1:
+        fire_employee(empl_name)
     return view_management_page()
 
 @app.route('/add_warning/<user>', methods=['GET'])
 def add_warning(user_id):
-    add_warning_to(user_id)
+    update_warnings(user_id)
     return view_management_page()
 
 @app.route('/add_complaint/<user>', methods=['GET'])
 def accept_complaint(complaint_id):
     confirm_complaint(complaint_id)
+    #I dk what this is for. -Eddy
     employee = select_complaint(complaint_id).empl_id
     if check_complaints(employee) >= 3:
         demote_employee(employee)
 
-        if count_demotions(employee) >= 2:
+        if check_demotions(employee) >= 2:
             fire_employee(employee)
 
     return view_management_page()
@@ -230,6 +222,7 @@ def accept_complaint(complaint_id):
 @app.route('/add_compliment/<user>', methods=['GET'])
 def accept_compliment(compliment_id):
     confirm_compliment(compliment_id)
+    #IDK what this is for. -Eddy
     employee = select_compliment(compliment_id).empl_id
     if check_compliments(employee) >= 3:
         promote_employee(employee)
