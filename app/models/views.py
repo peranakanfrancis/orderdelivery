@@ -20,6 +20,7 @@ def showLogIn():
         return render_template("loginUSER.html")
     #replace this with the designated customer/chef/ manager
 
+
 @app.route('/login', methods=["GET",'POST'])
 def login():
     # Get details from the user
@@ -42,7 +43,7 @@ def login():
 
     if empl_check[0][0] == 'C' and empl_check[1] == password:
         session["logged_in"] = True
-        return render_template("loginCHEF.html") #  and empl_check[0][1] == password:
+        return render_template("loginCHEF.html")
 
     if empl_check[0][1] == 'D' and empl_check[1] == password:
         session["logged_in"] = True
@@ -141,22 +142,25 @@ def monica_Menu():
     return render_template('monica_Menu.html')
 
 # Run Register
-@app.route('/sign_up/', methods=["GET",'POST'])
+@app.route('/signup/', methods=["GET",'POST'])
 def sign_up():
     #read the values from the UI
-    _user_id = request.form['inputName']
-    _password = request.form['inputPassword']
+    _firstName = request.form['first_name']
+    _lastName = request.form['last_name']
+    _userName = request.form['user_name']
+    _password = request.form['password']
+    _address = request.form['address']
+    _city = request.form['city']
+    _state = request.form['state']
+    _postal = request.form['postal']
+    _apt = request.form['apt']
+    _phone = request.form['phone']
 
-    try:
-        insert_users(_user_id,"bob", "who", _password, "137-10 Geranium Avenue Flushing NY 11355",
-                    "Flushing", "NY", "11355", "", 6469825000)
-        session["user"] = _user_id
-    except:
-        return render_template("signup.html")
+    insert_users(user_id, _firstName, _lastName, _password, _address, _city, _state, _postal, _apt, _phone, acc_funds=0)
 
     #validate the received values
    # if _name and _email and _password
-    return redirect("/")
+    return redirect("loginUSER")
 
 @app.route('/loginManager')
 def view_management_page():
