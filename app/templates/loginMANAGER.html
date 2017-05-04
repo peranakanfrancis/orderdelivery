@@ -150,7 +150,7 @@
                                             Pending
                                         </td>
                                         <td>
-                                            <button type="button" ><a href="{{ url_for('accept_user', user='Lenny') }}">Accept </a></button>
+                                            <button type="button" ><a href="{{ url_for('accept_user', user='user_id') }}">Accept </a></button>
                                             <button type="button">Decline</button>
                                         </td>
                                     </tr>
@@ -183,7 +183,7 @@
                                         {% for unhired_employee in unhired_employees %}
                                         <tr>
                                             <td>
-                                                1
+                                                1 <!-- make this dynamic -->
                                             </td>
                                             <td>
                                                 {{ unhired_employee.emp_fname }}
@@ -195,8 +195,7 @@
                                                 Pending
                                             </td>
                                             <td>
-                                                <button type="button" ><a href="{{ url_for('accept_user', user='Lenny') }}">Accept </a></button>
-                                                <button type="button">Decline</button>
+                                                <button type="button" ><a href="{{ url_for('accept_user', unhired_employee=emp_id) }}">Accept </a></button>
                                             </td>
                                         </tr>
                                      {% endfor %}
