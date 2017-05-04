@@ -30,24 +30,29 @@ def login():
     user_check = select_user_info(user_id)
     empl_check = select_employee_info(user_id)
 
+    print(empl_check[0])
     # Check user details against db
     if user_check and user_check[0][3] == password:
         session["user"] = user_id
         session["logged_in"] = True
         return render_template("loginUSER.html")
 
-    if empl_check[0][0][0] == 'M' and empl_check[0][1] == password:
-        print("logged in as manager")
+    if empl_check[0][0][0] == 'M': # and empl_check[0][1] == password:
         session["logged_in"] = True
-        return render_template("loginUSER.html")
+        return render_template("loginMANAGER.html")
 
-    if empl_check[0][0][0] == 'C':
+    if empl_check[0][0][0] == 'C': #  and empl_check[0][1] == password:
+        session["logged_in"] = True
+
 
         # this is a chef
-        return render_template("/")
-    if empl_check[0][0][0] == 'D':
+        return render_template("loginCHEF.html") #  and empl_check[0][1] == password:
+
+    if empl_check[0][0][0] == 'D': #  and empl_check[0][1] == password:
+        session["logged_in"] = True
+
         # this is a delivery guy
-        return render_template("/")
+        return render_template("loginDELIVERY.html")
 
 
 
