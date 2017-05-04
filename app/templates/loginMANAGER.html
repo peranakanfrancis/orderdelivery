@@ -106,7 +106,7 @@
 					<div class="tabbable" id="tabs-480363">
 						<ul class="nav nav-tabs">
 							<li>
-								<a href="#panel-600951" data-toggle="tab">Account Requests</a>
+								<a href="#panel-account-requests" data-toggle="tab">Account Requests</a>
 							</li>
 							<li class="active">
 								<a href="#panel-343430" data-toggle="tab">Job Requests</a>
@@ -135,13 +135,14 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% for accept_user in accept_users %}
+                                    {% for accept_user in unregistered %}
                                     <tr>
                                         <td>
                                             1
                                         </td>
                                         <td>
-                                            {{ accept_user.name }}
+                                            {{ accept_user[1] }}
+
                                         </td>
                                         <td>
                                             01/04/2012
@@ -150,7 +151,7 @@
                                             Pending
                                         </td>
                                         <td>
-                                            <button type="button" ><a href="{{ url_for('accept_user', user= user_id ) }}">Accept </a></button>
+                                            <button type="button" ><a href="{{ url_for('accept_user', user=accept_user[0] ) }}">Accept </a></button>
                                             <button type="button">Decline</button>
                                         </td>
                                     </tr>
@@ -186,7 +187,7 @@
                                                 1 <!-- make this dynamic -->
                                             </td>
                                             <td>
-                                                {{ unhired_employee.emp_fname }}
+                                                {{ unhired_employee[1] }}
                                             </td>
                                             <td>
                                                 01/04/2012
@@ -195,8 +196,8 @@
                                                 Pending
                                             </td>
                                             <td>
-                                                <button type="button" ><a href="{{ url_for('accept_user', user=unhired_employee.user_id) }}">Accept </a></button>
-                                                <button type="button">Decline</button>
+                                                <button type="button" ><a href="{{ url_for('hire', empl_name=unhired_employee[0]) }}">Accept </a></button>
+
                                             </td>
                                         </tr>
                                      {% endfor %}
@@ -255,7 +256,7 @@
                                                 1
                                             </td>
                                             <td>
-                                                {{ registered_users.f_name }} {{ registered_users.l_name }}
+                                                {{ registered_users[1] }} {{ registered_users[2] }}
                                             </td>
                                             <td>
                                                 01/04/2012

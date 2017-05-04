@@ -178,12 +178,13 @@ def view_management_page():
 # EMPLOYEE MANAGEMENT TOOLS
 @app.route('/accept_user/<user>', methods=['GET'])
 def accept_user(user):
+    print(user)
     register(user)
     return view_management_page()
 
 @app.route('/hire_employee/<empl_name>', methods=['GET'])
-def hire_employee(empl_name):
-    hire(empl_name)
+def hire(empl_name):
+    hire_employee(empl_name)
     return view_management_page()
 
 @app.route('/fire_chef/<chef>', methods=['GET'])
