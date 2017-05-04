@@ -186,26 +186,26 @@ def hire_employee(emp_id):
 
 def add_demotions(emp_id):
     with sql.connect("losquatroamigos.db") as con:
-        cur = con.execute()
+        cur = con.cursor()
         cur.execute("UPDATE employees SET demotions = demotions + 1 WHERE emp_id = '%s'" %emp_id)
         con.commit()
 
 def decrease_demotions(emp_id):
     with sql.connect("losquatroamigos.db") as con:
-        cur = con.execute()
+        cur = con.cursor()
         cur.execute("UPDATE employees SET demotions = demotions - 1 WHERE emp_id = '%s'" %emp_id)
         con.commit()
 
 def check_demotions(emp_id):
     with sql.connect("losquatroamigos.db") as con:
-        cur = con.execute()
+        cur = con.cursor()
         result = cur.execute("SELECT demotions FROM employees WHERE emp_id = '%s'" %emp_id).fetchone()
         return result
 
 def fire_employee(emp_id):
     with sql.connect("losquatroamigos.db") as con:
         cur = con.cursor()
-        cur.execute("UPDATE employees SET hired = 0 where emp_id '%s'" %emp_id)
+        cur.execute("UPDATE employees SET hired = 0 where emp_id = '%s'" %emp_id)
         con.commit()
 
 #Promoting employee increases their salary by 5 dollars.
