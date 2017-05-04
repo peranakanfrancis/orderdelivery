@@ -254,6 +254,102 @@
 	</div>
 </div>
 
+        <div class="row">
+		<div class="col-md-12">
+        <h4> <strong style="text-decoration: underline"> Complaints Section </strong> </h4>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>
+							Complaint #
+						</th>
+						<th>
+							Complaintant
+						</th>
+						<th>
+							Complaint Towards
+						</th>
+						<th>
+							Status
+						</th>
+                        <th>
+                            Decision
+                        </th>
+					</tr>
+				</thead>
+				<tbody>
+                    {% for employees in hired_employees %}
+                    <tr>
+                        <td>
+                             {{ loop.index }}
+                        </td>
+                        <td>
+                            {{ registered_users[1] }} {{ registered_users[2] }}
+                        </td>
+                        <td>
+                            {{employees[2]}} {{employees[3]}}
+                        </td>
+                        <td>
+                            Status
+                        </td>
+                        <td>
+                            <button type="button" > lol </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+			</table>
+		</div>
+	</div>
+
+    <div class="row">
+		<div class="col-md-12">
+        <h4> <strong style="text-decoration: underline"> Compliments Section </strong> </h4>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>
+							Compliment #
+						</th>
+						<th>
+							User
+						</th>
+						<th>
+							Compliment Towards
+						</th>
+						<th>
+							Status
+						</th>
+                        <th>
+                            Decision
+                        </th>
+					</tr>
+				</thead>
+				<tbody>
+                    {% for employees in hired_employees %}
+                    <tr>
+                        <td>
+                             {{ loop.index }}
+                        </td>
+                        <td>
+                            {{ registered_users[1] }} {{ registered_users[2] }}
+                        </td>
+                        <td>
+                            {{employees[2]}} {{employees[3]}}
+                        </td>
+                        <td>
+                            Status
+                        </td>
+                        <td>
+                            <button type="button" > lol </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+			</table>
+		</div>
+	</div>
+
 	<!-- Beginning of Carousel Slide of Images -->
 	<div class="carousel slide" id="carousel-361270">
 		<ol class="carousel-indicators">
@@ -313,11 +409,8 @@
 			</div>
 		</div> <a class="left carousel-control" href="#carousel-361270" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#carousel-361270" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
 	</div>
-	</div>
-	</div>
-	</div>
-	</div>
-	</div>
+
+
 
     <script src="/bootstrap/js/jquery.js"></script>
     <script src="/bootstrap/js/bootstrap.min.js"></script>
