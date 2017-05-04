@@ -176,7 +176,7 @@ def accept_user(user):
     register(user)
     return view_management_page()
 
-@app.route('/hire_chef/<chef>', methods=['GET'])
+@app.route('/hire_employee/<empl_name>', methods=['GET'])
 def hire_employee(empl_name):
     hire(empl_name)
     return view_management_page()
@@ -184,6 +184,11 @@ def hire_employee(empl_name):
 @app.route('/fire_chef/<chef>', methods=['GET'])
 def fire_employee(empl_name):
     fire(empl_name)
+    return view_management_page()
+
+@app.route('/upgrade_user/<user>', methods=['GET'])
+def upgrade_user(empl_name):
+    upgrade(empl_name)
     return view_management_page()
 
 
