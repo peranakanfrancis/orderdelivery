@@ -5,27 +5,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Manager Account</title>
+    <title> Los Quatro Amigos </title>
 
-      <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 
   </head>
-
   <body>
 
-
-    <div class="header">
-        <h1> Los Quatro Amigos</h1>  <h3> Manager Account</h3>
-    </div>
-    <hr>
     <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-12">
-
-            <!-- Navigation Bar -->
+			<div class="page-header">
+				<h1>
+					Los Quatro Amigos <br> <small> Manager Account </small>
+				</h1>
+			</div>
 			<nav class="navbar navbar-default" role="navigation">
 				<div class="navbar-header">
+
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
 						 <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
 					</button> <a class="navbar-brand" href="#">LQA</a>
@@ -34,404 +32,280 @@
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
 						<li class="active">
-							<a href="#">Home</a> <!-- Link to the home page -->
+							<a href="#">Home</a>
 						</li>
 						<li>
- 							<a href="#">Menus</a> <!-- Link to the menu pages -->
-						</li>
-						<li class="dropdown">
-							 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown<strong class="caret"></strong></a>
-							<ul class="dropdown-menu">
-								<li>
-									<a href="#">Action</a>
-								</li>
-								<li>
-									<a href="#">Another action</a>
-								</li>
-								<li>
-									<a href="#">Something else here</a>
-								</li>
-								<li class="divider">
-								</li>
-								<li>
-									<a href="#">Separated link</a>
-								</li>
-								<li class="divider">
-								</li>
-								<li>
-									<a href="#">One more separated link</a>
-								</li>
-							</ul>
+							<a href="#">Menu</a>
 						</li>
 					</ul>
 					<form class="navbar-form navbar-left" role="search">
-						<div class="form-group">
+						<!-- <div class="form-group">
 							<input type="text" class="form-control">
-						</div>
+						 </div> -->
 						<button type="submit" class="btn btn-default">
-							Submit
+							Sign Out
 						</button>
 					</form>
-					<!-- <ul class="nav navbar-nav navbar-right">
-						<li>
-							<a href="#">Link</a>
-						</li>
-						<li class="dropdown">
-							 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown<strong class="caret"></strong></a>
-							<ul class="dropdown-menu">
-								<li>
-									<a href="#">Action</a>
-								</li>
-								<li>
-									<a href="#">Another action</a>
-								</li>
-								<li>
-									<a href="#">Something else here</a>
-								</li>
-								<li class="divider">
-								</li>
-								<li>
-									<a href="#">Separated link</a>
-								</li>
-							</ul>
-						</li>
-					</ul> -->
 				</div>
+
 			</nav>
-            <!-- End of the navigation bar -->
-
-            <!-- Pill Tabs -- Account Requests -- Job Requests -->
-			<div class="row">
-				<div class="col-md-12">
-					<div class="tabbable" id="tabs-480363">
-						<ul class="nav nav-tabs">
-							<li>
-								<a href="#panel-account-requests" data-toggle="tab">Account Requests</a>
-							</li>
-							<li class="active">
-								<a href="#panel-343430" data-toggle="tab">Job Requests</a>
-							</li>
-						</ul>
-						<div class="tab-content">
-							<div class="tab-pane" id="panel-600951">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th>
-                                            Request #
-                                        </th>
-                                        <th>
-                                            User Name
-                                        </th>
-                                        <th>
-                                            Payment Taken
-                                        </th>
-                                        <th>
-                                            Status
-                                        </th>
-                                        <th>
-                                            Decision
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for accept_user in unregistered %}
-                                    <tr>
-                                        <td>
-                                            1
-                                        </td>
-                                        <td>
-                                            {{ accept_user[1] }}
-
-                                        </td>
-                                        <td>
-                                            01/04/2012
-                                        </td>
-                                        <td>
-                                            Pending
-                                        </td>
-                                        <td>
-                                            <button type="button" ><a href="{{ url_for('accept_user', user=accept_user[0] ) }}">Accept </a></button>
-                                            <button type="button">Decline</button>
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-							</div>
-							<div class="tab-pane active" id="panel-343430">
-                                <table class="table">
-                                        <thead>
-                                        <tr>
-                                            <th>
-                                                Request #
-                                            </th>
-                                            <th>
-                                                User Name
-                                            </th>
-                                            <th>
-                                                Payment Taken
-                                            </th>
-                                            <th>
-                                                Status
-                                            </th>
-                                            <th>
-                                                Decision
-                                            </th>
-                                        </tr>
-                                        </thead>
-                                    <tbody>
-                                        {% for unhired_employee in unhired_employees %}
-                                        <tr>
-                                            <td>
-                                                1 <!-- make this dynamic -->
-                                            </td>
-                                            <td>
-                                                {{ unhired_employee[2] }} {{ unhired_employee[3] }}
-                                            </td>
-                                            <td>
-                                                01/04/2012
-                                            </td>
-                                            <td>
-                                                Pending
-                                            </td>
-                                            <td>
-                                                <button type="button" ><a href="{{ url_for('hire', empl_name=unhired_employee[0]) }}">Hire </a></button>
-
-                                            </td>
-                                        </tr>
-                                     {% endfor %}
-                                    </tbody>
-                                </table>
-							</div>
-						</div>
-					</div>
-
-                    <!-- END OF: Account/Job Requests -->
-
-                    <!-- Beginning of Current Users/Employee Tabs -->
-					<div class="tabbable" id="tabs-100484">
-						<ul class="nav nav-tabs">
-							<li>
-								<a href="#panel-968595" data-toggle="tab">Manage Users</a>
-							</li>
-							<li class="active">
-								<a href="#panel-204145" data-toggle="tab">Manage Employees</a>
-							</li>
-                            <!--
-                            <li class="active">
-                                <a href="#panel-968596" data-toggle="tab">New Tab</a>
-                            </li>
-                            -->
-						</ul>
-						<div class="tab-content">
-							<div class="tab-pane" id="panel-968595">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th>
-                                            User #
-                                        </th>
-                                        <th>
-                                            User
-                                        </th>
-                                        <th>Member Since
-                                        </th>
-                                        <th>
-                                            Membership type
-                                        </th>
-                                        <th>
-                                            Warnings
-                                        </th>
-                                        <th>
-                                            Action
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <!-- User Information -->
-                                    <tbody>
-                                     {% for registered_users in registered %}
-                                        <tr>
-                                            <td>
-                                                1
-                                            </td>
-                                            <td>
-                                                {{ registered_users[1] }} {{ registered_users[2] }}
-                                            </td>
-                                            <td>
-                                                01/04/2012
-                                            </td>
-                                            <td>
-                                                VIP
-                                            </td>
-                                            <td>
-                                                <form >
-                                                    <span class="glyphicon glyphicon-warning-sign"></span> <input type="text" name="first_name" style="width: 25px"/>
-                                                </form>
-                                            </td>
-                                            <td>
-                                                <button type="button" ><a href="{{ url_for('upgrade', user_id=registered_users[0]) }}">Upgrade_VIP </a></button>
-                                                <button type="button" ><a href="{{ url_for('downgrade', user_id=registered_users[0]) }}">Downgrade_VIP </a></button>
-                                                <button type="button" ><a href="{{ url_for('delete', user_id=registered_users[0]) }}">Delete Account </a></button>
-                                            </td>
-                                        </tr>
-                                     {% endfor %}
-                                    </tbody>
-                                </table>
-							</div>
-
-                            <!-- Employee Information  -->
-							<div class="tab-pane active" id="panel-204145">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th>
-                                            User #
-                                        </th>
-                                        <th>
-                                            User
-                                        </th>
-                                        <th>
-                                            Member Since
-                                        </th>
-                                        <th>
-                                            Employee type
-                                        </th>
-                                        <th>
-                                            Warnings
-                                        </th>
-                                        <th>
-                                            Action
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                     {% for employees in hired_employees %}
-                                        <tr>
-                                            <td>
-                                                1
-                                            </td>
-                                            <td>
-                                                {{employees[2]}} {{employees[3]}}
-                                            </td>
-                                            <td>
-                                                01/04/2012
-                                            </td>
-                                            <td>
-                                                Chef
-                                            </td>
-                                            <td>
-                                                <form >
-                                                    <span class="glyphicon glyphicon-warning-sign"></span> <input type="text" name="first_name" style="width: 25px"/>
-                                                </form>
-                                            </td>
-                                            <td>
-                                                <button type="button" ><a href="{{ url_for('promote', empl_name=employees[0]) }}"> Promote </a></button>
-                                                <button type="button" ><a href="{{ url_for('demote', empl_name=employees[0]) }}"> Demote </a></button>
-                                                <button type="button" ><a href="{{ url_for('fire', empl_name=employees[0]) }}"> Fire </a></button>
-                                            </td>
-                                        </tr>
-                                     {% endfor %}
-                                    </tbody>
-                                </table>
-							</div>
-                            <div class="tab-pane" id="panel-968596"></div>
-						</div>
-					</div>
-                    <!-- End of Pill Tabs-->
-
-
-
-
-
-                    <!-- CONTENT OF: Current Users and Current Employee Tabs-->
-					<div class="row">
-						<div class="col-md-3">
-
-						</div>
-						<div class="col-md-3">
-
-						</div>
-						<div class="col-md-3">
-
-						</div>
-						<div class="col-md-3">
-
-						</div>
-
-					</div>
-                    <!-- End of Current Users/Employees-->
-
-
-                    <!-- Beginning of Carousel Slide of Images -->
-					<div class="carousel slide" id="carousel-361270">
-						<ol class="carousel-indicators">
-							<li class="active" data-slide-to="1" data-target="#carousel-361270">
-							</li>
-							<li data-slide-to="2" data-target="#carousel-361270">
-							</li>
-							<li data-slide-to="3" data-target="#carousel-361270">
-							</li>
-                            <li data-slide-to="4" data-target="#carousel-361270">
-                            </li>
-						</ol>
-						<div class="carousel-inner">
-							<div class="item active">
-								<img alt="Carousel Bootstrap First" src="https://www.okchicas.com/wp-content/uploads/2016/02/Comida-mexicana-17.jpg" style="margin-left: auto; margin-right: auto ">
-								<div class="carousel-caption">
-									<h4 style="color: black">
-										Straight from Chef Miguel's Kitchen
-									</h4>
-									<p>
-										This mouth-watering image of Chef Miguel's Carne Enchilda Tacos, is a perfect lunch option for any day.
-									</p>
-								</div>
-							</div>
-							<div class="item">
-								<img alt="Carousel Bootstrap Second" src="http://www.swagger.mx/media/bi/mediabrowser/2016/09/curiosidades-comida-mexicana-3.jpg" style="margin-left: auto; margin-right: auto ">
-								<div class="carousel-caption">
-									<h4 style="color: mediumspringgreen">
-										Straight from Chef Rosita's Kitchen
-									</h4>
-									<p>
-										This traditional dish, Mole Poblano, is one of Chef Rositas's specialties.
-									</p>
-								</div>
-							</div>
-                            <div class="item">
-                                <img alt="Carousel Bootstrap Third" src="https://s-media-cache-ak0.pinimg.com/originals/27/21/da/2721da03b62d25d0b0412d1364349a98.jpg" style="margin-left: auto; margin-right: auto ">
-                                <div class="carousel-caption">
-                                    <h4 style="color: black">
-                                        Straight from Chef Monica's Kitchen
-                                    </h4>
-                                    <p>
-                                        This take on a traditional dish, Lobster Ceviche, is one of Chef Monica's specialties.
-                                    </p>
-                                </div>
-                            </div>
-							<div class="item">
-								<img alt="Carousel Bootstrap Fourth" src="http://www.finecooking.com/CMS/uploadedImages/Images/Cooking/Articles/Issues_41-50/fc50we048-02_xlg.jpg" style="margin-left: auto; margin-right: auto ">
-								<div class="carousel-caption">
-									<h4 style="color: black">
-										Straight from Chef Luigi's Kitchen
-									</h4>
-									<p>
-									   This delicious dish, will have you wanting more.
-									</p>
-								</div>
-							</div>
-						</div> <a class="left carousel-control" href="#carousel-361270" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#carousel-361270" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
-					</div>
-				</div>
-			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>
+							#
+						</th>
+						<th>
+							Product
+						</th>
+						<th>
+							Payment Taken
+						</th>
+						<th>
+							Status
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+				{% for accept_user in accept_users %}
+				<tr>
+					<td>
+						1
+					</td>
+					<td>
+						{{ accept_user.name }}
+					</td>
+					<td>
+						01/04/2012
+					</td>
+					<td>
+						Pending
+					</td>
+					<td>
+						<button type="button" ><a href="{{ url_for('accept_user', user= user_id ) }}">Accept </a></button>
+						<button type="button">Decline</button>
+					</td>
+				</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>
+							#
+						</th>
+						<th>
+							Product
+						</th>
+						<th>
+							Payment Taken
+						</th>
+						<th>
+							Status
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for unhired_employee in unhired_employees %}
+					<tr>
+						<td>
+							1 <!-- make this dynamic -->
+						</td>
+						<td>
+							{{ unhired_employee.emp_fname }}
+						</td>
+						<td>
+							01/04/2012
+						</td>
+						<td>
+							Pending
+						</td>
+						<td>
+							<button type="button" ><a href="{{ url_for('accept_user', user=user_id) }}">Accept </a></button>
+							<button type="button">Decline</button>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>
+							#
+						</th>
+						<th>
+							Product
+						</th>
+						<th>
+							Payment Taken
+						</th>
+						<th>
+							Status
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for registered_users in registered %}
+					<tr>
+						<td>
+							1
+						</td>
+						<td>
+							{{ registered_users.f_name }} {{ registered_users.l_name }}
+						</td>
+						<td>
+							01/04/2012
+						</td>
+						<td>
+							VIP
+						</td>
+						<td>
+							<form >
+								<span class="glyphicon glyphicon-warning-sign"></span> <input type="text" name="first_name" style="width: 25px"/>
+							</form>
+						</td>
+						<td>
+							<button type="button">Upgrade</button>
+							<button type="submit">Demote</button>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<table class="table">
+					<thead>
+						<tr>
+							<th>
+								#
+							</th>
+							<th>
+								Product
+							</th>
+							<th>
+								Payment Taken
+							</th>
+							<th>
+								Status
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for employees in hired_employees %}
+						<tr>
+							<td>
+								1
+							</td>
+							<td>
+								{{employees.emp_fname}}
+							</td>
+							<td>
+								01/04/2012
+							</td>
+							<td>
+								Chef
+							</td>
+							<td>
+								<form >
+									<span class="glyphicon glyphicon-warning-sign"></span> <input type="text" name="first_name" style="width: 25px"/>
+								</form>
+							</td>
+							<td>
+								<button type="submit">Promote</button> <button type="submit"> Demote </button>
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+			</table>
 		</div>
 	</div>
 </div>
-    <!-- End of the Carousel -->
-    <!-- Global JS Libraries -->
 
-   <script src="/bootstrap/js/jquery.js"></script>
-    <script src="/bootstrap/js/bootstrap.min.js"></script>
+	<!-- Beginning of Carousel Slide of Images -->
+	<div class="carousel slide" id="carousel-361270">
+		<ol class="carousel-indicators">
+			<li class="active" data-slide-to="1" data-target="#carousel-361270">
+			</li>
+			<li data-slide-to="2" data-target="#carousel-361270">
+			</li>
+			<li data-slide-to="3" data-target="#carousel-361270">
+			</li>
+			<li data-slide-to="4" data-target="#carousel-361270">
+			</li>
+		</ol>
+		<div class="carousel-inner">
+			<div class="item active">
+				<img alt="Carousel Bootstrap First" src="https://www.okchicas.com/wp-content/uploads/2016/02/Comida-mexicana-17.jpg" style="margin-left: auto; margin-right: auto ">
+				<div class="carousel-caption">
+					<h4 style="color: black">
+						Straight from Chef Miguel's Kitchen
+					</h4>
+					<p>
+						This mouth-watering image of Chef Miguel's Carne Enchilda Tacos, is a perfect lunch option for any day.
+					</p>
+				</div>
+			</div>
+			<div class="item">
+				<img alt="Carousel Bootstrap Second" src="http://www.swagger.mx/media/bi/mediabrowser/2016/09/curiosidades-comida-mexicana-3.jpg" style="margin-left: auto; margin-right: auto ">
+				<div class="carousel-caption">
+					<h4 style="color: mediumspringgreen">
+						Straight from Chef Rosita's Kitchen
+					</h4>
+					<p>
+						This traditional dish, Mole Poblano, is one of Chef Rositas's specialties.
+					</p>
+				</div>
+			</div>
+			<div class="item">
+				<img alt="Carousel Bootstrap Third" src="https://s-media-cache-ak0.pinimg.com/originals/27/21/da/2721da03b62d25d0b0412d1364349a98.jpg" style="margin-left: auto; margin-right: auto ">
+				<div class="carousel-caption">
+					<h4 style="color: black">
+						Straight from Chef Monica's Kitchen
+					</h4>
+					<p>
+						This take on a traditional dish, Lobster Ceviche, is one of Chef Monica's specialties.
+					</p>
+				</div>
+			</div>
+			<div class="item">
+				<img alt="Carousel Bootstrap Fourth" src="http://www.finecooking.com/CMS/uploadedImages/Images/Cooking/Articles/Issues_41-50/fc50we048-02_xlg.jpg" style="margin-left: auto; margin-right: auto ">
+				<div class="carousel-caption">
+					<h4 style="color: black">
+						Straight from Chef Luigi's Kitchen
+					</h4>
+					<p>
+						This delicious dish, will have you wanting more.
+					</p>
+				</div>
+			</div>
+		</div> <a class="left carousel-control" href="#carousel-361270" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#carousel-361270" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
 
+
+	<script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
   </body>
 </html>
