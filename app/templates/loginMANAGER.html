@@ -72,27 +72,28 @@
 					</tr>
 				</thead>
 				<tbody>
-				{% for accept_user in accept_users %}
-				<tr>
-					<td>
-						1
-					</td>
-					<td>
-						{{ accept_user.name }}
-					</td>
-					<td>
-						01/04/2012
-					</td>
-					<td>
-						Pending
-					</td>
-					<td>
-						<button type="button" ><a href="{{ url_for('accept_user', user= user_id ) }}">Accept </a></button>
-						<button type="button">Decline</button>
-					</td>
-				</tr>
-				{% endfor %}
-				</tbody>
+                {% for accept_user in unregistered %}
+                <tr>
+                    <td>
+                        1
+                    </td>
+                    <td>
+                        {{ accept_user[1] }}
+
+                    </td>
+                    <td>
+                        01/04/2012
+                    </td>
+                    <td>
+                        Pending
+                    </td>
+                    <td>
+                        <button type="button" ><a href="{{ url_for('accept_user', user=accept_user[0] ) }}">Accept </a></button>
+                        <button type="button">Decline</button>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
 			</table>
 		</div>
 	</div>
@@ -116,27 +117,27 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% for unhired_employee in unhired_employees %}
-					<tr>
-						<td>
-							1 <!-- make this dynamic -->
-						</td>
-						<td>
-							{{ unhired_employee.emp_fname }}
-						</td>
-						<td>
-							01/04/2012
-						</td>
-						<td>
-							Pending
-						</td>
-						<td>
-							<button type="button" ><a href="{{ url_for('accept_user', user=user_id) }}">Accept </a></button>
-							<button type="button">Decline</button>
-						</td>
-					</tr>
-					{% endfor %}
-				</tbody>
+                    {% for unhired_employee in unhired_employees %}
+                    <tr>
+                        <td>
+                            1 <!-- make this dynamic -->
+                        </td>
+                        <td>
+                            {{ unhired_employee[2] }} {{ unhired_employee[3] }}
+                        </td>
+                        <td>
+                            01/04/2012
+                        </td>
+                        <td>
+                            Pending
+                        </td>
+                        <td>
+                            <button type="button" ><a href="{{ url_for('hire', empl_name=unhired_employee[0]) }}">Hire </a></button>
+
+                        </td>
+                    </tr>
+                 {% endfor %}
+                </tbody>
 			</table>
 		</div>
 	</div>
@@ -160,32 +161,33 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% for registered_users in registered %}
-					<tr>
-						<td>
-							1
-						</td>
-						<td>
-							{{ registered_users.f_name }} {{ registered_users.l_name }}
-						</td>
-						<td>
-							01/04/2012
-						</td>
-						<td>
-							VIP
-						</td>
-						<td>
-							<form >
-								<span class="glyphicon glyphicon-warning-sign"></span> <input type="text" name="first_name" style="width: 25px"/>
-							</form>
-						</td>
-						<td>
-							<button type="button">Upgrade</button>
-							<button type="submit">Demote</button>
-						</td>
-					</tr>
-					{% endfor %}
-				</tbody>
+                     {% for registered_users in registered %}
+                        <tr>
+                            <td>
+                                1
+                            </td>
+                            <td>
+                                {{ registered_users[1] }} {{ registered_users[2] }}
+                            </td>
+                            <td>
+                                01/04/2012
+                            </td>
+                            <td>
+                                VIP
+                            </td>
+                            <td>
+                                <form >
+                                    <span class="glyphicon glyphicon-warning-sign"></span> <input type="text" name="first_name" style="width: 25px"/>
+                                </form>
+                            </td>
+                            <td>
+                                <button type="button" ><a href="{{ url_for('upgrade', user_id=registered_users[0]) }}">Upgrade_VIP </a></button>
+                                <button type="button" ><a href="{{ url_for('downgrade', user_id=registered_users[0]) }}">Downgrade_VIP </a></button>
+                                <button type="button" ><a href="{{ url_for('delete', user_id=registered_users[0]) }}">Delete Account </a></button>
+                            </td>
+                        </tr>
+                     {% endfor %}
+                    </tbody>
 			</table>
 		</div>
 	</div>
@@ -209,31 +211,33 @@
 						</tr>
 					</thead>
 					<tbody>
-						{% for employees in hired_employees %}
-						<tr>
-							<td>
-								1
-							</td>
-							<td>
-								{{employees.emp_fname}}
-							</td>
-							<td>
-								01/04/2012
-							</td>
-							<td>
-								Chef
-							</td>
-							<td>
-								<form >
-									<span class="glyphicon glyphicon-warning-sign"></span> <input type="text" name="first_name" style="width: 25px"/>
-								</form>
-							</td>
-							<td>
-								<button type="submit">Promote</button> <button type="submit"> Demote </button>
-							</td>
-						</tr>
-						{% endfor %}
-					</tbody>
+                                     {% for employees in hired_employees %}
+                                        <tr>
+                                            <td>
+                                                1
+                                            </td>
+                                            <td>
+                                                {{employees[2]}} {{employees[3]}}
+                                            </td>
+                                            <td>
+                                                01/04/2012
+                                            </td>
+                                            <td>
+                                                Chef
+                                            </td>
+                                            <td>
+                                                <form >
+                                                    <span class="glyphicon glyphicon-warning-sign"></span> <input type="text" name="first_name" style="width: 25px"/>
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <button type="button" ><a href="{{ url_for('promote', empl_name=employees[0]) }}"> Promote </a></button>
+                                                <button type="button" ><a href="{{ url_for('demote', empl_name=employees[0]) }}"> Demote </a></button>
+                                                <button type="button" ><a href="{{ url_for('fire', empl_name=employees[0]) }}"> Fire </a></button>
+                                            </td>
+                                        </tr>
+                                     {% endfor %}
+                                    </tbody>
 			</table>
 		</div>
 	</div>

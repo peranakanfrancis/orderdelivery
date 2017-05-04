@@ -229,7 +229,7 @@ def check_complaints(emp_id):
         return result
 
 def demote_employee(emp_id):
-    with sql.connect("losquatroamgos.db") as con:
+    with sql.connect("losquatroamigos.db") as con:
         cur = con.cursor()
         cur.execute("UPDATE employees SET salary = salary - 5 WHERE emp_id = '%s'" %emp_id)
         con.commit()
