@@ -24,10 +24,10 @@
                 {% if session['logged_in'] %}
                     <p>You're logged in already!</p>
                 {% else %}
-                    <form action="/login" method="POST">
+                    <form action="/signup/" method="POST">
                         <div class="cont_tabs_login">
                             <ul class='ul_tabs'>
-                                <li class="active"><a href="#" onclick="sign_in()">SIGN UP</a>
+                                <li class="active"><a href="#" >SIGN UP</a>
                                     <span class="linea_bajo_nom"></span>
                                 </li>
                                 <li><a href="/showLogIn">LOG IN</a><span class="linea_bajo_nom"></span>
