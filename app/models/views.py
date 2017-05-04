@@ -22,23 +22,23 @@ def showLogIn():
 
 @app.route('/login', methods=["GET",'POST'])
 def login():
+    # Get details from the user
     user_id = request.form['username']
     password = request.form['password']
 
+    # Get details from the db
     user_check = select_user_info(user_id)
     empl_check = select_employee_info(user_id)
-    #print(empl_check)
-    #print(empl_check[0][0][0])
 
-
+    # Check user details against db
     if user_check and user_check[0][3] == password:
         session["user"] = user_id
         session["logged_in"] = True
         return render_template("loginUSER.html")
 
-    if empl_check[0][0][0] == 'M':
+    if empl_check[0][0][0] == 'M' and empl_check[0][1] == password:
         print("logged in as manager")
-        #this is a manager.
+        session["logged_in"] = True
         return render_template("loginUSER.html")
 
     if empl_check[0][0][0] == 'C':
