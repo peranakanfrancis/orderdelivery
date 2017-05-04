@@ -27,26 +27,31 @@
                     <form action="/login" method="POST">
                         <div class="cont_tabs_login">
                             <ul class='ul_tabs'>
-                                <li class="active"><a href="#" onclick="sign_in()">SIGN IN</a>
+                                <li class="active"><a href="#" onclick="sign_in()">SIGN UP</a>
                                     <span class="linea_bajo_nom"></span>
                                 </li>
-                                <li><a href="/Log-In.html">SIGN UP</a><span class="linea_bajo_nom"></span>
+                                <li><a href="/showLogIn">LOG IN</a><span class="linea_bajo_nom"></span>
                                 </li>
                             </ul>
                         </div>
                         <div class="cont_text_inputs">
-                            <input type="text" class="input_form_sign " placeholder="Name" name="name_us" />
-                            <input type="text" class="input_form_sign " placeholder="LastName" name="lastname_us" />
-                            <input type="username" class="input_form_sign d_block active_inp" name="username"  placeholder="Username">
-                            <input type="password" class="input_form_sign d_block active_inp" name="password" placeholder="Password">
-                            <input type="password" class="input_form_sign" placeholder="Confirm Password" name="conf_pass_us" />
-                            <a href="#" class="link_forgot_pass d_block" >Forgot Password ?</a>
+                            <input type="text" class="input_form_sign d_block active_inp" placeholder="FirstName" name="first_name" />
+                            <input type="text" class="input_form_sign d_block active_inp" placeholder="LastName" name="last_name" />
+                            <input type="text" class="input_form_sign d_block active_inp" placeholder="Username" name="user_name" />
+                            <input type="text" class="input_form_sign d_block active_inp" placeholder="Password" name="password" />
+                            <input type="text" class="input_form_sign d_block active_inp" placeholder="Address" name="address" />
+                            <input type="text" class="input_form_sign d_block active_inp" placeholder="City" name="city" />
+                            <input type="text" class="input_form_sign d_block active_inp" placeholder="State" name="state" />
+                            <input type="text" class="input_form_sign d_block active_inp" placeholder="Postal" name="postal" />
+                            <input type="text" class="input_form_sign d_block active_inp" placeholder="Apt" name="apt" />
+                            <input type="text" class="input_form_sign d_block active_inp" placeholder="Phone Number" name="phone" />
+                            <!-- <a href="#" class="link_forgot_pass d_block" >Forgot Password ?</a> -->
                             <div class="terms_and_cons d_none">
                         <p><input type="checkbox" name="terms_and_cons" /> <label for="terms_and_cons">Accept  Terms and Conditions.</label></p>
                             </div>
                         </div>
                         <div class="cont_btn">
-                            <button class="btn_sign" type="submit" value="Log In">Sign In</button>
+                            <button class="btn_sign" type="submit" value="Sign Up">SIGN UP</button>
                         </div>
                     </form>
                     {% with messages = get_flashed_messages() %}

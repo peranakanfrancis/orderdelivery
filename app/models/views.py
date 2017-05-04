@@ -1,6 +1,6 @@
 from app import app
 from flask import render_template,redirect, request, flash,g,session,url_for,json
-from .models.models import *
+from app.models.models import *
 
 
 
@@ -26,11 +26,31 @@ def login():
     password = request.form['password']
 
     user_check = select_user_info(user_id)
+    empl_check = select_employee_info(user_id)
+    #print(empl_check)
+    #print(empl_check[0][0][0])
+
 
     if user_check and user_check[0][3] == password:
         session["user"] = user_id
         session["logged_in"] = True
         return render_template("loginUSER.html")
+
+    if empl_check[0][0][0] == 'M':
+        print("logged in as manager")
+        #this is a manager.
+        return render_template("loginUSER.html")
+
+    if empl_check[0][0][0] == 'C':
+
+        # this is a chef
+        return render_template("/")
+    if empl_check[0][0][0] == 'D':
+        # this is a delivery guy
+        return render_template("/")
+
+
+
     else:
         flash("Login Failed :(")
         return render_template("Log-In.html")

@@ -11,7 +11,7 @@
     <!-- <link rel="stylesheet" href="../static/style.css"> -->
     <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
 
-<script src="../static/createaccount.js"></script> <!--- connects to the global javascript file -- called createaccount-- --placed inside the javascript folder-- --->
+<!-- <script src="../static/createaccount.js"></script>--> <!--- connects to the global javascript file -- called createaccount-- --placed inside the javascript folder-- --->
 
 </head>
 
@@ -28,10 +28,10 @@
                     <form action="/login" method="POST">
                         <div class="cont_tabs_login">
                             <ul class='ul_tabs'>
-                                <li class="active"><a href="#" onclick="sign_in()">SIGN IN</a>
+                                <li class="active"><a href="#" onclick="sign_in()">LOG IN</a>
                                     <span class="linea_bajo_nom"></span>
                                 </li>
-                                <li><a href="/signup" onclick="sign_up()">SIGN UP</a><span class="linea_bajo_nom"></span>
+                                <li><a href="/showSignUp" onclick="sign_up()">SIGN UP</a><span class="linea_bajo_nom"></span>
                                 </li>
                             </ul>
                         </div>
@@ -39,14 +39,13 @@
                             <input type="text" class="input_form_sign " placeholder="Name" name="name_us" />
                             <input type="username" class="input_form_sign d_block active_inp" name="username"  placeholder="Username">
                             <input type="password" class="input_form_sign d_block active_inp" name="password" placeholder="Password">
-                            <input type="password" class="input_form_sign" placeholder="Confirm Password" name="conf_pass_us" />
-                            <a href="#" class="link_forgot_pass d_block" >Forgot Password ?</a>
+                            <!-- <a href="#" class="link_forgot_pass d_block" >Forgot Password ?</a> -->
                             <div class="terms_and_cons d_none">
                         <p><input type="checkbox" name="terms_and_cons" /> <label for="terms_and_cons">Accept  Terms and Conditions.</label></p>
                             </div>
                         </div>
                         <div class="cont_btn">
-                            <button class="btn_sign" type="submit" value="Log In">Sign In</button>
+                            <button class="btn_sign" type="submit" value="Log In">LOG IN</button>
                         </div>
                     </form>
                     {% with messages = get_flashed_messages() %}
