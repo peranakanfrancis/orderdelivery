@@ -89,7 +89,7 @@ def insert_menu(chef_id, menu_id, item_name, price, rating):
 def select_employee_info(emp_id):
     with sql.connect("losquatroamigos.db") as con:
         cur= con.cursor()
-        result = cur.execute("SELECT * FROM Employees where emp_id = '%s';" % emp_id).fetchall()
+        result = cur.execute("SELECT * FROM Employees where emp_id = '%s';" % emp_id).fetchone()
     return result
 
 
@@ -234,6 +234,17 @@ def demote_employee(emp_id):
         cur.execute("UPDATE employees SET salary = salary - 5 WHERE emp_id = '%s'" %emp_id)
         con.commit()
 
+def confirm_complaint(complaint_id):
+    with sql.connect("losquatroamigos.db") as con:
+        cur = con.cursor()
+        cur.execute("UPDATE complaints SET approval = 1 where complaint_id = '%s'" %complaint_id)
+        con.commit()
+
+def confirm_compliment(compliment_id):
+    with sql.connect("losquatroamigos.db") as con:
+        cur = con.cursor()
+        cur.execute("UPDATE compliment SET approval = 1 where complaint_id = '%s'" % compliment_id)
+        con.commit()
 
 
 ############### START DELIVERY INFORMATION#########################################
