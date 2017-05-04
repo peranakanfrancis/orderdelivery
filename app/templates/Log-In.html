@@ -21,6 +21,15 @@
 
 <div class="cont_principal">
     <div class="cont_centrar">
+        {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                {{ message }}
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                {% endif %}
+            {% endblock %}
         <div class="cont_login">
             {% block body %}
                 {% if session['logged_in'] %}
@@ -49,15 +58,7 @@
                             <button class="btn_sign" type="submit" value="Log In">LOG IN</button>
                         </div>
                     </form>
-                    {% with messages = get_flashed_messages() %}
-                        {% if messages %}
-                            {% for message in messages %}
-                                {{ message }}
-                            {% endfor %}
-                        {% endif %}
-                    {% endwith %}
-                {% endif %}
-            {% endblock %}
+
         </div>
     </div>
 </div>

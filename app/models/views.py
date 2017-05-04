@@ -144,7 +144,7 @@ def monica_Menu():
 # Run Register
 @app.route('/signup/', methods=["GET",'POST'])
 def sign_up():
-    #read the values from the UI
+    # read the values from the UI
     _firstName = request.form['first_name']
     _lastName = request.form['last_name']
     _userName = request.form['user_name']
@@ -156,11 +156,23 @@ def sign_up():
     _apt = request.form['apt']
     _phone = request.form['phone']
 
-    insert_users(user_id, _firstName, _lastName, _password, _address, _city, _state, _postal, _apt, _phone, acc_funds=0)
+    # Check if username exists
+    user_check = select_user_info(_userName)
 
-    #validate the received values
-   # if _name and _email and _password
-    return redirect("loginUSER")
+    # If the username exists
+    if user_check and user_check[0][0] == _userName:
+        flash("Sorry, Username Exists", 'error')
+        return render_template("signup.html")
+    # If the key fields are not entered
+    elif not _firstName or not _lastName or not _userName or not _password or not _address or not _city or not _state:
+        flash("Please Enter All Info with Asterisks")
+        return render_template("signup.html")
+    # Insert User
+    else:
+        insert_users(_userName, _firstName, _lastName, _password, _address, _city, _state, _postal, _apt, _phone, acc_funds=0)
+        return render_template("loginUSER.html")
+
+
 
 @app.route('/loginManager')
 def view_management_page():
