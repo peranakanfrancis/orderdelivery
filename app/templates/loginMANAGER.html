@@ -187,7 +187,7 @@
                                                 1 <!-- make this dynamic -->
                                             </td>
                                             <td>
-                                                {{ unhired_employee[1] }}
+                                                {{ unhired_employee[2] }} {{ unhired_employee[3] }}
                                             </td>
                                             <td>
                                                 01/04/2012
@@ -270,8 +270,9 @@
                                                 </form>
                                             </td>
                                             <td>
-                                                <button type="button">Upgrade</button>
-                                                <button type="submit">Demote</button>
+                                                <button type="button" ><a href="{{ url_for('upgrade', user_id=registered_users[0]) }}">Upgrade_VIP </a></button>
+                                                <button type="button" ><a href="{{ url_for('downgrade', user_id=registered_users[0]) }}">Downgrade_VIP </a></button>
+                                                <button type="button" ><a href="{{ url_for('delete', user_id=registered_users[0]) }}">Delete Account </a></button>
                                             </td>
                                         </tr>
                                      {% endfor %}
@@ -311,7 +312,7 @@
                                                 1
                                             </td>
                                             <td>
-                                                {{employees[1]}} {{employees[2]}}
+                                                {{employees[2]}} {{employees[3]}}
                                             </td>
                                             <td>
                                                 01/04/2012
@@ -327,6 +328,7 @@
                                             <td>
                                                 <button type="button" ><a href="{{ url_for('promote', empl_name=employees[0]) }}"> Promote </a></button>
                                                 <button type="button" ><a href="{{ url_for('demote', empl_name=employees[0]) }}"> Demote </a></button>
+                                                <button type="button" ><a href="{{ url_for('fire', empl_name=employees[0]) }}"> Fire </a></button>
                                             </td>
                                         </tr>
                                      {% endfor %}

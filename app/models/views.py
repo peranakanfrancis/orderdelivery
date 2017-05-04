@@ -178,14 +178,14 @@ def hire(empl_name):
     hire_employee(empl_name)
     return view_management_page()
 
-@app.route('/fire_chef/<chef>', methods=['GET'])
-def fire_employee(empl_name):
+@app.route('/fire/<empl_name>', methods=['GET'])
+def fire(empl_name):
     fire_employee(empl_name)
     return view_management_page()
 
 @app.route('/upgrade_user/<user>', methods=['GET'])
-def upgrade_user(empl_name):
-    upgrade(empl_name)
+def upgrade(empl_name):
+    upgrade_user(empl_name)
     return view_management_page()
 
 
@@ -206,7 +206,7 @@ def add_warning(user_id):
     update_warnings(user_id)
     return view_management_page()
 
-@app.route('/add_complaint/<user>', methods=['GET'])
+@app.route('/add_complaint/<complaint_id>', methods=['GET'])
 def accept_complaint(complaint_id):
     confirm_complaint(complaint_id)
     #I dk what this is for. -Eddy
@@ -219,10 +219,31 @@ def accept_complaint(complaint_id):
 
     return view_management_page()
 
+@app.route('/decline_complaint/<complaint_id>', methods=['GET'])
+def decline_complaint(complaint_id):
+    delete_complaint(complaint_id)
+    user = select_user_from_complaint(complaint_id)
+    update_warnings(user)
+    return view_management_page()
+
 @app.route('/add_compliment/<user>', methods=['GET'])
 def accept_compliment(compliment_id):
     confirm_compliment(compliment_id)
     #IDK what this is for. -Eddy
+    '''
+    The chef whose dishes received consistently low ratings or 3 complaints, or no order at
+
+    all for 3 days, will be demoted (less salary), a chef demoted twice is fired. Conversely, a
+
+    chef whose dishes received high ratings or 3 compliments, will be promoted (higher
+
+    salary). One compliment can be used to cancel one complaint. The delivery people are
+
+    handled the same way.
+    
+    '''
+
+    #let me know if im misreading something
     employee = select_compliment(compliment_id).empl_id
     if check_compliments(employee) >= 3:
         promote_employee(employee)
