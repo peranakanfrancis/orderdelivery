@@ -200,6 +200,7 @@ def promote(empl_name):
 
 @app.route('/demote/<empl_name>', methods=['GET'])
 def demote(empl_name):
+    add_demotions(empl_name)
     demote_employee(empl_name)
     print(check_demotions(empl_name)[0])
     if check_demotions(empl_name)[0] > 1:
