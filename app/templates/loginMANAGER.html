@@ -75,7 +75,7 @@
                 {% for accept_user in unregistered %}
                 <tr>
                     <td>
-                        1
+                         {{ loop.index }}
                     </td>
                     <td>
                         {{ accept_user[1] }}
@@ -120,7 +120,7 @@
                     {% for unhired_employee in unhired_employees %}
                     <tr>
                         <td>
-                            1 <!-- make this dynamic -->
+                             {{ loop.index }}
                         </td>
                         <td>
                             {{ unhired_employee[2] }} {{ unhired_employee[3] }}
@@ -164,7 +164,7 @@
                      {% for registered_users in registered %}
                         <tr>
                             <td>
-                                1
+                                 {{ loop.index }}
                             </td>
                             <td>
                                 {{ registered_users[1] }} {{ registered_users[2] }}
@@ -214,7 +214,7 @@
                                      {% for employees in hired_employees %}
                                         <tr>
                                             <td>
-                                                1
+                                                 {{ loop.index }}
                                             </td>
                                             <td>
                                                 {{employees[2]}} {{employees[3]}}
