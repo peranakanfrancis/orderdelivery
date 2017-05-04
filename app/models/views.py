@@ -189,13 +189,13 @@ def upgrade_user(empl_name):
     return view_management_page()
 
 
-@app.route('/promote_chef/<chef>', methods=['GET'])
-def promote_employee(empl_name):
+@app.route('/promote/<empl_name>', methods=['GET'])
+def promote(empl_name):
     promote_employee(empl_name)
     return view_management_page()
 
-@app.route('/demote_chef/<chef>', methods=['GET'])
-def demote_employee(empl_name):
+@app.route('/demote/<empl_name>', methods=['GET'])
+def demote(empl_name):
     demote_employee(empl_name)
     if check_demotions(empl_name) > 1:
         fire_employee(empl_name)
