@@ -55,6 +55,8 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     state nchar(2) not null,
     postal nchar(5) not null,
     apt varchar(5),
+    longitude decimal(9,6),
+    latitude decimal (9,6),
     phone nchar(10) not null,
     memb_since DATE not null,
     acc_funds decimal(7,2) not null,
