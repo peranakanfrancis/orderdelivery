@@ -160,6 +160,10 @@ class db_connect:
         result = self.cur.execute("SELECT complaint, date_posted FROM complaints WHERE user_id = '%s'" %user_id).fetchall()
         return result
 
+    def select_all_pending_complaints(self):
+        result = self.cur.execute("SELECT * FROM complaints WHERE approval=0").fetchall()
+        return result
+
         #COMPLIMENTS -Will be neccessary for managers to review
     def select_compliments(self,user_id):
         result = self.cur.execute("SELECT compliment, date_posted FROM compliments WHERE user_id = '%s'" %user_id).fetchall()
@@ -196,12 +200,12 @@ class db_connect:
         return result
 
     def promote_employee(self,emp_id):
-        self.cur.execute("UPDATE employees SET salary = salary + 5 where emp_id = '%s'" %emp_id)
+        self.cur.execute("UPDATE employees SET salary = salary + 5 where emp_id = '%s'" % emp_id)
         self.con.commit()
 
         #demoting employee
     def check_complaints(self,emp_id):
-        result = self.cur.execute("SELECT count(*) FROM complaints WHERE emp_id '%s'" %emp_id).fetchall()
+        result = self.cur.execute("SELECT count(*) FROM complaints WHERE emp_id = '%s'" %emp_id).fetchall()
         return result
 
     def demote_employee(self,emp_id):

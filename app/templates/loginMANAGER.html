@@ -267,10 +267,10 @@
 							Complaintant
 						</th>
 						<th>
-							Complaint Towards
+							Complaint Towards Emp_ID
 						</th>
 						<th>
-							Status
+							Complaint
 						</th>
                         <th>
                             Decision
@@ -278,22 +278,23 @@
 					</tr>
 				</thead>
 				<tbody>
-                    {% for employees in hired_employees %}
+                    {% for complaint in complaints %}
                     <tr>
                         <td>
                              {{ loop.index }}
                         </td>
                         <td>
-                            {{ registered_users[1] }} {{ registered_users[2] }}
+                            {{ complaint[1] }}
                         </td>
                         <td>
-                            {{employees[2]}} {{employees[3]}}
+                            {{ complaint[2] }}
                         </td>
                         <td>
-                            Status
+                            {{ complaint[3] }}
                         </td>
                         <td>
-                            <button type="button" > lol </button>
+                            <button type="button" ><a href="{{ url_for('accept_complaint', complaint_id=complaint[0], emp_id=complaint[1]) }}"> Accept </a></button>
+                            <button type="button" ><a href="{{ url_for('decline_complaint',  complaint_id=complaint[0] , user_id=complaint[2]) }}"> Decline </a></button>
                         </td>
                     </tr>
                     {% endfor %}
@@ -302,53 +303,53 @@
 		</div>
 	</div>
 
-    <div class="row">
-		<div class="col-md-12">
-        <h4> <strong style="text-decoration: underline"> Compliments Section </strong> </h4>
-			<table class="table">
-				<thead>
-					<tr>
-						<th>
-							Compliment #
-						</th>
-						<th>
-							User
-						</th>
-						<th>
-							Compliment Towards
-						</th>
-						<th>
-							Status
-						</th>
-                        <th>
-                            Decision
-                        </th>
-					</tr>
-				</thead>
-				<tbody>
-                    {% for employees in hired_employees %}
-                    <tr>
-                        <td>
-                             {{ loop.index }}
-                        </td>
-                        <td>
-                            {{ registered_users[1] }} {{ registered_users[2] }}
-                        </td>
-                        <td>
-                            {{employees[2]}} {{employees[3]}}
-                        </td>
-                        <td>
-                            Status
-                        </td>
-                        <td>
-                            <button type="button" > lol </button>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-			</table>
-		</div>
-	</div>
+    <!--<div class="row">-->
+		<!--<div class="col-md-12">-->
+        <!--<h4> <strong style="text-decoration: underline"> Compliments Section </strong> </h4>-->
+			<!--<table class="table">-->
+				<!--<thead>-->
+					<!--<tr>-->
+						<!--<th>-->
+							<!--Compliment #-->
+						<!--</th>-->
+						<!--<th>-->
+							<!--User-->
+						<!--</th>-->
+						<!--<th>-->
+							<!--Compliment Towards-->
+						<!--</th>-->
+						<!--<th>-->
+							<!--Status-->
+						<!--</th>-->
+                        <!--<th>-->
+                            <!--Decision-->
+                        <!--</th>-->
+					<!--</tr>-->
+				<!--</thead>-->
+				<!--<tbody>-->
+                    <!--{% for employees in hired_employees %}-->
+                    <!--<tr>-->
+                        <!--<td>-->
+                             <!--{{ loop.index }}-->
+                        <!--</td>-->
+                        <!--<td>-->
+                            <!--{{ registered_users[1] }} {{ registered_users[2] }}-->
+                        <!--</td>-->
+                        <!--<td>-->
+                            <!--{{employees[2]}} {{employees[3]}}-->
+                        <!--</td>-->
+                        <!--<td>-->
+                            <!--Status-->
+                        <!--</td>-->
+                        <!--<td>-->
+                            <!--<button type="button" > lol </button>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--{% endfor %}-->
+                <!--</tbody>-->
+			<!--</table>-->
+		<!--</div>-->
+	<!--</div>-->
 
 	<!-- Beginning of Carousel Slide of Images -->
 	<div class="carousel slide" id="carousel-361270">
