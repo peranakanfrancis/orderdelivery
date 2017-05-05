@@ -21,20 +21,19 @@
 
 <div class="cont_principal">
     <div class="cont_centrar">
-        {% with messages = get_flashed_messages() %}
+          {% block body %}
+                {% if session['logged_in'] %}
+                    <p>You're logged in already!</p>
+                {% else %}
+         {% with messages = get_flashed_messages() %}
                         {% if messages %}
                             {% for message in messages %}
-                                {{ message }}
+                                <b>{{ message }} </b>
                             {% endfor %}
                         {% endif %}
                     {% endwith %}
                 {% endif %}
             {% endblock %}
-        <div class="cont_login">
-            {% block body %}
-                {% if session['logged_in'] %}
-                    <p>You're logged in already!</p>
-                {% else %}
                     <form action="/login" method="POST">
                         <div class="cont_tabs_login">
                             <ul class='ul_tabs'>
