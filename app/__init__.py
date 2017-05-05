@@ -16,6 +16,8 @@ import os
 app.secret_key = os.urandom(12)
 
 app.config['SECRET_KEY'] = app.secret_key
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
+
 
 toolbar = DebugToolbarExtension(app)
 

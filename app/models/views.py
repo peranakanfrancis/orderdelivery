@@ -66,19 +66,26 @@ def logout():
     session["logged_in"] = False
     return render_template("index.html")
 
-@app.route('/show_complaint_form')
+@app.route('/show_complaint_form/')
 def show_complaint_form():
-    return render_template("complaints.html")
+    db = db_connect()
+    hired_employees = db.select_all_hired_employees()
+    return render_template("/complaints.html", employees=hired_employees)
 
 @app.route('/submit_complaint', methods=["GET",'POST'])
 def submit_complaint():
     db = db_connect()
 
-    chef = request.form["chef"]
-    user = session['user']
+    employee = request.form["employee"]
+    employee = employee.strip().split(" ")
+    emp_fname = str(employee[0])
+    emp_lname = employee[1]
+    emp_id = db.select_employee_id_from_name(emp_fname, emp_lname)[0]
+
+    user = "Lenny"
     complaint = request.form["complaint"]
     try:
-        db.insert_complaints(user,chef,complaint)
+        db.insert_complaints(user,emp_id,complaint)
     except:
         flash("Submittion failed")
         return render_template("complaints.html")
@@ -191,6 +198,7 @@ def view_management_page():
     registered = db.select_all_registered_users()
     hired_employees = db.select_all_hired_employees()
     unhired_employees = db.select_all_pending_employees()
+
 
     return render_template("loginMANAGER.html", registered_users=registered, unregistered=unregistered_users, hired_employees=hired_employees, unhired_employees=unhired_employees )
 

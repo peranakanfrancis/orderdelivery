@@ -53,10 +53,10 @@ class db_connect:
         self.cur.execute("INSERT INTO ratings(user_id, menu_id, rating) VALUES(?,?,?)", (user_id, menu_id, menu_item, rating))
         self.con.commit()
     
-    def insert_complaints(self,user_id, emp_id, complaint):
+    def insert_complaints(self,user_id, emp_id, complaint, approved=0):
         date = datetime.now()
         self.cur = self.con.cursor()
-        self.cur.execute("INSERT INTO complaints (user_id, emp_id, date_posted, complaint) VALUES(?,?,?,?)", (user_id, emp_id, date, complaint) )
+        self.cur.execute("INSERT INTO complaints (user_id, emp_id, date_posted, complaint, approval) VALUES(?,?,?,?,?)", (user_id, emp_id, date, complaint, approved) )
         self.con.commit()
     
     def insert_compliments(self,user_id, emp_id, compliment):
@@ -99,6 +99,11 @@ class db_connect:
     #GENERAL EMPLOYEE INFO
     def select_employee_info(self,emp_id):
         result = self.cur.execute("SELECT * FROM Employees where emp_id = '%s';" % emp_id).fetchone()
+        return result
+
+    def select_employee_id_from_name(self,f_name, l_name):
+        print(f_name, l_name)
+        result = self.cur.execute(("SELECT * FROM Employees where emp_fname = '{0}' AND emp_lname = '{1}';").format(str(f_name), l_name)).fetchone()
         return result
 
     def select_all_hired_employees(self):

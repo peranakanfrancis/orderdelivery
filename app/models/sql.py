@@ -82,7 +82,7 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     user_id VARCHAR(9) not null,
     emp_id VARCHAR(5) not null,
     complaint text,
-    approval boolean,
+    approval nchar(1),
     date_posted [timestamp] timestamp,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (emp_id) REFERENCES employees(emp_id)
