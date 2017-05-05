@@ -98,29 +98,24 @@ class db_connect:
     
     #GENERAL EMPLOYEE INFO
     def select_employee_info(self,emp_id):
-        self.cur= self.con.cursor()
         result = self.cur.execute("SELECT * FROM Employees where emp_id = '%s';" % emp_id).fetchone()
         return result
 
     def select_all_hired_employees(self):
-        self.cur = self.con.cursor()
         result = self.cur.execute("SELECT * FROM employees WHERE hired = 1").fetchall()
         return result
 
     def select_all_pending_employees(self):
-        self.cur = self.con.cursor()
         result = self.cur.execute("SELECT * FROM employees WHERE hired = 0").fetchall()
         return result
 
     ################# USER SELECT FUNCTIONS#########################################
     #SELECT ALL UNREGISTERED USERS
     def select_all_unregistered_users(self):
-        self.cur = self.con.cursor()
         result = self.cur.execute("SELECT * FROM users WHERE registered = 0").fetchall()
         return result
 
     def select_all_registered_users(self):
-        self.cur = self.con.cursor()
         result = self.cur.execute("SELECT * FROM users Where registered = 1").fetchall()
         return result
 
@@ -129,26 +124,22 @@ class db_connect:
 
         #GENERAL USER INFO
     def select_user_info(self,user_id):
-        self.cur = self.con.cursor()
         result = self.cur.execute("SELECT * FROM users WHERE user_id = '%s'" %user_id).fetchall()
         return result
 
         # USERS CAN DELETE THEIR ACCOUNT IF THEY WISH TO DO SO. (MANAGERS MAY ALSO USE THIS TO REMOVE USER FROM WEBSITE)
     def delete_account(self,user_id):
-        self.cur = self.con.cursor()
         self.cur.execute("DELETE FROM users WHERE user_id = '%s'" % user_id)
         self.con.commit()
 
         #TOP FIVE RATED FOODS OF USER
     def select_top_user_rated(self,user_id):
-        self.cur = self.con.cursor()
         result = self.cur.execute(
             "SELECT menu_item,rating FROM ratings WHERE user_id = '%s' ORDER BY rate DESC LIMIT 5" % user_id).fetchall()
         return result
 
         #VISITORS TOP 5 RATED FOOD (GET THIS FROM ALL RATED FOOD)
     def select_top5_rated(self):
-        self.cur = self.con.cursor()
         result = self.cur.execute ("SELECT menu_item, rating FROM ratings ORDER BY rate DESC LIMIT 5 ")
         return result
 
@@ -161,76 +152,62 @@ class db_connect:
 
         #COMPLAINTS - Will be neccessary for managers to review
     def select_complaints(self,user_id):
-        self.cur = self.con.cursor()
         result = self.cur.execute("SELECT complaint, date_posted FROM complaints WHERE user_id = '%s'" %user_id).fetchall()
         return result
 
         #COMPLIMENTS -Will be neccessary for managers to review
     def select_compliments(self,user_id):
-        self.cur = self.con.cursor()
         result = self.cur.execute("SELECT compliment, date_posted FROM compliments WHERE user_id = '%s'" %user_id).fetchall()
         return result
         #Accept Registration
     def register(self,user_id):
-        self.cur = self.con.cursor()
         self.cur.execute("UPDATE users SET registered=1 WHERE user_id = '%s'" %user_id)
         self.con.commit()
 
         #hire employee
     def hire_employee(self,emp_id):
-        self.cur = self.con.cursor()
         self.cur.execute("UPDATE employees SET hired = 1 where emp_id ='%s'" %emp_id)
         self.con.commit()
 
     def add_demotions(self,emp_id):
-        self.cur = self.con.cursor()
         self.cur.execute("UPDATE employees SET demotions = demotions + 1 WHERE emp_id = '%s'" %emp_id)
         self.con.commit()
 
     def decrease_demotions(self,emp_id):
-        self.cur = self.con.cursor()
         self.cur.execute("UPDATE employees SET demotions = demotions - 1 WHERE emp_id = '%s'" %emp_id)
         self.con.commit()
 
     def check_demotions(self,emp_id):
-        self.cur = self.con.cursor()
         result = self.cur.execute("SELECT demotions FROM employees WHERE emp_id = '%s'" %emp_id).fetchone()
         return result
 
     def fire_employee(self,emp_id):
-        self.cur = self.con.cursor()
         self.cur.execute("UPDATE employees SET hired = 0 where emp_id = '%s'" %emp_id)
         self.con.commit()
 
         #Promoting employee increases their salary by 5 dollars.
     def check_compliments(self,emp_id):
-        self.cur = self.con.cursor()
         result = self.cur.execute("SELECT count(*) FROM compliments WHERE emp_id = '%s'" %emp_id).fetchall()
         return result
 
     def promote_employee(self,emp_id):
-        self.cur = self.con.cursor()
         self.cur.execute("UPDATE employees SET salary = salary + 5 where emp_id = '%s'" %emp_id)
         self.con.commit()
 
         #demoting employee
     def check_complaints(self,emp_id):
-        self.cur = self.con.self.cursor()
         result = self.cur.execute("SELECT count(*) FROM complaints WHERE emp_id '%s'" %emp_id).fetchall()
         return result
 
     def demote_employee(self,emp_id):
-        self.cur = self.con.cursor()
         self.cur.execute("UPDATE employees SET salary = salary - 5 WHERE emp_id = '%s'" %emp_id)
         self.con.commit()
 
     def confirm_complaint(self,complaint_id):
-        self.cur = self.con.cursor()
         self.cur.execute("UPDATE complaints SET approval = 1 where complaint_id = '%s'" %complaint_id)
         self.con.commit()
 
     def confirm_compliment(self,compliment_id):
-        self.cur = self.con.cursor()
         self.cur.execute("UPDATE compliment SET approval = 1 where complaint_id = '%s'" % compliment_id)
         self.con.commit()
 
@@ -238,14 +215,12 @@ class db_connect:
 #update warnings in users table. Do this by counting the number of true boolean values a user has in the warnings column
 # of delivery info table.
     def update_warnings(self,user_id):
-        self.cur = self.con.cursor()
         self.cur.execute("UPDATE users set warnings = (SELECT count(cust_warning) FROM deliveryinfo where user_id = '%s')"
                     %user_id)
         self.con.commit()
 
 
     def update_delivery_stat(self,order_id):
-        self.cur = self.con.self.cursor()
         self.cur.execute("UPDATE deliveryinfo set status = 1 where order_id = '%s'" %order_id)
         self.con.commit()
 
@@ -275,5 +250,6 @@ emp_id = "C4"
 #insert_employees("C0003","Lenny","Gonzalez","160 self.convent Ave","1234567899","Harlem","123456789","01-01-2017",)
 #inserting to employees works, just need to figure out auto emp_id creation. or have a counter in views.py and self.concatonate the first letter with counter. e.g C + counter, counter = 1
 #db.insert_users(user_id,fname,lname,"poop","e.simkhayev@gmail.com",address,city,postal,phone,birthday,salary)
-db = db_connect()
-db.insert_users("edris","eddy","simmy","ilovecake","160 Convent Ave","New York","NY","10031","123","9175555555")
+# = db_connect()
+#db.insert_users("edris","eddy","simmy","ilovecake","160 Convent Ave","New York","NY","10031","123","9175555555")
+#print(db.select_user_info('edris'))

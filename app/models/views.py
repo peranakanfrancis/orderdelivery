@@ -3,8 +3,9 @@ from flask import render_template,redirect, request, flash,g,session,url_for,jso
 from app.models.models import db_connect
 
 ###db_connect contains all query methods##
-db = db_connect()
+#db = db_connect()
 #########################################3
+
 
 # Run HomePage
 @app.route('/')
@@ -25,6 +26,7 @@ def showLogIn():
 
 @app.route('/login', methods=["GET",'POST'])
 def login():
+    db = db_connect()
     # Get details from the user
     user_id = request.form['username']
     password = request.form['password']
@@ -58,6 +60,7 @@ def login():
 # Controlling Logging Out
 @app.route('/logout/')
 def logout():
+
     # remove the un from the session if it is there
     session.pop('user', None)
     session["logged_in"] = False
@@ -69,6 +72,8 @@ def show_complaint_form():
 
 @app.route('/submit_complaint', methods=["GET",'POST'])
 def submit_complaint():
+    db = db_connect()
+
     chef = request.form["chef"]
     user = session['user']
     complaint = request.form["complaint"]
@@ -86,6 +91,7 @@ def show_compliment_form():
 
 @app.route('/submit_compliment', methods=["GET",'POST'])
 def submit_compliment():
+    db = db_connect()
     chef = request.form["chef"]
     user = session['user']
     compliment = request.form["compliment"]
@@ -146,6 +152,7 @@ def monica_Menu():
 # Run Register
 @app.route('/signup/', methods=["GET",'POST'])
 def sign_up():
+    db = db_connect()
     # read the values from the UI
     _firstName = request.form['first_name']
     _lastName = request.form['last_name']
@@ -178,6 +185,8 @@ def sign_up():
 
 @app.route('/loginManager')
 def view_management_page():
+    db = db_connect()
+
     unregistered_users = db.select_all_unregistered_users()
     registered = db.select_all_registered_users()
     hired_employees = db.select_all_hired_employees()
@@ -188,32 +197,38 @@ def view_management_page():
 # EMPLOYEE MANAGEMENT TOOLS
 @app.route('/accept_user/<user>', methods=['GET'])
 def accept_user(user):
+    db = db_connect()
     db.register(user)
     return view_management_page()
 
 @app.route('/hire_employee/<empl_name>', methods=['GET'])
 def hire(empl_name):
+    db = db_connect()
     db.hire_employee(empl_name)
     return view_management_page()
 
 @app.route('/fire/<empl_name>', methods=['GET'])
 def fire(empl_name):
+    db = db_connect()
     db.fire_employee(empl_name)
     return view_management_page()
 
 @app.route('/upgrade_user/<user>', methods=['GET'])
 def upgrade(empl_name):
+    db = db_connect()
     db.upgrade_user(empl_name)
     return view_management_page()
 
 
 @app.route('/promote/<empl_name>', methods=['GET'])
 def promote(empl_name):
+    db = db_connect()
     db.promote_employee(empl_name)
     return view_management_page()
 
 @app.route('/demote/<empl_name>', methods=['GET'])
 def demote(empl_name):
+    db = db_connect()
     db.add_demotions(empl_name)
     db.demote_employee(empl_name)
     print(db.check_demotions(empl_name)[0])
@@ -223,11 +238,13 @@ def demote(empl_name):
 
 @app.route('/add_warning/<user>', methods=['GET'])
 def add_warning(user_id):
+    db = db_connect()
     db.update_warnings(user_id)
     return view_management_page()
 
 @app.route('/add_complaint/<complaint_id>', methods=['GET'])
 def accept_complaint(complaint_id):
+    db = db_connect()
     db.confirm_complaint(complaint_id)
     #I dk what this is for. -Eddy
     employee = db.select_complaint(complaint_id).empl_id
@@ -241,6 +258,7 @@ def accept_complaint(complaint_id):
 
 @app.route('/decline_complaint/<complaint_id>', methods=['GET'])
 def decline_complaint(complaint_id):
+    db = db_connect()
     db.delete_complaint(complaint_id)
     user = db.select_user_from_complaint(complaint_id)
     db.update_warnings(user)
@@ -248,6 +266,7 @@ def decline_complaint(complaint_id):
 
 @app.route('/add_compliment/<user>', methods=['GET'])
 def accept_compliment(compliment_id):
+    db = db_connect()
     db.confirm_compliment(compliment_id)
     #IDK what this is for. -Eddy
     '''
