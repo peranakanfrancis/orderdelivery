@@ -78,7 +78,7 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     #complaints##
     c.execute('DROP TABLE if EXISTS complaints')
     c.execute("""CREATE TABLE complaints (
-    complaint_id INT PRIMARY KEY,
+    complaint_id INTEGER PRIMARY KEY,
     user_id VARCHAR(9) not null,
     emp_id VARCHAR(5) not null,
     complaint text,
@@ -91,7 +91,7 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     #compliments##
     c.execute('DROP TABLE if EXISTS compliments')
     c.execute("""CREATE TABLE compliments (
-    compliment_id INT PRIMARY KEY,
+    compliment_id INTEGER PRIMARY KEY,
     user_id VARCHAR(9) NOT NULL,
     emp_id VARCHAR(5) NOT NULL,
     date_posted [timestamp] timestamp,
