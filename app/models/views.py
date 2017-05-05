@@ -66,19 +66,26 @@ def logout():
     session["logged_in"] = False
     return render_template("index.html")
 
-@app.route('/show_complaint_form')
+@app.route('/show_complaint_form/')
 def show_complaint_form():
-    return render_template("complaints.html")
+    db = db_connect()
+    hired_employees = db.select_all_hired_employees()
+    return render_template("/complaints.html", employees=hired_employees)
 
 @app.route('/submit_complaint', methods=["GET",'POST'])
 def submit_complaint():
     db = db_connect()
 
-    chef = request.form["chef"]
-    user = session['user']
+    employee = request.form["employee"]
+    employee = employee.strip().split(" ")
+    emp_fname = str(employee[0])
+    emp_lname = employee[1]
+    emp_id = db.select_employee_id_from_name(emp_fname, emp_lname)[0]
+
+    user = "Lenny"
     complaint = request.form["complaint"]
     try:
-        db.insert_complaints(user,chef,complaint)
+        db.insert_complaints(user,emp_id,complaint)
     except:
         flash("Submittion failed")
         return render_template("complaints.html")
@@ -191,8 +198,10 @@ def view_management_page():
     registered = db.select_all_registered_users()
     hired_employees = db.select_all_hired_employees()
     unhired_employees = db.select_all_pending_employees()
+    list_of_complaints = db.select_all_pending_complaints()
 
-    return render_template("loginMANAGER.html", registered_users=registered, unregistered=unregistered_users, hired_employees=hired_employees, unhired_employees=unhired_employees )
+    return render_template("loginMANAGER.html", registered_users=registered, unregistered=unregistered_users,
+                           hired_employees=hired_employees, unhired_employees=unhired_employees, complaints=list_of_complaints )
 
 # EMPLOYEE MANAGEMENT TOOLS
 @app.route('/accept_user/<user>', methods=['GET'])
@@ -242,26 +251,28 @@ def add_warning(user_id):
     db.update_warnings(user_id)
     return view_management_page()
 
-@app.route('/add_complaint/<complaint_id>', methods=['GET'])
-def accept_complaint(complaint_id):
+@app.route('/accept_complaint/<complaint_id>/<emp_id>', methods=['GET'])
+def accept_complaint(complaint_id, emp_id):
     db = db_connect()
     db.confirm_complaint(complaint_id)
     #I dk what this is for. -Eddy
-    employee = db.select_complaint(complaint_id).empl_id
-    if db.check_complaints(employee) >= 3:
+    employee = emp_id
+    if db.check_complaints(employee)[0][0] >= 3:
         db.demote_employee(employee)
 
-        if db.check_demotions(employee) >= 2:
+        if db.check_demotions(employee)[0] >= 2:
             db.fire_employee(employee)
+
+
 
     return view_management_page()
 
-@app.route('/decline_complaint/<complaint_id>', methods=['GET'])
-def decline_complaint(complaint_id):
+@app.route('/decline_complaint/<complaint_id>/<user_id>', methods=['GET'])
+def decline_complaint(complaint_id,user_id):
     db = db_connect()
     db.delete_complaint(complaint_id)
-    user = db.select_user_from_complaint(complaint_id)
-    db.update_warnings(user)
+
+    db.update_warnings(user_id)
     return view_management_page()
 
 @app.route('/add_compliment/<user>', methods=['GET'])
@@ -269,20 +280,8 @@ def accept_compliment(compliment_id):
     db = db_connect()
     db.confirm_compliment(compliment_id)
     #IDK what this is for. -Eddy
-    '''
-    The chef whose dishes received consistently low ratings or 3 complaints, or no order at
-
-    all for 3 days, will be demoted (less salary), a chef demoted twice is fired. Conversely, a
-
-    chef whose dishes received high ratings or 3 compliments, will be promoted (higher
-
-    salary). One compliment can be used to cancel one complaint. The delivery people are
-
-    handled the same way.
-    
-    '''
-
-    #let me know if im misreading something
+    # we need to check if the employee has 3 or more compliments. so we
+    # use select_compliment to find out who the compliment is referring to
     employee = db.select_compliment(compliment_id).empl_id
     if db.check_compliments(employee) >= 3:
         db.promote_employee(employee)

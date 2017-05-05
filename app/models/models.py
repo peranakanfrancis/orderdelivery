@@ -53,10 +53,10 @@ class db_connect:
         self.cur.execute("INSERT INTO ratings(user_id, menu_id, rating) VALUES(?,?,?)", (user_id, menu_id, menu_item, rating))
         self.con.commit()
     
-    def insert_complaints(self,user_id, emp_id, complaint):
+    def insert_complaints(self,user_id, emp_id, complaint, approved=0):
         date = datetime.now()
         self.cur = self.con.cursor()
-        self.cur.execute("INSERT INTO complaints (user_id, emp_id, date_posted, complaint) VALUES(?,?,?,?)", (user_id, emp_id, date, complaint) )
+        self.cur.execute("INSERT INTO complaints (user_id, emp_id, date_posted, complaint, approval) VALUES(?,?,?,?,?)", (user_id, emp_id, date, complaint, approved) )
         self.con.commit()
     
     def insert_compliments(self,user_id, emp_id, compliment):
@@ -99,6 +99,11 @@ class db_connect:
     #GENERAL EMPLOYEE INFO
     def select_employee_info(self,emp_id):
         result = self.cur.execute("SELECT * FROM Employees where emp_id = '%s';" % emp_id).fetchone()
+        return result
+
+    def select_employee_id_from_name(self,f_name, l_name):
+        print(f_name, l_name)
+        result = self.cur.execute(("SELECT * FROM Employees where emp_fname = '{0}' AND emp_lname = '{1}';").format(str(f_name), l_name)).fetchone()
         return result
 
     def select_all_hired_employees(self):
@@ -155,6 +160,10 @@ class db_connect:
         result = self.cur.execute("SELECT complaint, date_posted FROM complaints WHERE user_id = '%s'" %user_id).fetchall()
         return result
 
+    def select_all_pending_complaints(self):
+        result = self.cur.execute("SELECT * FROM complaints WHERE approval=0").fetchall()
+        return result
+
         #COMPLIMENTS -Will be neccessary for managers to review
     def select_compliments(self,user_id):
         result = self.cur.execute("SELECT compliment, date_posted FROM compliments WHERE user_id = '%s'" %user_id).fetchall()
@@ -191,12 +200,12 @@ class db_connect:
         return result
 
     def promote_employee(self,emp_id):
-        self.cur.execute("UPDATE employees SET salary = salary + 5 where emp_id = '%s'" %emp_id)
+        self.cur.execute("UPDATE employees SET salary = salary + 5 where emp_id = '%s'" % emp_id)
         self.con.commit()
 
         #demoting employee
     def check_complaints(self,emp_id):
-        result = self.cur.execute("SELECT count(*) FROM complaints WHERE emp_id '%s'" %emp_id).fetchall()
+        result = self.cur.execute("SELECT count(*) FROM complaints WHERE emp_id = '%s'" %emp_id).fetchall()
         return result
 
     def demote_employee(self,emp_id):

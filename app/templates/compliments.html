@@ -1,5 +1,5 @@
 {% block body %}
-{% if session['logged_in'] == True %}
+{% if not session['logged_in'] == True %}
 {%print(session['logged_in'])%}
 <form action="{{ url_for('submit_compliment') }}" method="POST">
   <input type="radio" name="chef" value="Juan" checked> Juan<br>
@@ -15,8 +15,6 @@
 </form>
 
 
-
-</form>
 {% else %}
 
 
