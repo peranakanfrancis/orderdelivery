@@ -1,8 +1,10 @@
 from app import app
 from flask import render_template,redirect, request, flash,g,session,url_for,json
-from app.models.models import *
+from app.models.models import db_connect
 
-
+###db_connect contains all query methods##
+db = db_connect()
+#########################################3
 
 # Run HomePage
 @app.route('/')
@@ -28,8 +30,8 @@ def login():
     password = request.form['password']
 
     # Get details from the db
-    user_check = select_user_info(user_id)
-    empl_check = select_employee_info(user_id)
+    user_check = db.select_user_info(user_id)
+    empl_check = db.select_employee_info(user_id)
 
     # Check user details against db
     if user_check and user_check[0][3] == password:
@@ -71,7 +73,7 @@ def submit_complaint():
     user = session['user']
     complaint = request.form["complaint"]
     try:
-        insert_complaints(user,chef,complaint)
+        db.insert_complaints(user,chef,complaint)
     except:
         flash("Submittion failed")
         return render_template("complaints.html")
@@ -88,7 +90,7 @@ def submit_compliment():
     user = session['user']
     compliment = request.form["compliment"]
     try:
-        insert_compliments(user,chef,compliment)
+        db.insert_compliments(user,chef,compliment)
     except:
         print("failed")
         flash("Submittion failed")
@@ -157,7 +159,7 @@ def sign_up():
     _phone = request.form['phone']
 
     # Check if username exists
-    user_check = select_user_info(_userName)
+    user_check = db.select_user_info(_userName)
 
     # If the username exists
     if user_check and user_check[0][0] == _userName:
@@ -169,84 +171,84 @@ def sign_up():
         return render_template("signup.html")
     # Insert User
     else:
-        insert_users(_userName, _firstName, _lastName, _password, _address, _city, _state, _postal, _apt, _phone, acc_funds=0)
+        db.insert_users(_userName, _firstName, _lastName, _password, _address, _city, _state, _postal, _apt, _phone, acc_funds=0)
         return render_template("loginUSER.html")
 
 
 
 @app.route('/loginManager')
 def view_management_page():
-    unregistered_users = select_all_unregistered_users()
-    registered = select_all_registered_users()
-    hired_employees = select_all_hired_employees()
-    unhired_employees = select_all_pending_employees()
+    unregistered_users = db.select_all_unregistered_users()
+    registered = db.select_all_registered_users()
+    hired_employees = db.select_all_hired_employees()
+    unhired_employees = db.select_all_pending_employees()
 
     return render_template("loginMANAGER.html", registered_users=registered, unregistered=unregistered_users, hired_employees=hired_employees, unhired_employees=unhired_employees )
 
 # EMPLOYEE MANAGEMENT TOOLS
 @app.route('/accept_user/<user>', methods=['GET'])
 def accept_user(user):
-    register(user)
+    db.register(user)
     return view_management_page()
 
 @app.route('/hire_employee/<empl_name>', methods=['GET'])
 def hire(empl_name):
-    hire_employee(empl_name)
+    db.hire_employee(empl_name)
     return view_management_page()
 
 @app.route('/fire/<empl_name>', methods=['GET'])
 def fire(empl_name):
-    fire_employee(empl_name)
+    db.fire_employee(empl_name)
     return view_management_page()
 
 @app.route('/upgrade_user/<user>', methods=['GET'])
 def upgrade(empl_name):
-    upgrade_user(empl_name)
+    db.upgrade_user(empl_name)
     return view_management_page()
 
 
 @app.route('/promote/<empl_name>', methods=['GET'])
 def promote(empl_name):
-    promote_employee(empl_name)
+    db.promote_employee(empl_name)
     return view_management_page()
 
 @app.route('/demote/<empl_name>', methods=['GET'])
 def demote(empl_name):
-    add_demotions(empl_name)
-    demote_employee(empl_name)
-    print(check_demotions(empl_name)[0])
-    if check_demotions(empl_name)[0] > 1:
-        fire_employee(empl_name)
+    db.add_demotions(empl_name)
+    db.demote_employee(empl_name)
+    print(db.check_demotions(empl_name)[0])
+    if db.check_demotions(empl_name)[0] > 1:
+        db.fire_employee(empl_name)
     return view_management_page()
 
 @app.route('/add_warning/<user>', methods=['GET'])
 def add_warning(user_id):
-    update_warnings(user_id)
+    db.update_warnings(user_id)
     return view_management_page()
 
 @app.route('/add_complaint/<complaint_id>', methods=['GET'])
 def accept_complaint(complaint_id):
-    confirm_complaint(complaint_id)
+    db.confirm_complaint(complaint_id)
     #I dk what this is for. -Eddy
-    employee = select_complaint(complaint_id).empl_id
-    if check_complaints(employee) >= 3:
-        demote_employee(employee)
+    employee = db.select_complaint(complaint_id).empl_id
+    if db.check_complaints(employee) >= 3:
+        db.demote_employee(employee)
 
-        if check_demotions(employee) >= 2:
-            fire_employee(employee)
+        if db.check_demotions(employee) >= 2:
+            db.fire_employee(employee)
 
     return view_management_page()
 
 @app.route('/decline_complaint/<complaint_id>', methods=['GET'])
 def decline_complaint(complaint_id):
-    delete_complaint(complaint_id)
-    user = select_user_from_complaint(complaint_id)
-    update_warnings(user)
+    db.delete_complaint(complaint_id)
+    user = db.select_user_from_complaint(complaint_id)
+    db.update_warnings(user)
     return view_management_page()
 
 @app.route('/add_compliment/<user>', methods=['GET'])
 def accept_compliment(compliment_id):
-    confirm_compliment(compliment_id)
+    db.confirm_compliment(compliment_id)
     #IDK what this is for. -Eddy
     '''
     The chef whose dishes received consistently low ratings or 3 complaints, or no order at
@@ -262,10 +264,10 @@ def accept_compliment(compliment_id):
     '''
 
     #let me know if im misreading something
-    employee = select_compliment(compliment_id).empl_id
-    if check_compliments(employee) >= 3:
-        promote_employee(employee)
-    delete_complaint(employee)
+    employee = db.select_compliment(compliment_id).empl_id
+    if db.check_compliments(employee) >= 3:
+        db.promote_employee(employee)
+        db.delete_complaint(employee)
 
     return view_management_page()
 
