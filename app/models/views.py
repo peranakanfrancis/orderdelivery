@@ -59,7 +59,7 @@ def logout():
     # remove the un from the session if it is there
     session.pop('user', None)
     session["logged_in"] = False
-    return redirect('/')
+    return render_template("index.html")
 
 @app.route('/show_complaint_form')
 def show_complaint_form():
