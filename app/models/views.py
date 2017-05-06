@@ -75,35 +75,40 @@ def show_complaint_form():
 @app.route('/submit_complaint', methods=["GET",'POST'])
 def submit_complaint():
     db = db_connect()
+    hired_employees = db.select_all_hired_employees()
 
     employee = request.form["employee"]
     employee = employee.strip().split(" ")
     emp_fname = str(employee[0])
     emp_lname = employee[1]
-    emp_id = db.select_employee_id_from_name(emp_fname, emp_lname)[0]
+
 
     user = "Lenny"
     complaint = request.form["complaint"]
     try:
+        emp_id = db.select_employee_id_from_name(emp_fname, emp_lname)[0]
         db.insert_complaints(user,emp_id,complaint)
     except:
         flash("Submittion failed")
-        return render_template("complaints.html")
+        return render_template("complaints.html", employees=hired_employees)
+
     return redirect("/")
 
 @app.route('/show_compliment_form')
 def show_compliment_form():
-    return render_template("compliments.html")
+    db = db_connect()
+    hired_employees = db.select_all_hired_employees()
+    return render_template("/compliments.html", employees=hired_employees)
 
 
 @app.route('/submit_compliment', methods=["GET",'POST'])
 def submit_compliment():
     db = db_connect()
-    chef = request.form["chef"]
-    user = session['user']
+    employee = request.form["employee"]
+    user = "Lenny"
     compliment = request.form["compliment"]
     try:
-        db.insert_compliments(user,chef,compliment)
+        db.insert_compliments(user,employee,compliment)
     except:
         print("failed")
         flash("Submittion failed")
@@ -198,6 +203,7 @@ def view_management_page():
     registered = db.select_all_registered_users()
     hired_employees = db.select_all_hired_employees()
     unhired_employees = db.select_all_pending_employees()
+
     list_of_complaints = db.select_all_pending_complaints()
 
     return render_template("loginMANAGER.html", registered_users=registered, unregistered=unregistered_users,
@@ -257,9 +263,10 @@ def accept_complaint(complaint_id, emp_id):
     db.confirm_complaint(complaint_id)
     #I dk what this is for. -Eddy
     employee = emp_id
+    print(db.check_complaints(employee))
     if db.check_complaints(employee)[0][0] >= 3:
         db.demote_employee(employee)
-
+        print(db.check_demotions(employee)[0])
         if db.check_demotions(employee)[0] >= 2:
             db.fire_employee(employee)
 

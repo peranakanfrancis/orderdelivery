@@ -168,6 +168,11 @@ class db_connect:
     def select_compliments(self,user_id):
         result = self.cur.execute("SELECT compliment, date_posted FROM compliments WHERE user_id = '%s'" %user_id).fetchall()
         return result
+
+    def delete_complaint(self, complaint_id):
+        self.cur.execute("DELETE FROM complaints WHERE complaint_id = '%s'" % complaint_id)
+        self.con.commit()
+
         #Accept Registration
     def register(self,user_id):
         self.cur.execute("UPDATE users SET registered=1 WHERE user_id = '%s'" %user_id)
