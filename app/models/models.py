@@ -166,7 +166,11 @@ class db_connect:
 
     def select_menu_rating(self):
         result = self.cur.execute("SELECT rating FROM menus")
+        return result
 
+    def select_menu(self):
+        result = self.cur.execute("Select * from menus")
+        return result
 
 
 ########## MANAGEMENT FUNCTIONS ##########################

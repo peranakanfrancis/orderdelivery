@@ -125,12 +125,17 @@ def do_admin_login():
 # Run MenuPage
 @app.route('/menu/')
 def showMenu():
+
     return render_template('Menu.html')
 
 # Run SignUpPage
 @app.route('/showSignUp/')
 def showSignUp():
-    return render_template('signup.html')
+    db = db_connect()
+
+    return render_template('signup.html',databaseitems = db.select_menu_items())
+
+
 
 # Run Juan Menu
 @app.route('/Juan_Menu/')
