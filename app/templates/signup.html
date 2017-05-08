@@ -20,10 +20,19 @@
 
 <div class="cont_principal">
     <div class="cont_centrar">
-            {% block body %}
+             {% block body %}
                 {% if session['logged_in'] %}
                     <p>You're logged in already!</p>
                 {% else %}
+         {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <b>{{ message }} </b>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                {% endif %}
+            {% endblock %}
                     <form action="/signup/" method="POST">
                         <div class="cont_tabs_login">
                             <ul class='ul_tabs'>
@@ -35,14 +44,14 @@
                             </ul>
                         </div>
                         <div class="cont_text_inputs">
-                            <input type="text" class="input_form_sign d_block active_inp" placeholder="FirstName" name="first_name" autocomplete="off"/>
-                            <input type="text" class="input_form_sign d_block active_inp" placeholder="LastName" name="last_name" autocomplete="off"/>
-                            <input type="text" class="input_form_sign d_block active_inp" placeholder="Username" name="user_name" autocomplete="off"/>
-                            <input type="text" class="input_form_sign d_block active_inp" placeholder="Password" name="password" autocomplete="off" />
-                            <input type="text" class="input_form_sign d_block active_inp" placeholder="Address" name="address" autocomplete="off"/>
-                            <input type="text" class="input_form_sign d_block active_inp" placeholder="City" name="city" autocomplete="off"/>
-                            <input type="text" class="input_form_sign d_block active_inp" placeholder="State" name="state" autocomplete="off"/>
-                            <input type="text" class="input_form_sign d_block active_inp" placeholder="Postal" name="postal" autocomplete="off"/>
+                            <input type="text" class="input_form_sign d_block active_inp" placeholder="*FirstName" name="first_name" autocomplete="off"/>
+                            <input type="text" class="input_form_sign d_block active_inp" placeholder="*LastName" name="last_name" autocomplete="off"/>
+                            <input type="text" class="input_form_sign d_block active_inp" placeholder="*Username" name="user_name" autocomplete="off"/>
+                            <input type="text" class="input_form_sign d_block active_inp" placeholder="*Password" name="password" autocomplete="off" />
+                            <input type="text" class="input_form_sign d_block active_inp" placeholder="*Address" name="address" autocomplete="off"/>
+                            <input type="text" class="input_form_sign d_block active_inp" placeholder="*City" name="city" autocomplete="off"/>
+                            <input type="text" class="input_form_sign d_block active_inp" placeholder="*State" name="state" maxlenth="2" autocomplete="off"/>
+                            <input type="text" class="input_form_sign d_block active_inp" placeholder="*Postal" name="postal" autocomplete="off"/>
                             <input type="text" class="input_form_sign d_block active_inp" placeholder="Apt" name="apt" autocomplete="off"/>
                             <input type="text" class="input_form_sign d_block active_inp" placeholder="Phone Number" name="phone" autocomplete="off" />
                             <!-- <a href="#" class="link_forgot_pass d_block" >Forgot Password ?</a> -->
@@ -54,15 +63,7 @@
                             <button class="btn_sign" type="submit" value="Sign Up">SIGN UP</button>
                         </div>
                     </form>
-                    {% with messages = get_flashed_messages() %}
-                        {% if messages %}
-                            {% for message in messages %}
-                                {{ message }}
-                            {% endfor %}
-                        {% endif %}
-                    {% endwith %}
-                {% endif %}
-            {% endblock %}
+
     </div>
 </div>
 
