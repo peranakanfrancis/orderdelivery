@@ -39,23 +39,23 @@ def login():
     if user_check and user_check[0][3] == password:
         session["user"] = user_id
         session["logged_in"] = True
-        return view_user_page()
+        return render_template("loginUSER.html")
 
     if empl_check[0][0] == 'M' and empl_check[1] == password:
         session["logged_in"] = True
-        return view_management_page()
+        return render_template("loginMANAGER.html")
 
     if empl_check[0][0] == 'C' and empl_check[1] == password:
         session["logged_in"] = True
-        return view_chef_page()
+        return render_template("loginCHEF.html")
 
     if empl_check[0][1] == 'D' and empl_check[1] == password:
         session["logged_in"] = True
-        return view_delivery_page()
+        return render_template("loginDELIVERY.html")
 
     else:
         flash("Login Failed :(")
-        return showLogIn()
+        return render_template("Log-In.html")
 
 # Controlling Logging Out
 @app.route('/logout/')
@@ -110,6 +110,15 @@ def submit_compliment():
         return render_template("compliments.html")
     return redirect("/")
 
+
+# Authenticate LogIn
+@app.route('/manager_login', methods=['POST'])
+def do_admin_login():
+    if request.form['password'] == 'password' and request.form['username'] == 'admin':
+        session['logged_in'] = True
+    else:
+        flash('wrong password!')
+    return showLogIn()
 
 
 
@@ -180,23 +189,7 @@ def sign_up():
         return render_template("loginUSER.html")
 
 
-# LOGIN AS DELIVERY PERSONS
-@app.route('/loginDelivery')
-def view_delivery_page():
-    return render_template("loginDELIVERY.html")
 
-# LOGIN AS USER
-@app.route('/loginUser')
-def view_user_page():
-    return render_template("loginUSER.html")
-
-# LOGIN AS CHEF
-@app.route('/loginChef')
-def view_chef_page():
-    return render_template("loginCHEF.html")
-
-
-# LOGIN AS MANAGER
 @app.route('/loginManager')
 def view_management_page():
     db = db_connect()
@@ -287,7 +280,7 @@ def accept_compliment(compliment_id):
     db = db_connect()
     db.confirm_compliment(compliment_id)
     #IDK what this is for. -Eddy
-    # we need to check if the employee has 3 or more compliments. so we
+    # we need to check if the employee have 3 or more compliments. so we
     # use select_compliment to find out who the compliment is referring to
     employee = db.select_compliment(compliment_id).empl_id
     if db.check_compliments(employee) >= 3:

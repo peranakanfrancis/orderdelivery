@@ -62,21 +62,23 @@
         <div class="row">
         <div class="col-md-4">
 
+    <!-- databaseitems is a dictionary in python, in -->
        {% for items in databaseitems%}
-           {% if total[loop.index0] == 0 %}
+           {% if total[loop.index0] == 0 %} #}
                 {#DON'T RENDER THIS FOOD BECAUSE SUBTOTAL FOR IT IS ZERO  #}
-            {% else %}
+             {% else %}
                 <p>{{ items.itemName }}</p>
-            {% endif %}
+             {% endif %}
         {% endfor %}
         </div>
+
 
     <div class="col-md-4">
         {% for items in total %}
             {% if total[loop.index0] == 0 %}
                 {#DON'T RENDER THIS FOOD BECAUSE SUBTOTAL FOR IT IS ZERO  #}
             {% else %}
-                <p>Total Price for this Item: ${{ total[loop.index0] }}</p>
+                <p>Total Price for this Item: ${{ total[loop.index] }}</p>
             {% endif %}
         {% endfor %}
     </div>
@@ -84,8 +86,8 @@
     <h1> Total Price</h1>
     <h2>${{ sumitem }}</h2>
 {#    <button class="btn btn-lg btn-primary btn-block" type="submit">Checkout</button>#}
-        {{ placebutton.hidden_tag() }}
-        {{ wtf.form_field(placebutton.submit) }} {# Place Order Button#}
+{#        {{ placebutton.hidden_tag() }}#}
+{#        {{ wtf.form_field(placebutton.submit) }} {# Place Order Button#}
     </form>
     </div>
     {% endif %}
@@ -97,15 +99,16 @@
 
     <!-- This is where it's supposed to iterate through our menu, we display each image of the food, with its price and rating -->
     <div>
-    {% for items in *insert the array where all our menu items are listed* %}
+    {% for items in select_menu_items %}
         <div class="col-md-3" > {#col-md-n is what puts them in columns, n can be 3, 4   #}
-        <p style="font-size: 20px"><strong>{{ items.itemName }}</strong></p>
-        <p> Price: ${{ items.itemPrice }} </p>
-        <img src="static/img/foodimages{{ items.itemPict }}" height="200" width="285" style="user-select: none">
+        <p style="font-size: 20px"><strong>{{ items[0] }}</strong></p>
+        {% print items %}
+        <p> Price: ${{ items[0] }} </p>
+        <img src="static/img/foodimages/" height="200" width="285" style="user-select: none">
         <div style="background-color: #9affcc; border-radius: 8px; margin-top: 5px">
         <p>{{ items.itemDesc }}</p>
             {% for number in numbers %}
-                {% if number < items.itemRating %}
+                {% if number < items[0] %}
                    <i class="fa fa-heart" aria-hidden="true"></i>
                 {% else %}
                    <i class="fa fa-heart-o" aria-hidden="true"></i>
@@ -120,8 +123,8 @@
 
     {% endfor %}
     </div>
-    {{ shopbutton.hidden_tag() }}
-    {{ wtf.form_field(shopbutton.submit) }} {# Shopping Cart Button#}
+{#    {{ shopbutton.hidden_tag() }}#}
+{#    {{ wtf.form_field(shopbutton.submit) }} {# Shopping Cart Button#}
     <!-- forms for flask --> 
     </form>
 
