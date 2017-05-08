@@ -211,44 +211,44 @@ with sqlite3.connect("losquatroamigos.db") as connection:
         #CHEF MIGUEL#
     #insert_menu(chef_id, menu_id, item_name, price, rating)
     c.execute('INSERT INTO menus VALUES '
-              '("C2","1","Taco","6.00",""),'
-              '("C2","2","Bistec (Steak)","14.00",""),'
-              '("C2","3","Pollo (Chicken)","11.00",""),'
-              '("C2","4","Chorizo (Sausage)","9.00",""),'
-              '("C2","5","Cecina (Jerky Style Beef)","13.00",""),'
-              '("C2","6","Carnita (Deep Fried Pork)","9.00",""),'
-              '("C2","7","Lenuga (Beef Tounge)","12.00",""),'
-              '("C2","8","Tortas (Sandwich)","9.00",""),'
-              '("C2","9","Queso Blanco (Fresh White Cheese)","5.00",""),'
-              '("C2","10","Milanesa (Breaded Steak)","15.00",""),'
-              '("C2","11","Jamon (Ham)","11.00",""),'
-              '("C2","12","Carne Enchilada (Hot and Spicy Pork)","14.00","")')
+              '("C2","1","Taco","6.00","3"),'
+              '("C2","2","Bistec (Steak)","14.00","2"),'
+              '("C2","3","Pollo (Chicken)","11.00","4"),'
+              '("C2","4","Chorizo (Sausage)","9.00","5"),'
+              '("C2","5","Cecina (Jerky Style Beef)","13.00","5"),'
+              '("C2","6","Carnita (Deep Fried Pork)","9.00","3"),'
+              '("C2","7","Lenuga (Beef Tounge)","12.00","4"),'
+              '("C2","8","Tortas (Sandwich)","9.00","1"),'
+              '("C2","9","Queso Blanco (Fresh White Cheese)","5.00","3"),'
+              '("C2","10","Milanesa (Breaded Steak)","15.00","4"),'
+              '("C2","11","Jamon (Ham)","11.00","4"),'
+              '("C2","12","Carne Enchilada (Hot and Spicy Pork)","14.00","4")')
 
         #CHEF MONICA#
     c.execute('INSERT INTO menus VALUES '
-              '("C3","1","Lobster Ceviche","24.00",""),'
-              '("C3","2","Yellowtail Sashimi with Dry Miso and Yuza Sauce","24.00",""),'
-              '("C3","3","Shiromi Usuzukari","9.00",""),'
-              '("C3","4","Bigeye Tuna Tataki with Tosazu","19.00",""),'
-              '("C3","5","sea Urchin Tempura","9.00",""),'
-              '("C3","6","Rock Shrimp Tempura with Ponzu","11.00",""),'
+              '("C3","1","Lobster Ceviche","24.00","2"),'
+              '("C3","2","Yellowtail Sashimi with Dry Miso and Yuza Sauce","24.00","2"),'
+              '("C3","3","Shiromi Usuzukari","9.00","4"),'
+              '("C3","4","Bigeye Tuna Tataki with Tosazu","19.00","4"),'
+              '("C3","5","sea Urchin Tempura","9.00","4"),'
+              '("C3","6","Rock Shrimp Tempura with Ponzu","11.00","5"),'
               '("C3","7","Chilean Sea Bass with Black Bean Sause","24.00",""),'
-              '("C3","8","Lobster with Wasabi Pepper Sause","28.00",""),'
-              '("C3","9","Kaki Age Donburi","16.00",""),'
-              '("C3","10","Tempura Donburi","14.00",""),'
-              '("C3","11","Ribeye Anticucho","21.00","")')
+              '("C3","8","Lobster with Wasabi Pepper Sause","28.00","5"),'
+              '("C3","9","Kaki Age Donburi","16.00","4"),'
+              '("C3","10","Tempura Donburi","14.00","4"),'
+              '("C3","11","Ribeye Anticucho","21.00","3")')
 
         #CHEF Rosita#
     c.execute('INSERT INTO menus VALUES '
-              '("C4","1","Hot Plate Combinations","19.00",""),'
-              '("C4","2","Pechuga De Pollo A La Parrilla (Grilled Chicken Cutlet)","12.00",""),'
-              '("C4","3","Milanesa De Res (Breaded Steak)","15.00",""),'
-              '("C4","4","Carne Enchilada (Hot and Spicy Pork)","14.00",""),'
-              '("C4","5","Medio Pollo Rostizado (Half Roasted Chicken)","12.00",""),'
-              '("C4","6","Pernil Horneado (Roasted Pork)","14.00",""),'
-              '("C4","7","Bistec Encebollado (Steak with Onions)","17.00",""),'
-              '("C4","8","Carne De Cecina (Jerky Beef Steak)","13.00",""),'
-              '("C4","9","Mole Poblano (Chicken with Mole)","15.00","")')
+              '("C4","1","Hot Plate Combinations","19.00","3"),'
+              '("C4","2","Pechuga De Pollo A La Parrilla (Grilled Chicken Cutlet)","12.00","4"),'
+              '("C4","3","Milanesa De Res (Breaded Steak)","15.00","4"),'
+              '("C4","4","Carne Enchilada (Hot and Spicy Pork)","14.00","4"),'
+              '("C4","5","Medio Pollo Rostizado (Half Roasted Chicken)","12.00","4"),'
+              '("C4","6","Pernil Horneado (Roasted Pork)","14.00","4"),'
+              '("C4","7","Bistec Encebollado (Steak with Onions)","17.00","3"),'
+              '("C4","8","Carne De Cecina (Jerky Beef Steak)","13.00","5"),'
+              '("C4","9","Mole Poblano (Chicken with Mole)","15.00","5")')
 
     #USERS###
     #template:(user_id, user_fname, user_lname, password, email, address, city, state, postal, apt, phone, memb_since, acc_funds)

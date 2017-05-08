@@ -2,6 +2,9 @@ import sqlite3 as sql
 from datetime import datetime, date
 from geopy import Nominatim
 
+import certifi
+
+
 class db_connect:
     def __init__(self):
         #establish connection.
@@ -152,6 +155,19 @@ class db_connect:
 
 ############### END OF USER SELECT FUNCTIONS#######################################
 ###################################################################################
+####MENU SELECT FUNCTIONS##############
+    def select_menu_items(self):
+        result = self.cur.execute("SELECT item_name FROM menus").fetchall()
+        return result
+
+    def select_menu_price(self):
+        result = self.cur.execute("SELECT price FROM menus").fetchall()
+        return result
+
+    def select_menu_rating(self):
+        result = self.cur.execute("SELECT rating FROM menus")
+
+
 
 ########## MANAGEMENT FUNCTIONS ##########################
 
