@@ -2,7 +2,7 @@ import sqlite3 as sql
 from datetime import datetime, date
 from geopy import Nominatim
 
-import certifi
+# import certifi
 
 
 class db_connect:
@@ -62,10 +62,10 @@ class db_connect:
         self.cur.execute("INSERT INTO complaints (user_id, emp_id, date_posted, complaint, approval) VALUES(?,?,?,?,?)", (user_id, emp_id, date, complaint, approved) )
         self.con.commit()
     
-    def insert_compliments(self,user_id, emp_id, compliment):
+    def insert_compliments(self,user_id, emp_id, compliment, approved=0):
         date = datetime.now()
         self.cur = self.con.cursor()
-        self.cur.execute("INSERT INTO compliments (user_id, emp_id, date_posted, compliment) VALUES(?,?,?,?)", (user_id, emp_id, date, compliment) )
+        self.cur.execute("INSERT INTO compliments (user_id, emp_id, date_posted, compliment, approval) VALUES(?,?,?,?,?)", (user_id, emp_id, date, compliment, approved) )
         self.con.commit()
     
     def insert_orders(self,order_id,user_id, chef_id, menu_id,menuItem,price):
@@ -180,9 +180,13 @@ class db_connect:
         result = self.cur.execute("SELECT * FROM complaints WHERE approval=0").fetchall()
         return result
 
+    def select_all_pending_compliments(self):
+        result = self.cur.execute("SELECT * FROM compliments WHERE approval=0").fetchall()
+        return result
+
         #COMPLIMENTS -Will be neccessary for managers to review
-    def select_compliments(self,user_id):
-        result = self.cur.execute("SELECT compliment, date_posted FROM compliments WHERE user_id = '%s'" %user_id).fetchall()
+    def select_compliments(self,compliment_id):
+        result = self.cur.execute("SELECT compliment, date_posted FROM compliments WHERE compliment_id = '%s'" %compliment_id).fetchall()
         return result
 
     def delete_complaint(self, complaint_id):
@@ -238,7 +242,7 @@ class db_connect:
         self.con.commit()
 
     def confirm_compliment(self,compliment_id):
-        self.cur.execute("UPDATE compliment SET approval = 1 where complaint_id = '%s'" % compliment_id)
+        self.cur.execute("UPDATE compliments SET approval = 1 where compliment_id = '%s'" % compliment_id)
         self.con.commit()
 
 

@@ -303,53 +303,53 @@
 		</div>
 	</div>
 
-    <!--<div class="row">-->
-		<!--<div class="col-md-12">-->
-        <!--<h4> <strong style="text-decoration: underline"> Compliments Section </strong> </h4>-->
-			<!--<table class="table">-->
-				<!--<thead>-->
-					<!--<tr>-->
-						<!--<th>-->
-							<!--Compliment #-->
-						<!--</th>-->
-						<!--<th>-->
-							<!--User-->
-						<!--</th>-->
-						<!--<th>-->
-							<!--Compliment Towards-->
-						<!--</th>-->
-						<!--<th>-->
-							<!--Status-->
-						<!--</th>-->
-                        <!--<th>-->
-                            <!--Decision-->
-                        <!--</th>-->
-					<!--</tr>-->
-				<!--</thead>-->
-				<!--<tbody>-->
-                    <!--{% for employees in hired_employees %}-->
-                    <!--<tr>-->
-                        <!--<td>-->
-                             <!--{{ loop.index }}-->
-                        <!--</td>-->
-                        <!--<td>-->
-                            <!--{{ registered_users[1] }} {{ registered_users[2] }}-->
-                        <!--</td>-->
-                        <!--<td>-->
-                            <!--{{employees[2]}} {{employees[3]}}-->
-                        <!--</td>-->
-                        <!--<td>-->
-                            <!--Status-->
-                        <!--</td>-->
-                        <!--<td>-->
-                            <!--<button type="button" > lol </button>-->
-                        <!--</td>-->
-                    <!--</tr>-->
-                    <!--{% endfor %}-->
-                <!--</tbody>-->
-			<!--</table>-->
-		<!--</div>-->
-	<!--</div>-->
+    <div class="row">
+		<div class="col-md-12">
+        <h4> <strong style="text-decoration: underline"> Compliments Section </strong> </h4>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>
+							Compliment #
+						</th>
+						<th>
+							User
+						</th>
+						<th>
+							Compliment Towards
+						</th>
+						<th>
+							Status
+						</th>
+                        <th>
+                            Decision
+                        </th>
+					</tr>
+				</thead>
+				<tbody>
+                    {% for compliment in compliments %}
+                    <tr>
+                        <td>
+                             {{ loop.index }}
+                        </td>
+                        <td>
+                            {{ compliment[1] }}
+                        </td>
+                        <td>
+                            {{ compliment[2] }}
+                        </td>
+                        <td>
+                            {{ compliment[4] }}
+                        </td>
+                        <td>
+                            <button type="button" ><a href="{{ url_for('accept_compliment', compliment_id=compliment[0], emp_id=compliment[2]) }}"> Accept </a></button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+			</table>
+		</div>
+	</div>
 
 	<!-- Beginning of Carousel Slide of Images -->
 	<div class="carousel slide" id="carousel-361270">

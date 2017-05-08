@@ -105,10 +105,17 @@ def show_compliment_form():
 def submit_compliment():
     db = db_connect()
     employee = request.form["employee"]
+
+    employee = request.form["employee"]
+    employee = employee.strip().split(" ")
+    emp_fname = str(employee[0])
+    emp_lname = employee[1]
+
     user = "Lenny"
     compliment = request.form["compliment"]
     try:
-        db.insert_compliments(user,employee,compliment)
+        emp_id = db.select_employee_id_from_name(emp_fname, emp_lname)[0]
+        db.insert_compliments(user,emp_id,compliment)
     except:
         print("failed")
         flash("Submittion failed")
@@ -130,6 +137,7 @@ def do_admin_login():
 # Run MenuPage
 @app.route('/menu/')
 def showMenu():
+    # list_of_items =
     return render_template('Menu.html')
 
 # Run SignUpPage
@@ -206,8 +214,11 @@ def view_management_page():
 
     list_of_complaints = db.select_all_pending_complaints()
 
+    list_of_compliments = db.select_all_pending_compliments()
+
     return render_template("loginMANAGER.html", registered_users=registered, unregistered=unregistered_users,
-                           hired_employees=hired_employees, unhired_employees=unhired_employees, complaints=list_of_complaints )
+                           hired_employees=hired_employees, unhired_employees=unhired_employees, complaints=list_of_complaints,
+                           compliments=list_of_compliments)
 
 # EMPLOYEE MANAGEMENT TOOLS
 @app.route('/accept_user/<user>', methods=['GET'])
@@ -282,17 +293,19 @@ def decline_complaint(complaint_id,user_id):
     db.update_warnings(user_id)
     return view_management_page()
 
-@app.route('/add_compliment/<user>', methods=['GET'])
-def accept_compliment(compliment_id):
+@app.route('/add_compliment/<compliment_id>/<emp_id>', methods=['GET'])
+def accept_compliment(compliment_id, emp_id):
     db = db_connect()
     db.confirm_compliment(compliment_id)
     #IDK what this is for. -Eddy
     # we need to check if the employee has 3 or more compliments. so we
     # use select_compliment to find out who the compliment is referring to
-    employee = db.select_compliment(compliment_id).empl_id
-    if db.check_compliments(employee) >= 3:
-        db.promote_employee(employee)
-        db.delete_complaint(employee)
+    # employee = db.select_compliment(compliment_id)[2]
+
+    if db.check_compliments(emp_id)[0][0] >= 3:
+        db.promote_employee(emp_id)
+        db.delete_complaint(emp_id)
+
 
     return view_management_page()
 
