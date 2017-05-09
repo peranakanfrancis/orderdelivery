@@ -195,7 +195,7 @@ def submit_compliment():
 @app.route('/menu/')
 def showMenu():
     db = db_connect()
-    return render_template('Menu.html',databaseitems = db.select_menu_items(), menu_items=db.select_menu())
+    return render_template('Menu.html',databaseitems = db.select_menu_items(),numbers=db.select_menu_rating(), menu_items=db.select_menu())
 
 
 # EMPLOYEE MANAGEMENT TOOLS

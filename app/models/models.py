@@ -69,10 +69,10 @@ class db_connect:
         self.cur.execute("INSERT INTO compliments (user_id, emp_id, date_posted, compliment, approval) VALUES(?,?,?,?,?)", (user_id, emp_id, date, compliment, approved) )
         self.con.commit()
     
-    def insert_orders(self,order_id,user_id, chef_id, menu_id,price):
+    def insert_orders(self,order_id,user_id, chef_id, menu_id,menuItem,price):
         self.cur = self.con.cursor()
-        self.cur.execute("INSERT INTO orders (order_id,user_id, chef_id, menu_id,price, rating) VALUES(?,?,?,?,?)",
-                    (order_id,user_id, chef_id, menu_id,price) )
+        self.cur.execute("INSERT INTO orders (order_id,user_id, chef_id, menu_id,menuItem,price, rating) VALUES(?,?,?,?,?,?)",
+                    (order_id,user_id, chef_id, menu_id,menuItem,price) )
         self.con.commit()
     
     def insert_chefs(self,chef_id,emp_id,menu_name,chef_rating):
@@ -144,12 +144,12 @@ class db_connect:
         #TOP FIVE RATED FOODS OF USER
     def select_top_user_rated(self,user_id):
         result = self.cur.execute(
-            "SELECT menu_item,rating FROM foodrating WHERE user_id = '%s' ORDER BY rating DESC LIMIT 5" % user_id).fetchall()
+            "SELECT menu_item,rating FROM ratings WHERE user_id = '%s' ORDER BY rate DESC LIMIT 5" % user_id).fetchall()
         return result
 
         #VISITORS TOP 5 RATED FOOD (GET THIS FROM ALL RATED FOOD)
     def select_top5_rated(self):
-        result = self.cur.execute ("SELECT item_name, rating FROM menus ORDER BY rating DESC LIMIT 5 ").fetchall()
+        result = self.cur.execute ("SELECT menu_item, rating FROM ratings ORDER BY rate DESC LIMIT 5 ")
         return result
 
 
@@ -157,31 +157,22 @@ class db_connect:
 ############### END OF USER SELECT FUNCTIONS#######################################
 ###################################################################################
 ####MENU SELECT FUNCTIONS##############
-        #get all menu item names
     def select_menu_items(self):
         result = self.cur.execute("SELECT item_name FROM menus").fetchall()
         return result
-        #get price of all menu items
+
+
     def select_menu_price(self):
         result = self.cur.execute("SELECT price FROM menus").fetchall()
         return result
-        #get ratings of all menu items
+
     def select_menu_rating(self):
-        result = self.cur.execute("SELECT rating FROM menus")
+        result = self.cur.execute("SELECT rating FROM menus").fetchone()
         return result
-        #get all fields of menus table
 
     def select_menu(self):
         result = self.cur.execute("Select * from menus").fetchall()
         return result
-
-
-###CHECK-OUT CART FUNCTIONALITY###
-    def get_total_price(self,order_id):
-        result = self.cur.execute("SELECT sum(price) where order_id = {}".format(order_id)).fetchone()
-        return result
-
-
 
 
 ########## MANAGEMENT FUNCTIONS ##########################
@@ -302,5 +293,3 @@ emp_id = "C4"
 # = db_connect()
 #db.insert_users("edris","eddy","simmy","ilovecake","160 Convent Ave","New York","NY","10031","123","9175555555")
 #print(db.select_user_info('edris'))
-db = db_connect()
-print(db.select_top5_rated())
