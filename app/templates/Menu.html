@@ -104,11 +104,11 @@
         <p style="font-size: 20px"><strong>{{ item[3] }}</strong></p>
         {#{% print(item) %} #}
         <p> Price: ${{ item[4] }} </p>
-        <img src="static/img/foodimages/{{ item[2].replace(' ', '') }}" height="200" width="285" style="user-select: none">
+        <img src="{{ url_for('static', filename='img/foodimages/{}'.format(item[2])) }} " height="200" width="285" style="user-select: none">
         <div style="background-color: #9affcc; border-radius: 8px; margin-top: 5px">
         <p>{{ item.itemDesc }}</p>
             {% for number in numbers %}
-                {% if number < item[0] %}
+                {% if number < item[5] %}
                    <i class="fa fa-heart" aria-hidden="true"></i>
                 {% else %}
                    <i class="fa fa-heart-o" aria-hidden="true"></i>
