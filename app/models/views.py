@@ -6,6 +6,7 @@ from app.models.models import db_connect
 #db = db_connect()
 #########################################3
 
+###### LOGIN ########
 
 # Run HomePage
 @app.route('/')
@@ -68,6 +69,81 @@ def logout():
     session["logged_in"] = False
     return render_template("index.html")
 
+
+# LOGIN AS DELIVERY PERSONS
+@app.route('/loginDelivery')
+def view_delivery_page():
+    return render_template("loginDELIVERY.html")
+
+
+# LOGIN AS USER
+@app.route('/loginUser/')
+def view_user_page():
+    return render_template("loginUSER.html")
+
+
+# LOGIN AS CHEF
+@app.route('/loginChef')
+def view_chef_page():
+    return render_template("loginCHEF.html")
+
+
+# LOGIN AS MANAGER
+@app.route('/loginManager')
+def view_management_page():
+    db = db_connect()
+
+    unregistered_users = db.select_all_unregistered_users()
+    registered = db.select_all_registered_users()
+    hired_employees = db.select_all_hired_employees()
+    unhired_employees = db.select_all_pending_employees()
+    list_of_complaints = db.select_all_pending_complaints()
+
+    return render_template("loginMANAGER.html", registered_users=registered, unregistered=unregistered_users,
+                           hired_employees=hired_employees, unhired_employees=unhired_employees, complaints=list_of_complaints )
+
+# Run SignUpPage
+@app.route('/showSignUp/')
+def showSignUp():
+    db = db_connect()
+
+    return render_template('signup.html')
+
+
+# Run Register
+@app.route('/signup/', methods=["GET",'POST'])
+def sign_up():
+    db = db_connect()
+    # read the values from the UI
+    _firstName = request.form['first_name']
+    _lastName = request.form['last_name']
+    _userName = request.form['user_name']
+    _password = request.form['password']
+    _address = request.form['address']
+    _city = request.form['city']
+    _state = request.form['state']
+    _postal = request.form['postal']
+    _apt = request.form['apt']
+    _phone = request.form['phone']
+
+    # Check if username exists
+    user_check = db.select_user_info(_userName)
+
+    # If the username exists
+    if user_check and user_check[0][0] == _userName:
+        flash("Sorry, Username Exists", 'error')
+        return render_template("signup.html")
+    # If the key fields are not entered
+    elif not _firstName or not _lastName or not _userName or not _password or not _address or not _city or not _state:
+        flash("Please Enter All Info with Asterisks")
+        return render_template("signup.html")
+    # Insert User
+    else:
+        db.insert_users(_userName, _firstName, _lastName, _password, _address, _city, _state, _postal, _apt, _phone, acc_funds=0)
+        return render_template("loginUSER.html")
+
+###### DISPLAY COMPLIMENT/COMPLAINT FORM ##############
+
 @app.route('/show_complaint_form/')
 def show_complaint_form():
     db = db_connect()
@@ -113,113 +189,13 @@ def submit_compliment():
     return redirect("/")
 
 
+######### MENU SECTION ###########
+
 # Run MenuPage
 @app.route('/menu/')
 def showMenu():
     db = db_connect()
-    return render_template('Menu.html',databaseitems = db.select_menu_items())
-
-
-# Run SignUpPage
-@app.route('/showSignUp/')
-def showSignUp():
-    db = db_connect()
-
-    return render_template('signup.html')
-
-
-
-# Run Juan Menu
-@app.route('/Juan_Menu/')
-def Juan_Menu():
-    # if session.get('logged_in'):
-    #     top_menu = select_top5_rated()
-
-    return render_template('Juan_Menu.html')
-
-
-# Run miguel Menu
-@app.route('/miguel_Menu/')
-def miguel_Menu():
-    return render_template('Menu.html')
-
-
-# Run Rosita Menu
-@app.route('/Rosita_Menu/')
-def Rosita_Menu():
-    return render_template('Rosita_Menu.html')
-
-
-# Run monica Menu
-@app.route('/monica_Menu/')
-def monica_Menu():
-    return render_template('monica_Menu.html')
-
-
-# Run Register
-@app.route('/signup/', methods=["GET",'POST'])
-def sign_up():
-    db = db_connect()
-    # read the values from the UI
-    _firstName = request.form['first_name']
-    _lastName = request.form['last_name']
-    _userName = request.form['user_name']
-    _password = request.form['password']
-    _address = request.form['address']
-    _city = request.form['city']
-    _state = request.form['state']
-    _postal = request.form['postal']
-    _apt = request.form['apt']
-    _phone = request.form['phone']
-
-    # Check if username exists
-    user_check = db.select_user_info(_userName)
-
-    # If the username exists
-    if user_check and user_check[0][0] == _userName:
-        flash("Sorry, Username Exists", 'error')
-        return render_template("signup.html")
-    # If the key fields are not entered
-    elif not _firstName or not _lastName or not _userName or not _password or not _address or not _city or not _state:
-        flash("Please Enter All Info with Asterisks")
-        return render_template("signup.html")
-    # Insert User
-    else:
-        db.insert_users(_userName, _firstName, _lastName, _password, _address, _city, _state, _postal, _apt, _phone, acc_funds=0)
-        return render_template("loginUSER.html")
-
-
-# LOGIN AS DELIVERY PERSONS
-@app.route('/loginDelivery')
-def view_delivery_page():
-    return render_template("loginDELIVERY.html")
-
-
-# LOGIN AS USER
-@app.route('/loginUser/')
-def view_user_page():
-    return render_template("loginUSER.html")
-
-
-# LOGIN AS CHEF
-@app.route('/loginChef')
-def view_chef_page():
-    return render_template("loginCHEF.html")
-
-
-# LOGIN AS MANAGER
-@app.route('/loginManager')
-def view_management_page():
-    db = db_connect()
-
-    unregistered_users = db.select_all_unregistered_users()
-    registered = db.select_all_registered_users()
-    hired_employees = db.select_all_hired_employees()
-    unhired_employees = db.select_all_pending_employees()
-    list_of_complaints = db.select_all_pending_complaints()
-
-    return render_template("loginMANAGER.html", registered_users=registered, unregistered=unregistered_users,
-                           hired_employees=hired_employees, unhired_employees=unhired_employees, complaints=list_of_complaints )
+    return render_template('Menu.html',databaseitems = db.select_menu_items(), menu_items=db.select_menu())
 
 
 # EMPLOYEE MANAGEMENT TOOLS
@@ -283,8 +259,6 @@ def accept_complaint(complaint_id, emp_id):
         if db.check_demotions(employee)[0] >= 2:
             db.fire_employee(employee)
 
-
-
     return view_management_page()
 
 @app.route('/decline_complaint/<complaint_id>/<user_id>', methods=['GET'])
@@ -317,17 +291,3 @@ def PageNotFound(error):
     return render_template('errors/404.html'), 404
 
 
-#Import all of our routes from routes.py
-    #from routes import *;
-
-#For Dynamic Pages Per User
-    #name is generated with the dynamic argument
-#@app.route('/user/<name>'):
-#def user(name):
-    #return '<h1>Hey, %s!</h1>' % name
-
-
-#Develop Web Server
-#if __name__ == "__main__":
-    #app.secret_key = os.urandom(12)
- #   app.run(debug=True)

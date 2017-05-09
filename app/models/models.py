@@ -161,6 +161,7 @@ class db_connect:
         result = self.cur.execute("SELECT item_name FROM menus").fetchall()
         return result
 
+
     def select_menu_price(self):
         result = self.cur.execute("SELECT price FROM menus").fetchall()
         return result
