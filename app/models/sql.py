@@ -108,14 +108,13 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     user_id VARCHAR(9) not null,
     chef_id VARCHAR(5) NOT NULL,
     menu_id VARCHAR(5) not null,
-    menu_Item varchar(20) not null,
     price decimal(5,2) not null,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (chef_id) REFERENCES chefs(chef_id)
     )""")
 
     #figuring out how autoincrement works.
-    c.execute('INSERT INTO orders VALUES(NULL,"U0001","C0001","M0001","STEAK", "10.00")')
+    #c.execute('INSERT INTO orders VALUES(NULL,"U0001","C0001","M0001","STEAK", "10.00")')
     #select_top5_ratings("U0001")
 
 
@@ -153,6 +152,13 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     FOREIGN KEY (chef_id) REFERENCES chefs(chef_id)
     )""")
 
+    ##checkout-cart
+    c.execute('DROP TABLE if EXISTS cart')
+    c.execute("""CREATE TABLE cart (
+    order_id varchar(5) not null,
+    menu_id varchar(5) not null,
+
+    """)
     ##sample data!##
     #RESTAURANT##
     c.execute('INSERT INTO restaurant VALUES("1","Los Quatro Amigos","160 Convent Ave","New York","NY","10031","2126507000")')
@@ -202,6 +208,7 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     c.execute('INSERT INTO employees VALUES ("M2","pizza","Jeff","Edwards","160 Convent Ave",'
               '"New York","NY", "10031","1C","2126507000","123456789","1994-08-21","10.50","2017-01-01", 0,0,0,0)')
 
+
     ###### END OF MANAGER DATA##
 
     ### END OF EMPLOYEES DATA##
@@ -249,6 +256,7 @@ with sqlite3.connect("losquatroamigos.db") as connection:
               '("C4","7","Bistec Encebollado (Steak with Onions)","17.00","3"),'
               '("C4","8","Carne De Cecina (Jerky Beef Steak)","13.00","5"),'
               '("C4","9","Mole Poblano (Chicken with Mole)","15.00","5")')
+
 
     #USERS###
     #template:(user_id, user_fname, user_lname, password, email, address, city, state, postal, apt, phone, memb_since, acc_funds)
