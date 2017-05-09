@@ -9,10 +9,12 @@ from app.models.models import db_connect
 ###### LOGIN ########
 
 # Run HomePage
-@app.route('/')
+@app.route('/', )
 def index():
-    print(session.get("user"))
-    return render_template('index.html')
+    db = db_connect # connect to the database
+    #print(session.get("user"))
+    print(db.select_top5_rated)
+    return render_template('index.html', top_five=db.select_top5_rated)
 
 
 # Run LogInPage
@@ -22,7 +24,7 @@ def showLogIn():
         return render_template('Log-In.html')
     else:
         return render_template("loginUSER.html")
-    #replace this with the designated customer/chef/ manager
+    # replace this with the designated customer/chef/ manager
 
 
 @app.route('/login', methods=["GET",'POST'])
@@ -59,7 +61,6 @@ def login():
         return showLogIn()
 
 
-
 # Controlling Logging Out
 @app.route('/logout/')
 def logout():
@@ -67,7 +68,7 @@ def logout():
     # remove the un from the session if it is there
     session.pop('user', None)
     session["logged_in"] = False
-    return render_template("index.html")
+    return index()
 
 
 # LOGIN AS DELIVERY PERSONS
@@ -195,7 +196,7 @@ def submit_compliment():
 @app.route('/menu/')
 def showMenu():
     db = db_connect()
-    return render_template('Menu.html',databaseitems = db.select_menu_items(),numbers=db.select_menu_rating(), menu_items=db.select_menu())
+    return render_template('Menu.html',databaseitems = db.select_menu_items(), menu_items=db.select_menu())
 
 
 # EMPLOYEE MANAGEMENT TOOLS
