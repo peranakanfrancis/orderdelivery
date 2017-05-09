@@ -63,23 +63,23 @@
         <div class="col-md-4">
 
     <!-- databaseitems is a dictionary in python, in -->
-       {% for items in databaseitems%}
-           {% if total[loop.index0] == 0 %} #}
+       {% for item in menu_items %}
+         {#  {% if total[loop.index0] == 0 %} #}
                 {#DON'T RENDER THIS FOOD BECAUSE SUBTOTAL FOR IT IS ZERO  #}
-             {% else %}
-                <p>{{ items.itemName }}</p>
-             {% endif %}
+             {# {% else %} #}
+                <p>{{ item.itemName }}</p>
+           {#  {% endif %} #}
         {% endfor %}
         </div>
 
 
     <div class="col-md-4">
         {% for items in total %}
-            {% if total[loop.index0] == 0 %}
+          {#  {% if total[loop.index0] == 0 %} #}
                 {#DON'T RENDER THIS FOOD BECAUSE SUBTOTAL FOR IT IS ZERO  #}
-            {% else %}
-                <p>Total Price for this Item: ${{ total[loop.index] }}</p>
-            {% endif %}
+           {#  {% else %} #}
+                <p>Total Price for this Item: ${# {{ total[loop.index] }} #} </p>
+           {# {% endif %} #}
         {% endfor %}
     </div>
     </div>
@@ -99,26 +99,26 @@
 
     <!-- This is where it's supposed to iterate through our menu, we display each image of the food, with its price and rating -->
     <div>
-    {% for items in databaseitems %}
+     {% for item in menu_items %}
         <div class="col-md-3" > {#col-md-n is what puts them in columns, n can be 3, 4   #}
-        <p style="font-size: 20px"><strong>{{ items[0] }}</strong></p>
-        {% print items %}
-        <p> Price: ${{ items[0] }} </p>
-        <img src="static/img/foodimages/{{ items.item_pic }}" height="200" width="285" style="user-select: none">
+        <p style="font-size: 20px"><strong>{{ item[3] }}</strong></p>
+        {#{% print(item) %} #}
+        <p> Price: ${{ item[4] }} </p>
+        <img src="static/img/foodimages/{{ item[2].replace(' ', '') }}" height="200" width="285" style="user-select: none">
         <div style="background-color: #9affcc; border-radius: 8px; margin-top: 5px">
-        <p>{{ items.itemDesc }}</p>
+        <p>{{ item.itemDesc }}</p>
             {% for number in numbers %}
-                {% if number < items[0] %}
+                {% if number < item[0] %}
                    <i class="fa fa-heart" aria-hidden="true"></i>
                 {% else %}
                    <i class="fa fa-heart-o" aria-hidden="true"></i>
                 {% endif %}
             {% endfor %}
-            <p>Rating: {{ items.itemRating }}</p>
+            <p>Rating: {{ item[5]}}</p>
         </div>
 
-        {{ formlist[loop.index0].hidden_tag() }}
-        {{ wtf.form_field(formlist[loop.index0].qty)}}
+      {#  {{ formlist[loop.index].hidden_tag() }} #}
+       {# {{ wtf.form_field(formlist[loop.index0].qty)}} #}
        </div>
 
     {% endfor %}

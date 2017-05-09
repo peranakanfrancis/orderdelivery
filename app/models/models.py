@@ -171,7 +171,7 @@ class db_connect:
         return result
 
     def select_menu(self):
-        result = self.cur.execute("Select * from menus")
+        result = self.cur.execute("Select * from menus").fetchall()
         return result
 
 
