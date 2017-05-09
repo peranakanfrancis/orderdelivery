@@ -116,8 +116,8 @@ def submit_compliment():
 # Run MenuPage
 @app.route('/menu/')
 def showMenu():
-
-    return render_template('Menu.html')
+    db = db_connect()
+    return render_template('Menu.html',databaseitems = db.select_menu_items())
 
 
 # Run SignUpPage
@@ -125,7 +125,7 @@ def showMenu():
 def showSignUp():
     db = db_connect()
 
-    return render_template('signup.html',databaseitems = db.select_menu_items())
+    return render_template('signup.html')
 
 
 
