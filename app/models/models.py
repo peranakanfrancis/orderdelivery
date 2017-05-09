@@ -146,7 +146,7 @@ class db_connect:
 
         # VISITORS TOP 5 RATED FOOD (GET THIS FROM ALL RATED FOOD)
     def select_top5_rated(self):
-        result = self.cur.execute("SELECT item_name, rating FROM menus ORDER BY rating DESC LIMIT 5 ").fetchall()
+        result = self.cur.execute("SELECT item_name, item_pic, rating FROM menus ORDER BY rating DESC LIMIT 5 ").fetchall()
         return result
 
 
