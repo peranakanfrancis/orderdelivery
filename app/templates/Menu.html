@@ -99,12 +99,12 @@
 
     <!-- This is where it's supposed to iterate through our menu, we display each image of the food, with its price and rating -->
     <div>
-    {% for items in select_menu_items %}
+    {% for items in databaseitems %}
         <div class="col-md-3" > {#col-md-n is what puts them in columns, n can be 3, 4   #}
         <p style="font-size: 20px"><strong>{{ items[0] }}</strong></p>
         {% print items %}
         <p> Price: ${{ items[0] }} </p>
-        <img src="static/img/foodimages/" height="200" width="285" style="user-select: none">
+        <img src="static/img/foodimages/{{ items.item_pic }}" height="200" width="285" style="user-select: none">
         <div style="background-color: #9affcc; border-radius: 8px; margin-top: 5px">
         <p>{{ items.itemDesc }}</p>
             {% for number in numbers %}

@@ -39,23 +39,25 @@ def login():
     if user_check and user_check[0][3] == password:
         session["user"] = user_id
         session["logged_in"] = True
-        return render_template("loginUSER.html")
+        return view_user_page()
 
-    if empl_check[0][0] == 'M' and empl_check[1] == password:
+    if empl_check and empl_check[0][0] == 'M' and empl_check[1] == password:
         session["logged_in"] = True
-        return render_template("loginMANAGER.html")
+        return view_management_page()
 
-    if empl_check[0][0] == 'C' and empl_check[1] == password:
+    if empl_check and empl_check[0][0] == 'C' and empl_check[1] == password:
         session["logged_in"] = True
-        return render_template("loginCHEF.html")
+        return view_chef_page()
 
-    if empl_check[0][1] == 'D' and empl_check[1] == password:
+    if empl_check and empl_check[0][1] == 'D' and empl_check[1] == password:
         session["logged_in"] = True
-        return render_template("loginDELIVERY.html")
+        return view_delivery_page()
 
     else:
         flash("Login Failed :(")
-        return render_template("Log-In.html")
+        return showLogIn()
+
+
 
 # Controlling Logging Out
 @app.route('/logout/')
@@ -75,47 +77,35 @@ def show_complaint_form():
 @app.route('/submit_complaint', methods=["GET",'POST'])
 def submit_complaint():
     db = db_connect()
-    hired_employees = db.select_all_hired_employees()
 
     employee = request.form["employee"]
     employee = employee.strip().split(" ")
     emp_fname = str(employee[0])
     emp_lname = employee[1]
-
+    emp_id = db.select_employee_id_from_name(emp_fname, emp_lname)[0]
 
     user = "Lenny"
     complaint = request.form["complaint"]
     try:
-        emp_id = db.select_employee_id_from_name(emp_fname, emp_lname)[0]
         db.insert_complaints(user,emp_id,complaint)
     except:
         flash("Submittion failed")
-        return render_template("complaints.html", employees=hired_employees)
-
+        return render_template("complaints.html")
     return redirect("/")
 
 @app.route('/show_compliment_form')
 def show_compliment_form():
-    db = db_connect()
-    hired_employees = db.select_all_hired_employees()
-    return render_template("/compliments.html", employees=hired_employees)
+    return render_template("compliments.html")
 
 
 @app.route('/submit_compliment', methods=["GET",'POST'])
 def submit_compliment():
     db = db_connect()
-    employee = request.form["employee"]
-
-    employee = request.form["employee"]
-    employee = employee.strip().split(" ")
-    emp_fname = str(employee[0])
-    emp_lname = employee[1]
-
-    user = "Lenny"
+    chef = request.form["chef"]
+    user = session['user']
     compliment = request.form["compliment"]
     try:
-        emp_id = db.select_employee_id_from_name(emp_fname, emp_lname)[0]
-        db.insert_compliments(user,emp_id,compliment)
+        db.insert_compliments(user, chef, compliment)
     except:
         print("failed")
         flash("Submittion failed")
@@ -123,27 +113,21 @@ def submit_compliment():
     return redirect("/")
 
 
-# Authenticate LogIn
-@app.route('/manager_login', methods=['POST'])
-def do_admin_login():
-    if request.form['password'] == 'password' and request.form['username'] == 'admin':
-        session['logged_in'] = True
-    else:
-        flash('wrong password!')
-    return showLogIn()
-
-
-
 # Run MenuPage
 @app.route('/menu/')
 def showMenu():
-    # list_of_items =
-    return render_template('Menu.html')
+    db = db_connect()
+    return render_template('Menu.html',databaseitems = db.select_menu_items())
+
 
 # Run SignUpPage
 @app.route('/showSignUp/')
 def showSignUp():
+    db = db_connect()
+
     return render_template('signup.html')
+
+
 
 # Run Juan Menu
 @app.route('/Juan_Menu/')
@@ -159,15 +143,18 @@ def Juan_Menu():
 def miguel_Menu():
     return render_template('Menu.html')
 
+
 # Run Rosita Menu
 @app.route('/Rosita_Menu/')
 def Rosita_Menu():
     return render_template('Rosita_Menu.html')
 
+
 # Run monica Menu
 @app.route('/monica_Menu/')
 def monica_Menu():
     return render_template('monica_Menu.html')
+
 
 # Run Register
 @app.route('/signup/', methods=["GET",'POST'])
@@ -202,7 +189,25 @@ def sign_up():
         return render_template("loginUSER.html")
 
 
+# LOGIN AS DELIVERY PERSONS
+@app.route('/loginDelivery')
+def view_delivery_page():
+    return render_template("loginDELIVERY.html")
 
+
+# LOGIN AS USER
+@app.route('/loginUser/')
+def view_user_page():
+    return render_template("loginUSER.html")
+
+
+# LOGIN AS CHEF
+@app.route('/loginChef')
+def view_chef_page():
+    return render_template("loginCHEF.html")
+
+
+# LOGIN AS MANAGER
 @app.route('/loginManager')
 def view_management_page():
     db = db_connect()
@@ -211,14 +216,11 @@ def view_management_page():
     registered = db.select_all_registered_users()
     hired_employees = db.select_all_hired_employees()
     unhired_employees = db.select_all_pending_employees()
-
     list_of_complaints = db.select_all_pending_complaints()
 
-    list_of_compliments = db.select_all_pending_compliments()
-
     return render_template("loginMANAGER.html", registered_users=registered, unregistered=unregistered_users,
-                           hired_employees=hired_employees, unhired_employees=unhired_employees, complaints=list_of_complaints,
-                           compliments=list_of_compliments)
+                           hired_employees=hired_employees, unhired_employees=unhired_employees, complaints=list_of_complaints )
+
 
 # EMPLOYEE MANAGEMENT TOOLS
 @app.route('/accept_user/<user>', methods=['GET'])
@@ -226,6 +228,7 @@ def accept_user(user):
     db = db_connect()
     db.register(user)
     return view_management_page()
+
 
 @app.route('/hire_employee/<empl_name>', methods=['GET'])
 def hire(empl_name):
@@ -274,10 +277,9 @@ def accept_complaint(complaint_id, emp_id):
     db.confirm_complaint(complaint_id)
     #I dk what this is for. -Eddy
     employee = emp_id
-    print(db.check_complaints(employee))
     if db.check_complaints(employee)[0][0] >= 3:
         db.demote_employee(employee)
-        print(db.check_demotions(employee)[0])
+
         if db.check_demotions(employee)[0] >= 2:
             db.fire_employee(employee)
 
@@ -293,19 +295,17 @@ def decline_complaint(complaint_id,user_id):
     db.update_warnings(user_id)
     return view_management_page()
 
-@app.route('/add_compliment/<compliment_id>/<emp_id>', methods=['GET'])
-def accept_compliment(compliment_id, emp_id):
+@app.route('/add_compliment/<user>', methods=['GET'])
+def accept_compliment(compliment_id):
     db = db_connect()
     db.confirm_compliment(compliment_id)
     #IDK what this is for. -Eddy
-    # we need to check if the employee have 3 or more compliments. so we
+    # we need to check if the employee has 3 or more compliments. so we
     # use select_compliment to find out who the compliment is referring to
-    # employee = db.select_compliment(compliment_id)[2]
-
-    if db.check_compliments(emp_id)[0][0] >= 3:
-        db.promote_employee(emp_id)
-        db.delete_complaint(emp_id)
-
+    employee = db.select_compliment(compliment_id).empl_id
+    if db.check_compliments(employee) >= 3:
+        db.promote_employee(employee)
+        db.delete_complaint(employee)
 
     return view_management_page()
 
