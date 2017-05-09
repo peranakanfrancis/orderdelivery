@@ -13,7 +13,6 @@ from app.models.models import db_connect
 def index():
     db = db_connect() # connect to the database
     #print(session.get("user"))
-    print(db.select_top5_rated())
     return render_template('index.html', top_five=db.select_top5_rated())
 
 
