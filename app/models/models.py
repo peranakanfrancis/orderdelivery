@@ -144,12 +144,12 @@ class db_connect:
         #TOP FIVE RATED FOODS OF USER
     def select_top_user_rated(self,user_id):
         result = self.cur.execute(
-            "SELECT menu_item,rating FROM ratings WHERE user_id = '%s' ORDER BY rate DESC LIMIT 5" % user_id).fetchall()
+            "SELECT menu_item,rating FROM foodrating WHERE user_id = '%s' ORDER BY rating DESC LIMIT 5" % user_id).fetchall()
         return result
 
         #VISITORS TOP 5 RATED FOOD (GET THIS FROM ALL RATED FOOD)
     def select_top5_rated(self):
-        result = self.cur.execute ("SELECT menu_item, rating FROM ratings ORDER BY rate DESC LIMIT 5 ")
+        result = self.cur.execute ("SELECT item_name, rating FROM menus ORDER BY rating DESC LIMIT 5 ").fetchall()
         return result
 
 
@@ -302,3 +302,5 @@ emp_id = "C4"
 # = db_connect()
 #db.insert_users("edris","eddy","simmy","ilovecake","160 Convent Ave","New York","NY","10031","123","9175555555")
 #print(db.select_user_info('edris'))
+db = db_connect()
+print(db.select_top5_rated())
