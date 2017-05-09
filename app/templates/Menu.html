@@ -102,7 +102,6 @@
      {% for item in menu_items %}
         <div class="col-md-3" > {#col-md-n is what puts them in columns, n can be 3, 4   #}
         <p style="font-size: 20px"><strong>{{ item[3] }}</strong></p>
-        {#{% print(item) %} #}
         <p> Price: ${{ item[4] }} </p>
         <img src="{{ url_for('static', filename='img/foodimages/{}'.format(item[2])) }} " height="200" width="285" style="user-select: none">
         <div style="background-color: #9affcc; border-radius: 8px; margin-top: 5px">
@@ -118,7 +117,7 @@
         </div>
 
       {#  {{ formlist[loop.index].hidden_tag() }} #}
-       {# {{ wtf.form_field(formlist[loop.index0].qty)}} #}
+       {# {{ wtf.form_field(formlist[loop.index].qty)}} #}
        </div>
 
     {% endfor %}
