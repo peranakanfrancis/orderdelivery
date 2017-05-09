@@ -15,11 +15,22 @@
     <!-- Styling code -->
     <style>
     {#  Using FontAwesome for heart icons #}
+    body
+    {
+        background-color: mistyrose;
+    }
+    .menu_item
+    {
+        border-right: groove;
+        border-left: groove;
+        border-top: groove;
+        border-bottom: groove;
+    }
      @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css);
-     input[type="text"] {
+     input[type="text"]
+     {
        width: 50px;
-         background-color: #f2dede;
-
+       background-color: #f2dede;
      }
     p{
         font-family: "Allerta Stencil";
@@ -41,14 +52,6 @@
 {% endblock %}
 
 {% block content %}
-    <ul class="list-inline">
-       <li><a href="/">Home</a></li>
-       <li><a href="menu">Menu</a></li>
-       <li><a href="contact">Contact Us</a></li>
-       <li><a href="signup">Sign up</a></li>
-       <li><a href="login">Log in</a></li>
-    </ul>
-
     <!-- if the items == 0 and the sum of total for items in the shopping cart is 0 -->
     {% if item == 0 or sum_of_cart == 0 %}
         <h1> Cart is Empty </h1>
@@ -56,43 +59,41 @@
     {% else %}
 
         <h1 style="margin-bottom: 25px"> Shopping Cart</h1>
-        <div class="container-fluid">
+    <div class="container-fluid">
         <form method="post" action="/menu">
 
-        <div class="row">
-        <div class="col-md-4">
+            <div class="row">
+                  <div class="col-md-4">
+                    <!-- databaseitems is a dictionary in python, in -->
+                    {% for item in menu_items %}
+                   {#  {% if total[loop.index0] == 0 %} #}
+                   {#DON'T RENDER THIS FOOD BECAUSE SUBTOTAL FOR IT IS ZERO  #}
+                   {# {% else %} #}
+                   <p>{{ item.itemName }}</p>
+                   {#  {% endif %} #}
+                   {% endfor %}
+                  </div>
 
-    <!-- databaseitems is a dictionary in python, in -->
-       {% for item in menu_items %}
-         {#  {% if total[loop.index0] == 0 %} #}
-                {#DON'T RENDER THIS FOOD BECAUSE SUBTOTAL FOR IT IS ZERO  #}
-             {# {% else %} #}
-                <p>{{ item.itemName }}</p>
-           {#  {% endif %} #}
-        {% endfor %}
-        </div>
 
-
-    <div class="col-md-4">
-        {% for items in total %}
-          {#  {% if total[loop.index0] == 0 %} #}
-                {#DON'T RENDER THIS FOOD BECAUSE SUBTOTAL FOR IT IS ZERO  #}
-           {#  {% else %} #}
-                <p>Total Price for this Item: ${# {{ total[loop.index] }} #} </p>
-           {# {% endif %} #}
-        {% endfor %}
-    </div>
-    </div>
-    <h1> Total Price</h1>
-    <h2>${{ sumitem }}</h2>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Checkout</button>
-{#        {{ placebutton.hidden_tag() }}#}
-{#        {{ wtf.form_field(placebutton.submit) }} {# Place Order Button#}
-    </form>
+                    <div class="col-md-4">
+                        {% for items in total %}
+                          {#  {% if total[loop.index0] == 0 %} #}
+                                {#DON'T RENDER THIS FOOD BECAUSE SUBTOTAL FOR IT IS ZERO  #}
+                           {#  {% else %} #}
+                                <p>Total Price for this Item: ${# {{ total[loop.index] }} #} </p>
+                           {# {% endif %} #}
+                        {% endfor %}
+                    </div>
+            </div>
+                <h1> Total Price</h1>
+                <h2>${{ sumitem }}</h2>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Checkout</button>
+        </form>
     </div>
     {% endif %}
 <br>
-    <h1 style="margin-left: 560px; margin-bottom: 40px; font-size: 61px"> Menu</h1>
+    <h1 style="font-size: 61px; text-align: center"> Menu </h1>
+<br>
 
     <!-- This form creates the menu and everything between the div is the actual menu  -->
     <form method="post" action="/menu">
@@ -100,27 +101,19 @@
     <!-- This is where it's supposed to iterate through our menu, we display each image of the food, with its price and rating -->
     <div>
      {% for item in menu_items %}
-        <div class="col-md-3" > {#col-md-n is what puts them in columns, n can be 3, 4   #}
-        <p style="font-size: 20px"><strong>{{ item[3] }}</strong></p>
+        <div class="col-md-3" >
+            <div style="border-radius: 25px; margin-top: 5px; border-top: groove; border-left: groove; border-right: groove; border-bottom:groove">
+                <p style="font-size: 20px; text-align: center"><strong>{{ item[3] }}</strong></p>
 
-        <img src="{{ url_for('static', filename='img/foodimages/{}'.format(item[2])) }} " height="200" width="285" style="user-select: none; border-bottom: dashed; border-top: dashed; border-left: dashed; border-right: dashed">
-        <div style="border-radius: 8px; margin-top: 5px">
-        <p>{{ item.itemDesc }}</p>
-            {% for number in range(0,item[5]|int) %}
-
-
-
-                   <i class="fa fa-heart" aria-hidden="true"></i>
-
-            {% endfor %}
-            <p> Rating: {{ item[5]}}</p>
-            <p> Price: ${{ item[4] }} </p>
-        </div>
-
-      {#  {{ formlist[loop.index].hidden_tag() }} #}
-       {# {{ wtf.form_field(formlist[loop.index].qty)}} #}
+                <img src="{{ url_for('static', filename='img/foodimages/{}'.format(item[2])) }} " height="200" width="100%" style="user-select: none">
+                <p>{{ item.itemDesc }}</p>
+                    {% for number in range(0, item[5]| int) %}
+                           <i class="fa fa-heart" aria-hidden="true"></i>
+                    {% endfor %}
+                <p> Rating: {{ item[5]}}</p>
+                <p> Price: ${{ item[4] }} </p>
+            </div>
        </div>
-
     {% endfor %}
     </div>
 {#    {{ shopbutton.hidden_tag() }}#}
