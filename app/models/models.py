@@ -167,7 +167,7 @@ class db_connect:
         return result
 
     def select_menu_rating(self):
-        result = self.cur.execute("SELECT rating FROM menus")
+        result = self.cur.execute("SELECT rating FROM menus").fetchone()
         return result
 
     def select_menu(self):

@@ -85,7 +85,7 @@
     </div>
     <h1> Total Price</h1>
     <h2>${{ sumitem }}</h2>
-{#    <button class="btn btn-lg btn-primary btn-block" type="submit">Checkout</button>#}
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Checkout</button>
 {#        {{ placebutton.hidden_tag() }}#}
 {#        {{ wtf.form_field(placebutton.submit) }} {# Place Order Button#}
     </form>
@@ -106,12 +106,11 @@
         <img src="{{ url_for('static', filename='img/foodimages/{}'.format(item[2])) }} " height="200" width="285" style="user-select: none">
         <div style="background-color: #9affcc; border-radius: 8px; margin-top: 5px">
         <p>{{ item.itemDesc }}</p>
-            {% for number in numbers %}
-                {% if number < item[5] %}
+            {% for number in range(0,item[5]|int) %}
+
+
                    <i class="fa fa-heart" aria-hidden="true"></i>
-                {% else %}
-                   <i class="fa fa-heart-o" aria-hidden="true"></i>
-                {% endif %}
+
             {% endfor %}
             <p>Rating: {{ item[5]}}</p>
         </div>
