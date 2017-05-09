@@ -51,55 +51,55 @@ class db_connect:
         self.cur = self.con.cursor()
         self.cur.execute("UPDATE user set acc_funds = acc_funds + '%s' WHERE user_id = '%s'" %new_funds %user_id)
         self.con.commit()
-    
+
     def insert_ratings(self,user_id, menu_id, menu_item, rating):
         self.cur = self.con.cursor()
         self.cur.execute("INSERT INTO ratings(user_id, menu_id, rating) VALUES(?,?,?)", (user_id, menu_id, menu_item, rating))
         self.con.commit()
-    
+
     def insert_complaints(self,user_id, emp_id, complaint, approved=0):
         date = datetime.now()
         self.cur = self.con.cursor()
         self.cur.execute("INSERT INTO complaints (user_id, emp_id, date_posted, complaint, approval) VALUES(?,?,?,?,?)", (user_id, emp_id, date, complaint, approved) )
         self.con.commit()
-    
+
     def insert_compliments(self,user_id, emp_id, compliment, approved=0):
         date = datetime.now()
         self.cur = self.con.cursor()
         self.cur.execute("INSERT INTO compliments (user_id, emp_id, date_posted, compliment, approval) VALUES(?,?,?,?,?)", (user_id, emp_id, date, compliment, approved) )
         self.con.commit()
-    
+
     def insert_orders(self,order_id,user_id, chef_id, menu_id,menuItem,price):
         self.cur = self.con.cursor()
         self.cur.execute("INSERT INTO orders (order_id,user_id, chef_id, menu_id,menuItem,price, rating) VALUES(?,?,?,?,?,?)",
                     (order_id,user_id, chef_id, menu_id,menuItem,price) )
         self.con.commit()
-    
+
     def insert_chefs(self,chef_id,emp_id,menu_name,chef_rating):
         self.cur = self.con.cursor()
         self.cur.execute("INSERT INTO chefs(chef_id, emp_id,menu_name, chef_rating) VALUES (?,?,?,?)", (chef_id,emp_id, menu_name, chef_rating) )
         self.con.commit()
-    
+
     def insert_deliveryinfo(self,order_id,emp_id, user_id, status, cust_warning):
         self.cur = self.con.cursor()
         self.cur.execute("INSERT INTO deliveryinfo (order_id,emp_id, user_id, status, cust_warning) VALUES (?,?,?,?,?)",
                         (order_id, emp_id, user_id, status, cust_warning) )
         self.con.commit()
-    
+
     def insert_menu(self,chef_id, menu_id, item_name, price, rating):
         self.cur = self.con.cursor()
         self.cur.execute("INSERT INTO menu (chef_id, menu_id, item_name, price, rating) VALUES (?,?,?,?,?)",
                         (chef_id, menu_id, item_name, price, rating))
         self.con.commit()
-    
+
     ################## END OF INSERT INTO DATABASE ###################################
     ##################################################################################
 
     ################## SELECT FROM DATABASE###########################################
 
-    
+
     ################## EMPLOYEE SELECT FUNCTIONS######################################
-    
+
     #GENERAL EMPLOYEE INFO
     def select_employee_info(self,emp_id):
         result = self.cur.execute("SELECT * FROM Employees where emp_id = '%s';" % emp_id).fetchone()
@@ -128,10 +128,7 @@ class db_connect:
         result = self.cur.execute("SELECT * FROM users Where registered = 1").fetchall()
         return result
 
-
-
-
-        #GENERAL USER INFO
+        # GENERAL USER INFO
     def select_user_info(self,user_id):
         result = self.cur.execute("SELECT * FROM users WHERE user_id = '%s'" %user_id).fetchall()
         return result
@@ -141,15 +138,15 @@ class db_connect:
         self.cur.execute("DELETE FROM users WHERE user_id = '%s'" % user_id)
         self.con.commit()
 
-        #TOP FIVE RATED FOODS OF USER
+        # TOP FIVE RATED FOODS OF USER
     def select_top_user_rated(self,user_id):
         result = self.cur.execute(
             "SELECT menu_item,rating FROM ratings WHERE user_id = '%s' ORDER BY rate DESC LIMIT 5" % user_id).fetchall()
         return result
 
-        #VISITORS TOP 5 RATED FOOD (GET THIS FROM ALL RATED FOOD)
+        # VISITORS TOP 5 RATED FOOD (GET THIS FROM ALL RATED FOOD)
     def select_top5_rated(self):
-        result = self.cur.execute ("SELECT menu_item, rating FROM ratings ORDER BY rate DESC LIMIT 5 ")
+        result = self.cur.execute("SELECT item_name, rating FROM menus ORDER BY rating DESC LIMIT 5 ").fetchall()
         return result
 
 

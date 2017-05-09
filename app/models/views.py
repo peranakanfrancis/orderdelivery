@@ -11,10 +11,10 @@ from app.models.models import db_connect
 # Run HomePage
 @app.route('/')
 def index():
-    db = db_connect # connect to the database
+    db = db_connect() # connect to the database
     #print(session.get("user"))
-    print(db.select_top5_rated)
-    return render_template('index.html', top_five=db.select_top5_rated)
+    print(db.select_top5_rated())
+    return render_template('index.html', top_five=db.select_top5_rated())
 
 
 # Run LogInPage
