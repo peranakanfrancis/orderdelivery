@@ -69,10 +69,10 @@ class db_connect:
         self.cur.execute("INSERT INTO compliments (user_id, emp_id, date_posted, compliment, approval) VALUES(?,?,?,?,?)", (user_id, emp_id, date, compliment, approved) )
         self.con.commit()
     
-    def insert_orders(self,order_id,user_id, chef_id, menu_id,menuItem,price):
+    def insert_orders(self,order_id,user_id, chef_id, menu_id,price):
         self.cur = self.con.cursor()
-        self.cur.execute("INSERT INTO orders (order_id,user_id, chef_id, menu_id,menuItem,price, rating) VALUES(?,?,?,?,?,?)",
-                    (order_id,user_id, chef_id, menu_id,menuItem,price) )
+        self.cur.execute("INSERT INTO orders (order_id,user_id, chef_id, menu_id,price, rating) VALUES(?,?,?,?,?)",
+                    (order_id,user_id, chef_id, menu_id,price) )
         self.con.commit()
     
     def insert_chefs(self,chef_id,emp_id,menu_name,chef_rating):
@@ -157,22 +157,31 @@ class db_connect:
 ############### END OF USER SELECT FUNCTIONS#######################################
 ###################################################################################
 ####MENU SELECT FUNCTIONS##############
+        #get all menu item names
     def select_menu_items(self):
         result = self.cur.execute("SELECT item_name FROM menus").fetchall()
         return result
-
-
+        #get price of all menu items
     def select_menu_price(self):
         result = self.cur.execute("SELECT price FROM menus").fetchall()
         return result
-
+        #get ratings of all menu items
     def select_menu_rating(self):
         result = self.cur.execute("SELECT rating FROM menus")
         return result
+        #get all fields of menus table
 
     def select_menu(self):
         result = self.cur.execute("Select * from menus").fetchall()
         return result
+
+
+###CHECK-OUT CART FUNCTIONALITY###
+    def get_total_price(self,order_id):
+        result = self.cur.execute("SELECT sum(price) where order_id = {}".format(order_id)).fetchone()
+        return result
+
+
 
 
 ########## MANAGEMENT FUNCTIONS ##########################

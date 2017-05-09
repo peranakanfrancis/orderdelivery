@@ -108,14 +108,13 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     user_id VARCHAR(9) not null,
     chef_id VARCHAR(5) NOT NULL,
     menu_id VARCHAR(5) not null,
-    menu_Item varchar(20) not null,
     price decimal(5,2) not null,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (chef_id) REFERENCES chefs(chef_id)
     )""")
 
     #figuring out how autoincrement works.
-    c.execute('INSERT INTO orders VALUES(NULL,"U0001","C0001","M0001","STEAK", "10.00")')
+    #c.execute('INSERT INTO orders VALUES(NULL,"U0001","C0001","M0001","STEAK", "10.00")')
     #select_top5_ratings("U0001")
 
 
@@ -153,6 +152,13 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     FOREIGN KEY (chef_id) REFERENCES chefs(chef_id)
     )""")
 
+    ##checkout-cart
+    c.execute('DROP TABLE if EXISTS cart')
+    c.execute("""CREATE TABLE cart (
+    order_id varchar(5) not null,
+    menu_id varchar(5) not null,
+
+    """)
     ##sample data!##
     #RESTAURANT##
     c.execute('INSERT INTO restaurant VALUES("1","Los Quatro Amigos","160 Convent Ave","New York","NY","10031","2126507000")')
