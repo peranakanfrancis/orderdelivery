@@ -19,11 +19,8 @@ def index():
 # Run LogInPage
 @app.route('/showLogIn/')
 def showLogIn():
-    if not session.get('logged_in'):
-        return render_template('Log-In.html')
-    else:
-        return render_template("loginUSER.html")
-    # replace this with the designated customer/chef/ manager
+    return render_template("Log-In.html")
+
 
 
 @app.route('/login', methods=["GET",'POST'])
@@ -37,6 +34,7 @@ def login():
     user_check = db.select_user_info(user_id)
     empl_check = db.select_employee_info(user_id)
 
+
     # Check user details against db
     if user_check and user_check[0][3] == password:
         session["user"] = user_id
@@ -44,14 +42,17 @@ def login():
         return view_user_page()
 
     if empl_check and empl_check[0][0] == 'M' and empl_check[1] == password:
+        session["user"] = user_id
         session["logged_in"] = True
         return view_management_page()
 
     if empl_check and empl_check[0][0] == 'C' and empl_check[1] == password:
+        session["user"] = user_id
         session["logged_in"] = True
         return view_chef_page()
 
     if empl_check and empl_check[0][1] == 'D' and empl_check[1] == password:
+        session["user"] = user_id
         session["logged_in"] = True
         return view_delivery_page()
 
@@ -83,7 +84,7 @@ def view_user_page():
     return render_template("loginUSER.html")
 
 
-# LOGIN AS CHEF
+# LOGIN AS CHEF -- make SURE TO INCLUDE SOME SECURITY
 @app.route('/loginChef')
 def view_chef_page():
     return render_template("loginCHEF.html")
