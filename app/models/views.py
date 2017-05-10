@@ -228,6 +228,7 @@ def showMenu():
     total_price = 0
     for item in items_in_cart:
         item_price = db.select_menu_price(item[1],item[2])
+        # total price so far = price * quantity
         total_price += item_price[0] * item[4]
     return render_template('Menu.html',databaseitems = db.select_menu_items(),numbers=db.select_menu_rating(),
                            menu_items=db.select_menu(), cart=items_in_cart, sum_of_items=total_price)
