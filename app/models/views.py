@@ -22,7 +22,7 @@ def showLogIn():
     return render_template("Log-In.html")
 
 
-
+# Login Logic
 @app.route('/login', methods=["GET",'POST'])
 def login():
     db = db_connect()
@@ -51,7 +51,7 @@ def login():
         session["logged_in"] = True
         return view_chef_page()
 
-    if empl_check and empl_check[0][1] == 'D' and empl_check[1] == password:
+    if empl_check and empl_check[0][0] == 'D' and empl_check[1] == password:
         session["user"] = user_id
         session["logged_in"] = True
         return view_delivery_page()
