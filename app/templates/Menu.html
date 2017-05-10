@@ -7,7 +7,7 @@
 
 {% block styles %}
 {{super()}}
-<!--<link rel="stylesheet" href="{{url_for('.static', filename='signup.css')}}">-->
+<link rel="stylesheet" href="{{url_for('.static', filename='signup.css')}}">
 
     <!-- Font link  -->
 <link href="https://fonts.googleapis.com/css?family=Allerta+Stencil" rel="stylesheet">
@@ -100,22 +100,25 @@
 
     <!-- This is where it's supposed to iterate through our menu, we display each image of the food, with its price and rating -->
     <div>
-     {% for item in menu_items %}
-        <div class="col-md-3" >
-            <div style="border-radius: 25px; margin-top: 5px; border-top: groove; border-left: groove; border-right: groove; border-bottom:groove">
-                <p style="font-size: 20px; text-align: center"><strong>{{ item[3] }}</strong></p>
+        {% for chef in select_chef_name %}
+            <p> {{ chef.emp_fname }}</p>
+             {% for item in menu_items %}
+                <div class="col-md-3" >
+                    <div style="border-radius: 25px; margin-top: 5px; border-top: groove; border-left: groove; border-right: groove; border-bottom:groove">
+                        <p style="font-size: 20px; text-align: center"><strong>{{ item[3] }}</strong></p>
 
-                <img src="{{ url_for('static', filename='img/foodimages/{}'.format(item[2])) }} " height="200" width="100%" style="user-select: none">
-                <p>{{ item.itemDesc }}</p>
-                    {% for number in range(0, item[5]| int) %}
-                           <i class="fa fa-heart" aria-hidden="true"></i>
-                    {% endfor %}
-                <p> Rating: {{ item[5]}}</p>
-                <p> Price: ${{ item[4] }} </p>
-                <input type="number" name="quantity" min="1" max="5">
-            </div>
-       </div>
-    {% endfor %}
+                        <img src="{{ url_for('static', filename='img/foodimages/{}'.format(item[2])) }} " height="200" width="100%" style="user-select: none">
+                        <p>{{ item.itemDesc }}</p>
+                            {% for number in range(0, item[5]| int) %}
+                                   <i class="fa fa-heart" aria-hidden="true"></i>
+                            {% endfor %}
+                        <p> Rating: {{ item[5]}}</p>
+                        <p> Price: ${{ item[4] }} </p>
+                        <input type="number" name="quantity" min="1" max="5">
+                    </div>
+               </div>
+            {% endfor %}
+        {% endfor %}
     </div>
 {#    {{ shopbutton.hidden_tag() }}#}
 {#    {{ wtf.form_field(shopbutton.submit) }} {# Shopping Cart Button#}
