@@ -325,4 +325,4 @@ emp_id = "C4"
 #db.insert_users("edris","eddy","simmy","ilovecake","160 Convent Ave","New York","NY","10031","123","9175555555")
 #print(db.select_user_info('edris'))
 db = db_connect()
-print(db.select_chef_name())
+#print(db.select_chef_name())
