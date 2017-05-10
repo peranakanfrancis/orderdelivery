@@ -1,7 +1,7 @@
 from app import app
-from flask import render_template,redirect, request, flash,g,session,url_for,json
+from flask import render_template,redirect, request, flash,g,session,url_for,json, Response
 from app.models.models import db_connect
-
+from functools import wraps # for the role_required decorator
 ###db_connect contains all query methods##
 #db = db_connect()
 #########################################3
@@ -34,26 +34,29 @@ def login():
     user_check = db.select_user_info(user_id)
     empl_check = db.select_employee_info(user_id)
 
-
     # Check user details against db
     if user_check and user_check[0][3] == password:
         session["user"] = user_id
         session["logged_in"] = True
+        session["role"] = "user"
         return view_user_page()
 
     if empl_check and empl_check[0][0] == 'M' and empl_check[1] == password:
         session["user"] = user_id
         session["logged_in"] = True
+        session["role"] = "manager"
         return view_management_page()
 
     if empl_check and empl_check[0][0] == 'C' and empl_check[1] == password:
         session["user"] = user_id
         session["logged_in"] = True
+        session["role"] = "chef"
         return view_chef_page()
 
     if empl_check and empl_check[0][0] == 'D' and empl_check[1] == password:
         session["user"] = user_id
         session["logged_in"] = True
+        session["role"] = "deliverer"
         return view_delivery_page()
 
     else:
@@ -61,6 +64,23 @@ def login():
         return showLogIn()
 
 
+# Role Checking Decorator to Ensure Only Eligible User Has Access
+def required_roles(*roles):
+    def wrapper(f):
+        @wraps(f)
+        def wrapped(*args, **kwargs):
+            if get_current_user_role() not in roles:
+                flash('Authentication error, please check your details and try again', 'error')
+                return redirect(url_for('index'))
+            return f(*args, **kwargs)
+
+        return wrapped
+
+    return wrapper
+
+# Get User
+def get_current_user_role():
+    return session.get('role')
 
 # Controlling Logging Out
 @app.route('/logout/')
@@ -68,18 +88,21 @@ def logout():
 
     # remove the un from the session if it is there
     session.pop('user', None)
+    session.pop('role', None)
     session["logged_in"] = False
     return index()
 
 
 # LOGIN AS DELIVERY PERSONS
 @app.route('/loginDelivery')
+@required_roles('deliverer')
 def view_delivery_page():
     return render_template("loginDELIVERY.html")
 
 
 # LOGIN AS USER
 @app.route('/loginUser/')
+@required_roles('user')
 def view_user_page():
     db = db_connect()
     return render_template("loginUSER.html", top_five=db.select_top5_rated())
@@ -87,12 +110,14 @@ def view_user_page():
 
 # LOGIN AS CHEF -- make SURE TO INCLUDE SOME SECURITY
 @app.route('/loginChef')
+@required_roles('chef')
 def view_chef_page():
     return render_template("loginCHEF.html")
 
 
 # LOGIN AS MANAGER
 @app.route('/loginManager')
+@required_roles('manager')
 def view_management_page():
     db = db_connect()
 

@@ -55,6 +55,16 @@
     <!-- Header -->
     <header id="top" class="header">
         <div class="text-vertical-center">
+              {% block body %}
+
+         {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <b>{{ message }} </b>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+            {% endblock %}
             <h1>Los Quatro Amigos</h1>
             <h3> Lenny &#8226 Justin &#8226 Eddy &#8226 Ammar</h3>
             <br>
