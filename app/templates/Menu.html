@@ -58,7 +58,7 @@
     <!-- then display that the cart is empty -->
     {% else %}
 
-        <h1 style="margin-bottom: 25px">  <i class="fa fa-shopping-cart" aria-hidden="true"></i> Shopping Cart</h1>
+        <h1 style="margin-bottom: 25px"> Shopping Cart</h1>
     <div class="container-fluid">
         <form method="post" action="/menu">
 
@@ -96,7 +96,7 @@
 <br>
 
     <!-- This form creates the menu and everything between the div is the actual menu  -->
-    <form method="post" action="/menu">
+    <form method="post" action="{{ url_for('add_to_cart') }}">
 
     <!-- This is where it's supposed to iterate through our menu, we display each image of the food, with its price and rating -->
     <div>
@@ -120,7 +120,7 @@
 {#    {{ shopbutton.hidden_tag() }}#}
 {#    {{ wtf.form_field(shopbutton.submit) }} {# Shopping Cart Button#}
     <!-- forms for flask -->
-        <button class="btn btn-lg btn-primary btn-block" type="submit" ><a href="{{ url_for('add_to_cart') }}"> Accept </a></button>
+        <input type="submit" value="Add To Cart">
     </form>
 
     <br>

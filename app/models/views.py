@@ -198,21 +198,34 @@ def submit_compliment():
 @app.route('/menu', methods=["GET",'POST'])
 def showMenu():
     db = db_connect()
-    formlist = []
-    return render_template('Menu.html',databaseitems = db.select_menu_items(),numbers=db.select_menu_rating(), menu_items=db.select_menu())
+    # items_in_cart = db.select_user_cart(session.get("user"))
+    items_in_cart = db.select_user_cart("Lenny")
+    total_price = 0
+    for item in items_in_cart:
+        item_price = db.select_menu_price(item[2])[0]
+        total_price += item_price
+    return render_template('Menu.html',databaseitems = db.select_menu_items(),numbers=db.select_menu_rating(),
+                           menu_items=db.select_menu())
 
 @app.route('/add_to_cart', methods=["GET",'POST'])
 def add_to_cart():
     db = db_connect()
-    count = request.form.getlist("quantity")
-    print(count)
-    # try:
-    #     # db.insert_compliments(user, chef, compliment)
-    # except:
-    #     print("failed")
-    #     flash("Submittion failed")
-    #     return render_template("compliments.html")
+    # taken from menu form
+    list_of_quantities = request.form.getlist("quantity")
+    menu_items = db.select_menu()
+    # loop through quantity list and list of menu items simultaneously
+    # the index value value should match up, so the first quantity should be referring to
+    # the first quantity in list of menu
+    for count,menu_item in zip(list_of_quantities,menu_items):
+        # if the quantity from the menu form is not empty we convert it to an integer and
+        # insert it into the cart
+        if count != '':
+            quantity = int(count)
+            # db.insert_cart_items(session.get("user"), menu_item[0], menu_item[1], quantity)
+            db.insert_cart_items("Lenny", menu_item[0], menu_item[1], quantity)
+
     return showMenu()
+
 # EMPLOYEE MANAGEMENT TOOLS
 @app.route('/accept_user/<user>', methods=['GET'])
 def accept_user(user):

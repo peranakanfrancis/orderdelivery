@@ -149,7 +149,9 @@ class db_connect:
         result = self.cur.execute("SELECT item_name, item_pic, rating FROM menus ORDER BY rating DESC LIMIT 5 ").fetchall()
         return result
 
-
+    def select_user_cart(self, user_id):
+        result = self.cur.execute("SELECT item_name, quantity FROM cart where user_id={}".format(user_id)).fetchall()
+        return result
 
 ############### END OF USER SELECT FUNCTIONS#######################################
 ###################################################################################
@@ -159,8 +161,8 @@ class db_connect:
         return result
 
 
-    def select_menu_price(self):
-        result = self.cur.execute("SELECT price FROM menus").fetchall()
+    def select_menu_price(self, item_name):
+        result = self.cur.execute("SELECT price FROM menus WHERE item_name={}".format(item_name)).fetchone()
         return result
 
     def select_menu_rating(self):
@@ -170,6 +172,13 @@ class db_connect:
     def select_menu(self):
         result = self.cur.execute("Select * from menus").fetchall()
         return result
+
+####CART INSERT FUNCTIONS##############
+    def insert_cart_items(self, user_id, chef_id, menu_id, quantity):
+        self.cur.execute("INSERT INTO cart (user_id,chef_id, menu_id, qty) VALUES(?,?,?,?)",
+                         (user_id, chef_id, menu_id, quantity))
+        self.con.commit()
+
 
 
 ########## MANAGEMENT FUNCTIONS ##########################
