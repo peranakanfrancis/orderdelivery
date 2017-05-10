@@ -1,7 +1,6 @@
 from app import app
 from flask import render_template,redirect, request, flash,g,session,url_for,json, Response
 from app.models.models import db_connect
-from flask_login import current_user
 from functools import wraps # for the role_required decorator
 ###db_connect contains all query methods##
 #db = db_connect()
