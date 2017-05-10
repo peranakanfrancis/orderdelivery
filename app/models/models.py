@@ -178,7 +178,7 @@ class db_connect:
         return result
 
 ####CART INSERT FUNCTIONS##############
-    def insert_cart_items(self, user_id, chef_id, menu_id, quantity):
+    def insert_cart_items(self, user_id, chef_id, menu_id, item_name, quantity):
         is_in_cart = db_connect.select_item_in_user_cart(self, user_id, chef_id, menu_id)
         if is_in_cart:
             print("in")
@@ -187,8 +187,8 @@ class db_connect:
                                   .format(quantity,user_id,chef_id,menu_id))
         else:
             print("not in")
-            self.cur.execute("INSERT INTO cart (user_id,chef_id, menu_id, qty) VALUES(?,?,?,?)",
-                         (user_id, chef_id, menu_id, quantity))
+            self.cur.execute("INSERT INTO cart (user_id,chef_id, menu_id, item_name, qty) VALUES(?,?,?,?,?)",
+                         (user_id, chef_id, menu_id, item_name, quantity))
         self.con.commit()
 
 ##############END OF CART INSERT##################

@@ -162,6 +162,7 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     user_id varchar(5) not null,
     chef_id varchar(5) not null,
     menu_id varchar(5) not null,
+    item_name varchar(5) not null,
     qty int not null )""")
 
     ##sample data!##
