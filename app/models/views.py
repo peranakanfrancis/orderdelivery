@@ -81,7 +81,8 @@ def view_delivery_page():
 # LOGIN AS USER
 @app.route('/loginUser/')
 def view_user_page():
-    return render_template("loginUSER.html")
+    db = db_connect()
+    return render_template("loginUSER.html", top_five=db.select_top5_rated())
 
 
 # LOGIN AS CHEF -- make SURE TO INCLUDE SOME SECURITY
