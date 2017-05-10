@@ -13,7 +13,6 @@ from app.models.models import db_connect
 def index():
     db = db_connect() # connect to the database
     #print(session.get("user"))
-    print(db.select_top5_rated())
     return render_template('index.html', top_five=db.select_top5_rated())
 
 
@@ -194,12 +193,24 @@ def submit_compliment():
 ######### MENU SECTION ###########
 
 # Run MenuPage
-@app.route('/menu/')
+@app.route('/menu', methods=["GET",'POST'])
 def showMenu():
     db = db_connect()
+    formlist = []
     return render_template('Menu.html',databaseitems = db.select_menu_items(),numbers=db.select_menu_rating(), menu_items=db.select_menu())
 
-
+@app.route('/add_to_cart', methods=["GET",'POST'])
+def add_to_cart():
+    db = db_connect()
+    count = request.form.getlist("quantity")
+    print(count)
+    # try:
+    #     # db.insert_compliments(user, chef, compliment)
+    # except:
+    #     print("failed")
+    #     flash("Submittion failed")
+    #     return render_template("compliments.html")
+    return showMenu()
 # EMPLOYEE MANAGEMENT TOOLS
 @app.route('/accept_user/<user>', methods=['GET'])
 def accept_user(user):
