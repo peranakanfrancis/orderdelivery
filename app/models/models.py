@@ -191,8 +191,21 @@ class db_connect:
                          (user_id, chef_id, menu_id, quantity))
         self.con.commit()
 
+##############END OF CART INSERT##################
 
+###CHEF SELECTORS###
 
+    #GET chef name##
+    def select_chef_name(self):
+        result = self.cur.execute("SELECT emp_fname FROM employees where substr(emp_id,1,1) = 'C' ").fetchall()
+        return result
+
+    def select_chef_session(self,chef_id):
+        result = self.cur.execute("SELECT item_name FROM menus WHERE chef_id = '{}'".format(chef_id)).fetchall()
+        return result
+
+    def select_chef_ratings(self,chef_id):
+        result = self.cur.execute("SEELCT ")
 ########## MANAGEMENT FUNCTIONS ##########################
 
         #COMPLAINTS - Will be neccessary for managers to review
@@ -311,3 +324,5 @@ emp_id = "C4"
 # = db_connect()
 #db.insert_users("edris","eddy","simmy","ilovecake","160 Convent Ave","New York","NY","10031","123","9175555555")
 #print(db.select_user_info('edris'))
+db = db_connect()
+print(db.select_chef_name())
