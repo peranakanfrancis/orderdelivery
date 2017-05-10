@@ -199,11 +199,12 @@ def submit_compliment():
 def showMenu():
     db = db_connect()
     # items_in_cart = db.select_user_cart(session.get("user"))
-    items_in_cart = db.select_user_cart("Lenny")
+    items_in_cart = db.select_user_cart("test")
     total_price = 0
     for item in items_in_cart:
-        item_price = db.select_menu_price(item[2])[0]
-        total_price += item_price
+        item_price = db.select_menu_price(item[1],item[2])
+        total_price += item_price[0]
+    print(total_price)
     return render_template('Menu.html',databaseitems = db.select_menu_items(),numbers=db.select_menu_rating(),
                            menu_items=db.select_menu())
 
@@ -222,7 +223,8 @@ def add_to_cart():
         if count != '':
             quantity = int(count)
             # db.insert_cart_items(session.get("user"), menu_item[0], menu_item[1], quantity)
-            db.insert_cart_items("Lenny", menu_item[0], menu_item[1], quantity)
+
+            db.insert_cart_items("test", menu_item[0], menu_item[2], quantity)
 
     return showMenu()
 

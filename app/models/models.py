@@ -150,7 +150,7 @@ class db_connect:
         return result
 
     def select_user_cart(self, user_id):
-        result = self.cur.execute("SELECT item_name, quantity FROM cart where user_id={}".format(user_id)).fetchall()
+        result = self.cur.execute("SELECT * FROM cart where user_id='{}'".format(user_id)).fetchall()
         return result
 
 ############### END OF USER SELECT FUNCTIONS#######################################
@@ -161,8 +161,8 @@ class db_connect:
         return result
 
 
-    def select_menu_price(self, item_name):
-        result = self.cur.execute("SELECT price FROM menus WHERE item_name={}".format(item_name)).fetchone()
+    def select_menu_price(self, chef_id, menu_id):
+        result = self.cur.execute("SELECT price FROM menus WHERE chef_id='{0}' and menu_id='{1}'".format(chef_id, menu_id)).fetchone()
         return result
 
     def select_menu_rating(self):
@@ -173,9 +173,21 @@ class db_connect:
         result = self.cur.execute("Select * from menus").fetchall()
         return result
 
+    def select_item_in_user_cart(self, user_id, chef_id, menu_id):
+        result = self.cur.execute("SELECT menu_id from cart where user_id='{0}' and chef_id='{1}' and menu_id='{2}'".format(user_id,chef_id,menu_id)).fetchone()
+        return result
+
 ####CART INSERT FUNCTIONS##############
     def insert_cart_items(self, user_id, chef_id, menu_id, quantity):
-        self.cur.execute("INSERT INTO cart (user_id,chef_id, menu_id, qty) VALUES(?,?,?,?)",
+        is_in_cart = db_connect.select_item_in_user_cart(self, user_id, chef_id, menu_id)
+        if is_in_cart:
+            print("in")
+            print(quantity,user_id,chef_id,menu_id)
+            self.cur.execute("UPDATE cart SET qty = qty + '{0}' WHERE user_id ='{1}' and chef_id='{2}' and menu_id='{3}'"
+                                  .format(quantity,user_id,chef_id,menu_id))
+        else:
+            print("not in")
+            self.cur.execute("INSERT INTO cart (user_id,chef_id, menu_id, qty) VALUES(?,?,?,?)",
                          (user_id, chef_id, menu_id, quantity))
         self.con.commit()
 
