@@ -84,8 +84,7 @@
             </div>
                 <h1> Total Price</h1>
                 <h2>${{ sum_of_items }}</h2>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Checkout</button>
-        </form>
+            <button type="button" ><a href="{{ url_for('checkout', price=sum_of_items, order_items=cart ) }}">Checkout </a></button>        </form>
     </div>
     {% endif %}
 <br>
@@ -102,8 +101,9 @@
                     <div style="border-radius: 25px; margin-top: 5px; border-top: groove; border-left: groove; border-right: groove; border-bottom:groove">
                         <p style="font-size: 20px; text-align: center"><strong>{{ item[3] }}</strong></p>
 
-                        <img src="{{ url_for('static', filename='img/foodimages/{}'.format(item[1])) }} " height="200" width="100%" style="user-select: none">
+                        <img src="{{ url_for('static', filename='img/foodimages/{}'.format(item[2])) }} " height="200" width="100%" style="user-select: none">
                         <p>{{ item.itemDesc }}</p>
+
                             {% for number in range(0, item[5]| int) %}
                                    <i class="fa fa-heart" aria-hidden="true"></i>
                             {% endfor %}

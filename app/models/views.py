@@ -2,6 +2,7 @@ from app import app
 from flask import render_template,redirect, request, flash,g,session,url_for,json, Response
 from app.models.models import db_connect
 from functools import wraps # for the role_required decorator
+import json
 ###db_connect contains all query methods##
 #db = db_connect()
 #########################################3
@@ -253,6 +254,13 @@ def add_to_cart():
             db.insert_cart_items("test", menu_item[0], menu_item[2],menu_item[3], quantity)
 
     return showMenu()
+
+@app.route('/checkout/<price>/<order_items>', methods=["GET",'POST'])
+def checkout(price, order_items):
+    db = db_connect()
+    db.insert_orders("test",order_items,price)
+    db.empty_cart("test")
+    return render_template("Order Confirmation.html", order=order_items, total_price=price)
 
 # EMPLOYEE MANAGEMENT TOOLS
 @app.route('/accept_user/<user>', methods=['GET'])

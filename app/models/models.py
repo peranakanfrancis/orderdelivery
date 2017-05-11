@@ -69,10 +69,10 @@ class db_connect:
         self.cur.execute("INSERT INTO compliments (user_id, emp_id, date_posted, compliment, approval) VALUES(?,?,?,?,?)", (user_id, emp_id, date, compliment, approved) )
         self.con.commit()
 
-    def insert_orders(self,order_id,user_id, chef_id, menu_id,menuItem,price):
+    def insert_orders(self,user_id,menu_item,total_price):
         self.cur = self.con.cursor()
-        self.cur.execute("INSERT INTO orders (order_id,user_id, chef_id, menu_id,menuItem,price, rating) VALUES(?,?,?,?,?,?)",
-                    (order_id,user_id, chef_id, menu_id,menuItem,price) )
+        self.cur.execute("INSERT INTO orders (user_id,menu_item,total_price) VALUES(?,?,?)",
+                    (user_id,menu_item,total_price))
         self.con.commit()
 
     def insert_chefs(self,chef_id,emp_id,menu_name,chef_rating):
@@ -177,7 +177,7 @@ class db_connect:
         result = self.cur.execute("SELECT menu_id from cart where user_id='{0}' and chef_id='{1}' and menu_id='{2}'".format(user_id,chef_id,menu_id)).fetchone()
         return result
 
-####CART INSERT FUNCTIONS##############
+####CART FUNCTIONS##############
     def insert_cart_items(self, user_id, chef_id, menu_id, item_name, quantity):
         is_in_cart = db_connect.select_item_in_user_cart(self, user_id, chef_id, menu_id)
         if is_in_cart:
@@ -189,6 +189,10 @@ class db_connect:
             print("not in")
             self.cur.execute("INSERT INTO cart (user_id,chef_id, menu_id, item_name, qty) VALUES(?,?,?,?,?)",
                          (user_id, chef_id, menu_id, item_name, quantity))
+        self.con.commit()
+
+    def empty_cart(self, user_id):
+        self.cur.execute("DELETE FROM cart WHERE user_id = '{}'".format(user_id))
         self.con.commit()
 
 ##############END OF CART INSERT##################

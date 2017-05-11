@@ -104,14 +104,11 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     #orders##
     c.execute('DROP TABLE if EXISTS orders')
     c.execute("""CREATE TABLE orders (
-    order_id INT PRIMARY KEY,
+    order_id INTEGER PRIMARY KEY,
     user_id VARCHAR(9) not null,
-    chef_id VARCHAR(5) NOT NULL,
-    menu_id VARCHAR(5) not null,
-    price decimal(5,2) not null,
-    qty int not null,
-    FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (chef_id) REFERENCES chefs(chef_id)
+    menu_item VARCHAR(255) not null,
+    total_price decimal(5,2) not null,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
     )""")
 
     #figuring out how autoincrement works.
