@@ -88,7 +88,7 @@ class db_connect:
 
     def insert_menu(self,chef_id, menu_id, item_name, price, rating):
         self.cur = self.con.cursor()
-        self.cur.execute("INSERT INTO menu (chef_id, menu_id, item_name, price, rating) VALUES (?,?,?,?,?)",
+        self.cur.execute("INSERT INTO menus (chef_id, menu_id, item_name, price, rating) VALUES (?,?,?,?,?)",
                         (chef_id, menu_id, item_name, price, rating))
         self.con.commit()
 
@@ -173,9 +173,18 @@ class db_connect:
         result = self.cur.execute("Select * from menus").fetchall()
         return result
 
+
     def select_item_in_user_cart(self, user_id, chef_id, menu_id):
         result = self.cur.execute("SELECT menu_id from cart where user_id='{0}' and chef_id='{1}' and menu_id='{2}'".format(user_id,chef_id,menu_id)).fetchone()
         return result
+
+    def select_menu_id(self,chef_id,):
+        result = self.cur.execute("SELECT max(menu_id) FROM menus WHERE chef_id = '{}'".format(chef_id)).fetchone()
+        return result
+
+    def select_chef_id(self,chef_name):
+        result = self.cur.execute("SELECT emp_id FROM chefs where ")
+
 
 ####CART INSERT FUNCTIONS##############
     def insert_cart_items(self, user_id, chef_id, menu_id, item_name, quantity):
@@ -224,7 +233,7 @@ class db_connect:
         self.con.commit()
 
     def delete_menu_item(self,item_name):
-        self.cur.execute("DELETE FROM menus WHERE item_name = '{}".format(item_name))
+        self.cur.execute("DELETE FROM menus WHERE item_name = '{}'".format(item_name))
         self.con.commit()
 
 
@@ -351,3 +360,5 @@ emp_id = "C4"
 db = db_connect()
 #print(db.select_chef_name())
 #db.insert_orders("1","edris","C1","1","10","1","0")
+#menu_id = db.select_menu_id('C1')
+#print(menu_id[0])

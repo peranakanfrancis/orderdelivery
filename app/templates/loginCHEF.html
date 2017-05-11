@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 
     <head>
         <meta charset="UTF-8">
@@ -67,8 +67,9 @@
                 <th>
                     <input type="text" name="_menu" value = "{{items[0]}}"/>
 
-                    <input type ="submit"  value="Save"> </input>
-                    <button type ="button">Delete</button>
+                    <input type ="submit" value="Save"> </input>
+
+                    <button type ="button" value="delete"><a href ="{{url_for('delete_menu_item', item_name = items[0]) }}">delete</a></button>
 
                 </th>
                 <th><input type = "decimal" name ="price" value = "{{items[1]}}">
@@ -84,6 +85,31 @@
             </table>
 	    </div>
 </div>
+        <div>
+            <table>
+              <form action ="{{url_for('add_menu_item',chef = chef[0]) }}" method = 'POST'>
+                  <tr>
+                      <th>
+                            <p>Add new Item
+                            <input type="text" name ="new_item"> </input>
+                                Add Price
+                            <input type="text" name ="new_price"></input>
+                                </p>
+                      </th>
+
+                      <th>
+                          <input type="submit" value="Add new Item"> </input>
+
+                      </th>
+
+
+                  </tr>
+
+                </form>
+
+                </table>
+
+        </div>
     </head>
 
 

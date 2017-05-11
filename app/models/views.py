@@ -145,13 +145,37 @@ def editMenu(curr_item,curr_price):
 
     return view_chef_page()
 
+@app.route('/delete_menu_item/<item_name>')
 def delete_menu_item(item_name):
     db = db_connect()
+    print(item_name)
     db.delete_menu_item(item_name)
+    return view_chef_page()
 
-    return view_chef_page
+@app.route('/add_menu_item/<chef>', methods=['POST'])
+def add_menu_item(chef):
+    db = db_connect()
 
+    item_name = request.form['new_item']
+    item_price = request.form['new_price']
 
+    chef_id = session.get('user')
+
+    menu_id = db.select_menu_id(chef_id)
+    print(chef_id)
+    print(menu_id)
+    #menu_id = (menu_id)
+    print(item_price)
+    print(item_name)
+
+    if menu_id[0] ==None:
+        menu_id = str(0)
+    else:
+        menu_id = str(int(menu_id[0]) + 1)
+
+    db.insert_menu(chef_id,menu_id,item_name,item_price,"")
+
+    return view_chef_page()
 
 # LOGIN AS MANAGER
 @app.route('/loginManager')
