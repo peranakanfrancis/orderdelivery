@@ -1,4 +1,3 @@
-{% extends "loginUSER.html" %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,24 +6,86 @@
         <title>Chef Page</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <style type="text/css">
 
+        .menu
+        {
+
+        }
+             table
+        {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th
+        {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even)
+        {
+            background-color: #dddddd;
+        }
+
+
+
+
+        </style>
+
+        <div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+             <head><strong>Welcome chef {{chef[0]}}!</strong></head>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+            <button type = "button"><a href="/">Home</a></button>
+		</div>
+</div>
+	<div class="row">
+		<div class="col-md-12">
+		</div>
+        <table>
+            <tr>
+                <th> Menu Items </th>
+                <th> Item Price </th>
+                <th> Item Rating</th>
+            </tr>
+
+    <form action= "/editMenu/" method = "POST">
+         <tr>
+            {%for items in menu_info %}
+                <th><input type="text" name="_menu[]" value ="{{items[0]}}"/>
+                   <!-- {{items[0]}} -->
+                    <input type ="submit"><a href="{{url_for('editMenu', curr_item = items[0]) }}"/> </input>
+                    <button type ="button">Delete</button>
+
+                </th>
+                <th><input type = "decimal" value = "{{ items[1] }}">
+                    <button type ="button">Save</button>
+                </th>
+
+                <th>{{items[2]}}</th>
+        </tr>
+            {% endfor %}
+
+    </form>
+            </table>
+	    </div>
+</div>
     </head>
 
-    <body>
-    <table class="table">
-        <th> Menu Items </th>
-        <th> Item Price </th>
-        <th> Item Rating</th>
 
-        <tr>
-        <td> Mole Poblano </td>
-        <td> $5.00 </td>
-        <td> 5 stars </td>
-        </tr>
-    </table>
 
-    </body>
+
+
 
 </html>

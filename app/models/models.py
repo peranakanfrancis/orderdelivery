@@ -69,10 +69,10 @@ class db_connect:
         self.cur.execute("INSERT INTO compliments (user_id, emp_id, date_posted, compliment, approval) VALUES(?,?,?,?,?)", (user_id, emp_id, date, compliment, approved) )
         self.con.commit()
 
-    def insert_orders(self,order_id,user_id, chef_id, menu_id,menuItem,price):
+    def insert_orders(self,order_id,user_id, chef_id, menu_id,price,qty,fulfilled):
         self.cur = self.con.cursor()
-        self.cur.execute("INSERT INTO orders (order_id,user_id, chef_id, menu_id,menuItem,price, rating) VALUES(?,?,?,?,?,?)",
-                    (order_id,user_id, chef_id, menu_id,menuItem,price) )
+        self.cur.execute("INSERT INTO orders (order_id,user_id, chef_id, menu_id,price,qty, fulfilled) VALUES(?,?,?,?,?,?,?)",
+                    (order_id,user_id, chef_id, menu_id,price,qty,fulfilled) )
         self.con.commit()
 
     def insert_chefs(self,chef_id,emp_id,menu_name,chef_rating):
@@ -344,3 +344,4 @@ emp_id = "C4"
 #print(db.select_user_info('edris'))
 db = db_connect()
 #print(db.select_chef_name())
+#db.insert_orders("1","edris","C1","1","10","1","0")

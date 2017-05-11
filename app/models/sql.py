@@ -110,6 +110,7 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     menu_id VARCHAR(5) not null,
     price decimal(5,2) not null,
     qty int not null,
+    fulfilled boolean,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (chef_id) REFERENCES chefs(chef_id)
     )""")

@@ -115,7 +115,38 @@ def view_user_page():
 @app.route('/loginChef')
 @required_roles('chef')
 def view_chef_page():
-    return render_template("loginCHEF.html")
+    db = db_connect()
+    print(session.get('user'))
+    chef_name = db.select_chef_session(session.get('user'))
+    print(chef_name)
+    menu = db.select_chef_menu()
+
+    return render_template("loginCHEF.html", menu_info = menu, chef = chef_name)
+
+#@app.route('/saveMenuChanges/<updatedmenu>')
+#def SaveMenuChanges(updatedmenu):
+#    db = db_connect()
+#    menu = request.form["menu"]
+#    return view_chef_page()
+
+@app.route('/editMenu/<curr_item>', methods=["GET",'POST'])
+def editMenu(curr_item):
+
+    db = db_connect()
+
+    new_item = request.form.get['_menu[]']
+    print(new_item)
+    print(curr_item)
+    #db.update_menu_item(new_item,curr_item)
+
+    return view_chef_page()
+
+def delete_menu_item(item_name):
+    db = db_connect()
+    db.delete_menu_item(item_name)
+
+    return view_chef_page
+
 
 
 # LOGIN AS MANAGER
