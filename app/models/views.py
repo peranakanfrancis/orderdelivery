@@ -129,15 +129,19 @@ def view_chef_page():
 #    menu = request.form["menu"]
 #    return view_chef_page()
 
-@app.route('/editMenu/<curr_item>', methods=["GET",'POST'])
-def editMenu(curr_item):
+@app.route('/editMenu/<curr_item>/<curr_price>', methods=['POST'])
+def editMenu(curr_item,curr_price):
 
     db = db_connect()
 
-    new_item = request.form.get['_menu[]']
+    new_item = request.form['_menu']
+    new_price = request.form['price']
     print(new_item)
     print(curr_item)
-    #db.update_menu_item(new_item,curr_item)
+    print(curr_price)
+
+    db.update_menu_item(new_item,curr_item)
+    db.update_menu_price(new_price,curr_item)
 
     return view_chef_page()
 
