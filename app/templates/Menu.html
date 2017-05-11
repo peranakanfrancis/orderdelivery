@@ -97,8 +97,6 @@
 
     <!-- This is where it's supposed to iterate through our menu, we display each image of the food, with its price and rating -->
     <div>
-        {% for chef in select_chef_name %}
-            <p> {{ chef.emp_fname }}</p>
              {% for item in menu_items %}
                 <div class="col-md-3" >
                     <div style="border-radius: 25px; margin-top: 5px; border-top: groove; border-left: groove; border-right: groove; border-bottom:groove">
@@ -115,7 +113,7 @@
                     </div>
                </div>
             {% endfor %}
-        {% endfor %}
+
     </div>
 {#    {{ shopbutton.hidden_tag() }}#}
 {#    {{ wtf.form_field(shopbutton.submit) }} {# Shopping Cart Button#}
