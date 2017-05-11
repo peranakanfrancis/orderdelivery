@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -60,24 +61,26 @@
                 <th> Item Rating</th>
             </tr>
 
-    <form action= "/editMenu/" method = "POST">
-         <tr>
             {%for items in menu_info %}
-                <th><input type="text" name="_menu[]" value ="{{items[0]}}"/>
-                   <!-- {{items[0]}} -->
-                    <input type ="submit"><a href="{{url_for('editMenu', curr_item = items[0]) }}"/> </input>
+    <form action= "{{url_for('editMenu', curr_item = items[0],curr_price=items[1]) }}" method = "POST">
+         <tr>
+                <th>
+                    <input type="text" name="_menu" value = "{{items[0]}}"/>
+
+                    <input type ="submit"  value="Save"> </input>
                     <button type ="button">Delete</button>
 
                 </th>
-                <th><input type = "decimal" value = "{{ items[1] }}">
-                    <button type ="button">Save</button>
+                <th><input type = "decimal" name ="price" value = "{{items[1]}}">
+                    <input type ="submit" value="save"> </input>
                 </th>
 
                 <th>{{items[2]}}</th>
         </tr>
-            {% endfor %}
+
 
     </form>
+            {% endfor %}
             </table>
 	    </div>
 </div>

@@ -219,9 +219,15 @@ class db_connect:
         self.cur.execute("UPDATE menus SET item_name = '{}' where item_name = '{}'".format(new_name,curr_item_name))
         self.con.commit()
 
+    def update_menu_price(self,new_price,curr_item):
+        self.cur.execute("UPDATE menus SET price = '{}' WHERE item_name = '{}'".format(new_price,curr_item))
+        self.con.commit()
+
     def delete_menu_item(self,item_name):
         self.cur.execute("DELETE FROM menus WHERE item_name = '{}".format(item_name))
         self.con.commit()
+
+
 
 
 ########## MANAGEMENT FUNCTIONS ##########################
