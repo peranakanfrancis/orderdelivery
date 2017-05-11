@@ -193,7 +193,14 @@ class db_connect:
 
 ##############END OF CART INSERT##################
 
-###CHEF SELECTORS###
+    ###ORDER SELECT FUNCTIONS####
+    def select_orders(self,user_id):
+        result = self.cur.execute("SELECT * FROM orders").fetchall()
+        return result
+
+    ######### END OF ORDER SELECT FUNCTIONS ############
+    
+    ###CHEF SELECTORS###
 
     #GET chef name##
     def select_chef_name(self):
@@ -201,11 +208,22 @@ class db_connect:
         return result
 
     def select_chef_session(self,chef_id):
-        result = self.cur.execute("SELECT item_name FROM menus WHERE chef_id = '{}'".format(chef_id)).fetchall()
+        result = self.cur.execute("SELECT emp_fname FROM employees WHERE emp_id = '{}'".format(chef_id)).fetchone()
         return result
 
-    def select_chef_ratings(self,chef_id):
-        result = self.cur.execute("SEELCT ")
+    def select_chef_menu(self):
+        result = self.cur.execute("SELECT item_name, price, rating FROM menus ").fetchall()
+        return result
+
+    def update_menu_item(self,new_name,curr_item_name):
+        self.cur.execute("UPDATE menus SET item_name = '{}' where item_name = '{}'".format(new_name,curr_item_name))
+        self.con.commit()
+
+    def delete_menu_item(self,item_name):
+        self.cur.execute("DELETE FROM menus WHERE item_name = '{}".format(item_name))
+        self.con.commit()
+
+
 ########## MANAGEMENT FUNCTIONS ##########################
 
         #COMPLAINTS - Will be neccessary for managers to review
