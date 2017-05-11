@@ -105,6 +105,7 @@ def view_delivery_page():
 @required_roles('user')
 def view_user_page():
     db = db_connect()
+    # user_top_five = db.select_top5_rated() -- wait to orders is done
     return render_template("loginUSER.html", top_five=db.select_top5_rated())
 
 
