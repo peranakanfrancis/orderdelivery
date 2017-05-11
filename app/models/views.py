@@ -97,7 +97,9 @@ def logout():
 @app.route('/loginDelivery')
 @required_roles('deliverer')
 def view_delivery_page():
-    return render_template("loginDELIVERY.html")
+    db = db_connect()
+    # change all_orders later....
+    return render_template("loginDELIVERY.html", all_orders=db.select_user_info('test'))
 
 
 # LOGIN AS USER
@@ -158,18 +160,25 @@ def sign_up():
     # Check if username exists
     user_check = db.select_user_info(_userName)
 
-    # If the username exists
-    if user_check and user_check[0][0] == _userName:
-        flash("Sorry, Username Exists", 'error')
-        return render_template("signup.html")
-    # If the key fields are not entered
-    elif not _firstName or not _lastName or not _userName or not _password or not _address or not _city or not _state:
-        flash("Please Enter All Info with Asterisks")
-        return render_template("signup.html")
-    # Insert User
-    else:
-        db.insert_users(_userName, _firstName, _lastName, _password, _address, _city, _state, _postal, _apt, _phone, acc_funds=0)
-        return render_template("loginUSER.html")
+    try:
+        # If the username exists
+        if user_check and user_check[0][0] == _userName:
+            flash("Sorry, Username Exists", 'error')
+            return showSignUp()
+        # If the key fields are not entered
+        elif not _firstName or not _lastName or not _userName or not _password or not _address or not _city or not _state:
+            flash("Please Enter All Info with Asterisks")
+            return showSignUp()
+        # Insert User
+        else:
+            db.insert_users(_userName, _firstName, _lastName, _password, _address, _city, _state, _postal, _apt, _phone, acc_funds=0)
+            session["user"] = _userName
+            session["logged_in"] = True
+            session["role"] = "user"
+            return view_user_page()
+    except: # NOTE THIS CAPTURES ALL EXCEPTIONS
+        flash("Make Sure Your Address is Correct", "error")
+        return showSignUp()
 
 ###### DISPLAY COMPLIMENT/COMPLAINT FORM ##############
 
