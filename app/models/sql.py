@@ -262,6 +262,8 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     #USERS###
     c.execute('INSERT INTO users VALUES '
               '("test","Kristen","Sedor","test","580 St Nicholas Ave","New York","NY","10030","34", "34","random", "sdf","4L","2121234567","2017-01-01","50.00")')
+    c.execute('INSERT INTO users VALUES '
+              '("some","Count","Olaf","one","580 St Nicholas Ave","New York","NY","10030","34", "34","random", "sdf","4L","2121234567","2017-01-01","50.00")')
     #template:(user_id, user_fname, user_lname, password, email, address, city, state, postal, apt, phone, memb_since, acc_funds)
     # c.execute('INSERT INTO users VALUES '
     #           '("woozycake","Kristen","Sedor","a1lk3j4","frostman@att.net","580 St Nicholas Ave","New York","NY","10030","4L","2121234567","2017-01-01","50.00"),'

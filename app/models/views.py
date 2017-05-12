@@ -324,25 +324,31 @@ def showMenu():
         # total price so far = price * quantity
         total_price += item_price[0] * item[4]
     return render_template('Menu.html',databaseitems = db.select_menu_items(),numbers=db.select_menu_rating_numbers(),
-                           menu_items=db.select_menu(), cart=items_in_cart, sum_of_items=total_price)
+                           menu_items=db.select_menu(), cart=items_in_cart, sum_of_items=total_price, user_id=session.get("user"))
 
 @app.route('/add_to_cart', methods=["GET",'POST'])
 def add_to_cart():
     db = db_connect()
     # taken from menu form
     list_of_quantities = request.form.getlist("quantity")
+
     menu_items = db.select_menu()
     # loop through quantity list and list of menu items simultaneously
     # the index value value should match up, so the first quantity should be referring to
     # the first quantity in list of menu
+
     for count,menu_item in zip(list_of_quantities,menu_items):
         # if the quantity from the menu form is not empty we convert it to an integer and
         # insert it into the cart
         if count != '':
-            quantity = int(count)
-            # db.insert_cart_items(session.get("user"), menu_item[0], menu_item[1], quantity)
 
-            db.insert_cart_items("test", menu_item[0], menu_item[2],menu_item[3], quantity)
+            quantity = int(count)
+            try:
+
+                db.insert_cart_items(session.get("user"), menu_item[0], menu_item[2], menu_item[3], quantity)
+            except:
+                flash("You need to login to do that")
+                return showLogIn()
 
     return showMenu()
 
@@ -419,8 +425,11 @@ def demote(empl_name):
     db.add_demotions(empl_name)
     db.demote_employee(empl_name)
     print(db.check_demotions(empl_name)[0])
-    if db.check_demotions(empl_name)[0] > 1:
-        db.fire_employee(empl_name)
+    try:
+        if db.check_demotions(empl_name)[0] > 1:
+            db.fire_employee(empl_name)
+    except:
+        return view_management_page()
     return view_management_page()
 
 @app.route('/add_warning/<user>', methods=['GET'])
