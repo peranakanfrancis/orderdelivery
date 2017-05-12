@@ -319,7 +319,7 @@ class db_connect:
         return result
 
     def fire_employee(self,emp_id):
-        self.cur.execute("UPDATE employees SET hired = 0 where emp_id = '%s'" %emp_id)
+        self.cur.execute("DELETE FROM employees WHERE emp_id = '%s'" %emp_id)
         self.con.commit()
 
         #Promoting employee increases their salary by 5 dollars.
