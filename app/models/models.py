@@ -52,10 +52,20 @@ class db_connect:
         self.cur.execute("UPDATE user set acc_funds = acc_funds + '%s' WHERE user_id = '%s'" %new_funds %user_id)
         self.con.commit()
 
-    def insert_ratings(self,user_id, menu_id, menu_item, rating):
+    def insert_ratings(self, chef_id, menu_id, rating):
         self.cur = self.con.cursor()
-        self.cur.execute("INSERT INTO ratings(user_id, menu_id, rating) VALUES(?,?,?)", (user_id, menu_id, menu_item, rating))
+        rating_quantity = db_connect.select_menu_rating_quantity(chef_id, menu_id)
+        old_rating = db_connect.select_menu_rating(chef_id,menu_id)
+
+        new_rating = ((rating_quantity*old_rating) + rating) / (rating_quantity+1)
+        print("old rating " + str(old_rating))
+        print("new rating " + str(new_rating))
+        self.cur.execute("UPDATE menu SET rating = '{}' WHERE chef_id='{}' and menu_id='{}'".format( new_rating, chef_id,menu_id))
+        self.cur.execute(
+            "UPDATE menu SET rating_quantity = rating_quantity + 1 WHERE chef_id='{}' and menu_id='{}'".format(new_rating, chef_id, menu_id))
         self.con.commit()
+
+
 
     def insert_complaints(self,user_id, emp_id, complaint, approved=0):
         date = datetime.now()
@@ -165,9 +175,20 @@ class db_connect:
         result = self.cur.execute("SELECT price FROM menus WHERE chef_id='{0}' and menu_id='{1}'".format(chef_id, menu_id)).fetchone()
         return result
 
-    def select_menu_rating(self):
+    def select_menu_rating_quantity(self, chef_id, menu_id):
+        result = self.cur.execute("SELECT rating_quantity FROM menus WHERE chef_id='{0}' and menu_id='{1}'".format(chef_id, menu_id)).fetchone()
+        return result
+
+    def select_menu_rating(self, chef_id, menu_id):
+        result = self.cur.execute(
+            "SELECT rating FROM menus WHERE chef_id='{0}' and menu_id='{1}'".format(chef_id,
+                                                                                             menu_id)).fetchone()
+        return result
+
+    def select_menu_rating_numbers(self):
         result = self.cur.execute("SELECT rating FROM menus").fetchone()
         return result
+
 
     def select_menu(self):
         result = self.cur.execute("Select * from menus").fetchall()
@@ -181,8 +202,6 @@ class db_connect:
     def insert_cart_items(self, user_id, chef_id, menu_id, item_name, quantity):
         is_in_cart = db_connect.select_item_in_user_cart(self, user_id, chef_id, menu_id)
         if is_in_cart:
-            print("in")
-            print(quantity,user_id,chef_id,menu_id)
             self.cur.execute("UPDATE cart SET qty = qty + '{0}' WHERE user_id ='{1}' and chef_id='{2}' and menu_id='{3}'"
                                   .format(quantity,user_id,chef_id,menu_id))
         else:

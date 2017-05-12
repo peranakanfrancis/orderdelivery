@@ -101,7 +101,7 @@
                     <div style="border-radius: 25px; margin-top: 5px; border-top: groove; border-left: groove; border-right: groove; border-bottom:groove">
                         <p style="font-size: 20px; text-align: center"><strong>{{ item[3] }}</strong></p>
 
-                        <img src="{{ url_for('static', filename='img/foodimages/{}'.format(item[2])) }} " height="200" width="100%" style="user-select: none">
+                        <img src="{{ url_for('static', filename='img/foodimages/{}'.format(item[1])) }} " height="200" width="100%" style="user-select: none">
                         <p>{{ item.itemDesc }}</p>
 
                             {% for number in range(0, item[5]| int) %}
@@ -109,7 +109,12 @@
                             {% endfor %}
                         <p> Rating: {{ item[5]}}</p>
                         <p> Price: ${{ item[4] }} </p>
-                        <input type="number" name="quantity" min="1" max="5">
+                        <p>enter quantity <input type="number" name="quantity" min="1" > </p>
+                        <form method="post" action="{{ url_for('submit_rating') }}">
+                            <input type="hidden" name="chef_id" value="{{item[0]}}">
+                            <input type="hidden" name="menu_id" value="{{item[2]}}">
+                            <p>enter rating <input type="number" name="rating" min="0" max="5"> <input type="submit" value="Submit Rating"> </p>
+                        </form>
                     </div>
                </div>
             {% endfor %}

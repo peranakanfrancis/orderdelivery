@@ -241,7 +241,7 @@ def showMenu():
         item_price = db.select_menu_price(item[1],item[2])
         # total price so far = price * quantity
         total_price += item_price[0] * item[4]
-    return render_template('Menu.html',databaseitems = db.select_menu_items(),numbers=db.select_menu_rating(),
+    return render_template('Menu.html',databaseitems = db.select_menu_items(),numbers=db.select_menu_rating_numbers(),
                            menu_items=db.select_menu(), cart=items_in_cart, sum_of_items=total_price)
 
 @app.route('/add_to_cart', methods=["GET",'POST'])
@@ -267,9 +267,27 @@ def add_to_cart():
 @app.route('/checkout/<price>/<order_items>', methods=["GET",'POST'])
 def checkout(price, order_items):
     db = db_connect()
-    db.insert_orders("test",order_items,price)
-    db.empty_cart("test")
+    try:
+        db.insert_orders(session.get("user"),order_items,price)
+        db.empty_cart(session.get("user"))
+    except:
+        flash("You need to login to do that")
+        return showLogIn()
+
     return render_template("Order Confirmation.html", order=order_items, total_price=price)
+
+@app.route('/submit_rating', methods=["GET",'POST'])
+def submit_rating():
+    db = db_connect()
+    rating = request.form["rating"]
+
+    chef_id = request.values["chef_id"]
+    menu_id = request.values["menu_id"]
+
+    print(chef_id, menu_id)
+    db.insert_ratings(chef_id,menu_id,rating)
+
+    return showMenu()
 
 # EMPLOYEE MANAGEMENT TOOLS
 @app.route('/accept_user/<user>', methods=['GET'])

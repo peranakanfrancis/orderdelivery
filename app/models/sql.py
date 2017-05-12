@@ -148,6 +148,7 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     item_name text not null,
     price decimal(5,2) not null,
     rating varchar(1),
+    rating_quantity varchar(5),
     FOREIGN KEY (chef_id) REFERENCES chefs(chef_id)
     )""")
 
@@ -221,41 +222,41 @@ with sqlite3.connect("losquatroamigos.db") as connection:
         #CHEF MIGUEL#
     #insert_menu(chef_id, menu_id, item_name, price, rating)
     c.execute('INSERT INTO menus VALUES '
-              '("C2","Tacos de Bistec.jpg","1","Bistec (Steak)","14.00","2"),'
-              '("C2","Tacos de Pollo.jpg","2","Pollo (Chicken)","11.00","4"),'
-              '("C2","Tacos de Chorizo.jpg","3","Chorizo (Sausage)","9.00","5"),'
-              '("C2","Tacos de Cecina.jpg","4","Cecina (Jerky Style Beef)","13.00","5"),'
-              '("C2","Tacos de Carnitas.jpg","5","Carnita (Deep Fried Pork)","9.00","3"),'
-              '("C2","Tacos de Lengua.jpg","6","Lenuga (Beef Tounge)","12.00","4"),'
-              '("C2","Torta de Queso Blanco.jpg","7","Queso Blanco (Fresh White Cheese)","5.00","3"),'
-              '("C2","Torta de Milanesa.jpg","8","Milanesa (Breaded Steak)","15.00","4"),'
-              '("C2","Torta de Jamon.jpg","9","Jamon (Ham)","11.00","4"),'
-              '("C2","Torta de Carne Enchilada.jpg","10","Carne Enchilada (Hot and Spicy Pork)","14.00","4")')
+              '("C2","Tacos de Bistec.jpg","1","Bistec (Steak)","14.00","2", "2"),'
+              '("C2","Tacos de Pollo.jpg","2","Pollo (Chicken)","11.00","4", "2"),'
+              '("C2","Tacos de Chorizo.jpg","3","Chorizo (Sausage)","9.00","5", "2"),'
+              '("C2","Tacos de Cecina.jpg","4","Cecina (Jerky Style Beef)","13.00","5", "2"),'
+              '("C2","Tacos de Carnitas.jpg","5","Carnita (Deep Fried Pork)","9.00","3", "2"),'
+              '("C2","Tacos de Lengua.jpg","6","Lenuga (Beef Tounge)","12.00","4", "2"),'
+              '("C2","Torta de Queso Blanco.jpg","7","Queso Blanco (Fresh White Cheese)","5.00","3", "2"),'
+              '("C2","Torta de Milanesa.jpg","8","Milanesa (Breaded Steak)","15.00","4", "2"),'
+              '("C2","Torta de Jamon.jpg","9","Jamon (Ham)","11.00","4", "2"),'
+              '("C2","Torta de Carne Enchilada.jpg","10","Carne Enchilada (Hot and Spicy Pork)","14.00","4", "2")')
 
         #CHEF MONICA#
     c.execute('INSERT INTO menus VALUES '
-              '("C3","Lobster Ceviche.jpg","1","Lobster Ceviche","24.00","2"),'
-              '("C3","Yelllow Tail Sashimi.jpg","2","Yellowtail Sashimi with Dry Miso and Yuza Sauce","24.00","2"),'
-              '("C3","Shiromi Usuzukari.jpg","3","Shiromi Usuzukari","9.00","4"),'
-              '("C3","Bigeye Tuna Tataki.jpg","4","Bigeye Tuna Tataki with Tosazu","19.00","4"),'
-              '("C3","Sea Urchin Tempura.jpg","5","sea Urchin Tempura","9.00","4"),'
-              '("C3","Rock Shrimp Tempura.jpg","6","Rock Shrimp Tempura with Ponzu","11.00","5"),'
-              '("C3","Chilean Sea Bass.jpg","7","Chilean Sea Bass with Black Bean Sause","24.00",""),'
-              '("C3","Lobster with Wasabi.jpg","8","Lobster with Wasabi Pepper Sause","28.00","5"),'
-              '("C3","Kaki Age Donburi.jpg","9","Kaki Age Donburi","16.00","4"),'
-              '("C3","Tempura Donburi.jpg","10","Tempura Donburi","14.00","4"),'
-              '("C3","Ribeye Anticucho.jpg","11","Ribeye Anticucho","21.00","3")')
+              '("C3","Lobster Ceviche.jpg","1","Lobster Ceviche","24.00","2", "2"),'
+              '("C3","Yelllow Tail Sashimi.jpg","2","Yellowtail Sashimi with Dry Miso and Yuza Sauce","24.00","2", "2"),'
+              '("C3","Shiromi Usuzukari.jpg","3","Shiromi Usuzukari","9.00","4", "2"),'
+              '("C3","Bigeye Tuna Tataki.jpg","4","Bigeye Tuna Tataki with Tosazu","19.00","4", "2"),'
+              '("C3","Sea Urchin Tempura.jpg","5","sea Urchin Tempura","9.00","4", "2"),'
+              '("C3","Rock Shrimp Tempura.jpg","6","Rock Shrimp Tempura with Ponzu","11.00","5", "2"),'
+              '("C3","Chilean Sea Bass.jpg","7","Chilean Sea Bass with Black Bean Sause","24.00","", "2"),'
+              '("C3","Lobster with Wasabi.jpg","8","Lobster with Wasabi Pepper Sause","28.00","5", "2"),'
+              '("C3","Kaki Age Donburi.jpg","9","Kaki Age Donburi","16.00","4", "2"),'
+              '("C3","Tempura Donburi.jpg","10","Tempura Donburi","14.00","4", "2"),'
+              '("C3","Ribeye Anticucho.jpg","11","Ribeye Anticucho","21.00","3", "2")')
 
         #CHEF Rosita#
     c.execute('INSERT INTO menus VALUES '
-              '("C4","Pechuga de Pollo a la parrilla.jpg","1","Pechuga De Pollo A La Parrilla (Grilled Chicken Cutlet)","12.00","4"),'
-              '("C4","Milanesa De res.jpg","2","Milanesa De Res (Breaded Steak)","15.00","4"),'
-              '("C4","Carne de Enchilada.jpg","3","Carne Enchilada (Hot and Spicy Pork)","14.00","4"),'
-              '("C4","Medio Pollo Rostizado.jpg","4","Medio Pollo Rostizado (Half Roasted Chicken)","12.00","4"),'
-              '("C4","Pernil Horneado.jpg","5","Pernil Horneado (Roasted Pork)","14.00","4"),'
-              '("C4","Bistec Encebollado.jpg","6","Bistec Encebollado (Steak with Onions)","17.00","3"),'
-              '("C4","Carne de Cecina.jpg","7","Carne De Cecina (Jerky Beef Steak)","13.00","5"),'
-              '("C4","Mole Poblano.jpg","8","Mole Poblano (Chicken with Mole)","15.00","5")')
+              '("C4","Pechuga de Pollo a la parrilla.jpg","1","Pechuga De Pollo A La Parrilla (Grilled Chicken Cutlet)","12.00","4", "2"),'
+              '("C4","Milanesa De res.jpg","2","Milanesa De Res (Breaded Steak)","15.00","4", "2"),'
+              '("C4","Carne de Enchilada.jpg","3","Carne Enchilada (Hot and Spicy Pork)","14.00","4", "2"),'
+              '("C4","Medio Pollo Rostizado.jpg","4","Medio Pollo Rostizado (Half Roasted Chicken)","12.00","4", "2"),'
+              '("C4","Pernil Horneado.jpg","5","Pernil Horneado (Roasted Pork)","14.00","4", "2"),'
+              '("C4","Bistec Encebollado.jpg","6","Bistec Encebollado (Steak with Onions)","17.00","3", "2"),'
+              '("C4","Carne de Cecina.jpg","7","Carne De Cecina (Jerky Beef Steak)","13.00","5", "2"),'
+              '("C4","Mole Poblano.jpg","8","Mole Poblano (Chicken with Mole)","15.00","5", "2")')
 
 
     #USERS###
