@@ -235,6 +235,10 @@ class db_connect:
         result = self.cur.execute("SELECT * FROM orders").fetchall()
         return result
 
+    def select_user_orders(self,user_id):
+        result = self.cur.execute("SELECT * FROM orders WHERE user_id='{}'".format(user_id)).fetchall()
+        return result
+
     def delete_order(self,order_id):
         self.cur.execute("DELETE FROM orders WHERE order_id = '{}'".format(order_id))
         self.con.commit()
