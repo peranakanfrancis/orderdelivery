@@ -52,47 +52,12 @@
 {% endblock %}
 
 {% block content %}
-    <!-- if the items == 0 and the sum of total for items in the shopping cart is 0 -->
-    {% if sum_of_items == 0 %}
-        <h1> Cart is Empty </h1>
-    <!-- then display that the cart is empty -->
-    {% else %}
 
-        <h1 style="margin-bottom: 25px"> Shopping Cart</h1>
-    <div class="container-fluid">
-        <form method="post" action="/menu">
-
-            <div class="row">
-                  <div class="col-md-4">
-                    <!-- databaseitems is a dictionary in python, in -->
-                    {% for item in cart %}
-                        <p>{{ item[3] }}</p>            <p>quantity: {{ item[4] }}</p>
-
-                   {% endfor %}
-                  </div>
-
-
-                    <!--<div class="col-md-4">-->
-                        <!--{% for items in cart %}-->
-                          <!--{#  {% if sum_of_items == 0 %} #}-->
-                                <!--{#DON'T RENDER THIS FOOD BECAUSE SUBTOTAL FOR IT IS ZERO  #}-->
-                           <!--{#  {% else %} #}-->
-                                <!--<p>Total Price for this Item: ${# {{ total[loop.index] }} #} </p>-->
-                           <!--{# {% endif %} #}-->
-                        <!--{% endfor %}-->
-                    <!--</div>-->
-            </div>
-                <h1> Total Price</h1>
-                <h2>${{ sum_of_items }}</h2>
-            <button type="button" ><a href="{{ url_for('checkout', price=sum_of_items, order_items=cart ) }}">Checkout </a></button>        </form>
-    </div>
-    {% endif %}
 <br>
-    <h1 style="font-size: 61px; text-align: center"> Menu </h1>
+    <h1 style="font-size: 61px; text-align: center"> Rate Our Menu </h1>
 <br>
 
     <!-- This form creates the menu and everything between the div is the actual menu  -->
-    <form method="post" action="{{ url_for('add_to_cart') }}">
 
     <!-- This is where it's supposed to iterate through our menu, we display each image of the food, with its price and rating -->
     <div>
@@ -109,16 +74,20 @@
                             {% endfor %}
                         <p> Rating: {{ item[5]}}</p>
                         <p> Price: ${{ item[4] }} </p>
-                        <p>enter quantity <input type="number" name="quantity" > </p>
+
+                        <div>
+                       <form method="post" action="{{ url_for('submit_rating') }}">
+                            <input type="hidden" name="chef_id" value="{{item[0]}}">
+                            <input type="hidden" name="menu_id" value="{{item[2]}}">
+                            <p>enter rating <input type="number" name="rating" min="0" max="5"> <input type="submit" value="Submit Rating"> </p>
+                        </form>
+
+                        </div>
                     </div>
                </div>
             {% endfor %}
 
     </div>
 
-        <input type="submit" value="Add To Cart">
-    </form>
-
-    <br>
 
 {% endblock %}

@@ -1,6 +1,7 @@
 from app import app
 from flask import render_template,redirect, request, flash,g,session,url_for,json, Response
 from app.models.models import db_connect
+from .forms import *
 from functools import wraps # for the role_required decorator
 import json
 ###db_connect contains all query methods##
@@ -293,8 +294,11 @@ def submit_compliment():
 @app.route('/menu', methods=["GET",'POST'])
 def showMenu():
     db = db_connect()
-    # items_in_cart = db.select_user_cart(session.get("user"))
-    items_in_cart = db.select_user_cart("test")
+
+    try:
+        items_in_cart = db.select_user_cart(session.get("user"))
+    except:
+        items_in_cart = []
     total_price = 0
     for item in items_in_cart:
         item_price = db.select_menu_price(item[1],item[2])
@@ -335,6 +339,13 @@ def checkout(price, order_items):
 
     return render_template("Order Confirmation.html", order=order_items, total_price=price)
 
+@app.route('/show_ratings', methods=["GET",'POST'])
+def show_ratings():
+    db = db_connect()
+
+    return render_template("ratings.html", databaseitems = db.select_menu_items(),numbers=db.select_menu_rating_numbers(),
+                           menu_items=db.select_menu())
+
 @app.route('/submit_rating', methods=["GET",'POST'])
 def submit_rating():
     db = db_connect()
@@ -343,9 +354,12 @@ def submit_rating():
     chef_id = request.values["chef_id"]
     menu_id = request.values["menu_id"]
 
-    db.insert_ratings(chef_id,menu_id,rating)
+    if rating != '':
+        db.insert_ratings(chef_id,menu_id,rating)
+    else:
+        flash("enter a number")
 
-    return showMenu()
+    return show_ratings()
 
 # EMPLOYEE MANAGEMENT TOOLS
 @app.route('/accept_user/<user>', methods=['GET'])

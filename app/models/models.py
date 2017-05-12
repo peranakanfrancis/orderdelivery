@@ -56,14 +56,16 @@ class db_connect:
         self.cur = self.con.cursor()
         # number of times menu item rated so far
         rating_quantity = db_connect.select_menu_rating_quantity(self, chef_id, menu_id)
-        rating_quantity = int(rating_quantity[0])
+        rating_quantity = float(rating_quantity[0])
         old_rating = db_connect.select_menu_rating(self, chef_id,menu_id)
-        old_rating = int(old_rating[0])
-        rating = int(rating)
+        old_rating = float(old_rating[0])
+        rating = float(rating)
 
         #math function to find the new average rating based on a new rating
         new_rating = ((rating_quantity*old_rating) + rating) / (rating_quantity+1)
-
+        print(old_rating)
+        print(new_rating)
+        print(rating_quantity)
         self.cur.execute("UPDATE menus SET rating = '{0}' WHERE chef_id='{1}' and menu_id='{2}'".format( new_rating, chef_id,menu_id))
         self.cur.execute(
             "UPDATE menus SET rating_quantity = {} + 1 WHERE chef_id='{}' and menu_id='{}'".format(rating_quantity, chef_id, menu_id))
