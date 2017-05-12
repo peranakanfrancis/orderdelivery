@@ -54,15 +54,19 @@ class db_connect:
 
     def insert_ratings(self, chef_id, menu_id, rating):
         self.cur = self.con.cursor()
-        rating_quantity = db_connect.select_menu_rating_quantity(chef_id, menu_id)
-        old_rating = db_connect.select_menu_rating(chef_id,menu_id)
+        # number of times menu item rated so far
+        rating_quantity = db_connect.select_menu_rating_quantity(self, chef_id, menu_id)
+        rating_quantity = int(rating_quantity[0])
+        old_rating = db_connect.select_menu_rating(self, chef_id,menu_id)
+        old_rating = int(old_rating[0])
+        rating = int(rating)
 
+        #math function to find the new average rating based on a new rating
         new_rating = ((rating_quantity*old_rating) + rating) / (rating_quantity+1)
-        print("old rating " + str(old_rating))
-        print("new rating " + str(new_rating))
-        self.cur.execute("UPDATE menu SET rating = '{}' WHERE chef_id='{}' and menu_id='{}'".format( new_rating, chef_id,menu_id))
+
+        self.cur.execute("UPDATE menus SET rating = '{0}' WHERE chef_id='{1}' and menu_id='{2}'".format( new_rating, chef_id,menu_id))
         self.cur.execute(
-            "UPDATE menu SET rating_quantity = rating_quantity + 1 WHERE chef_id='{}' and menu_id='{}'".format(new_rating, chef_id, menu_id))
+            "UPDATE menus SET rating_quantity = {} + 1 WHERE chef_id='{}' and menu_id='{}'".format(rating_quantity, chef_id, menu_id))
         self.con.commit()
 
 
@@ -116,7 +120,6 @@ class db_connect:
         return result
 
     def select_employee_id_from_name(self,f_name, l_name):
-        print(f_name, l_name)
         result = self.cur.execute(("SELECT * FROM Employees where emp_fname = '{0}' AND emp_lname = '{1}';").format(str(f_name), l_name)).fetchone()
         return result
 
@@ -215,7 +218,6 @@ class db_connect:
             self.cur.execute("UPDATE cart SET qty = qty + '{0}' WHERE user_id ='{1}' and chef_id='{2}' and menu_id='{3}'"
                                   .format(quantity,user_id,chef_id,menu_id))
         else:
-            print("not in")
             self.cur.execute("INSERT INTO cart (user_id,chef_id, menu_id, item_name, qty) VALUES(?,?,?,?,?)",
                          (user_id, chef_id, menu_id, item_name, quantity))
         self.con.commit()

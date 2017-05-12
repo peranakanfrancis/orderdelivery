@@ -343,7 +343,6 @@ def submit_rating():
     chef_id = request.values["chef_id"]
     menu_id = request.values["menu_id"]
 
-    print(chef_id, menu_id)
     db.insert_ratings(chef_id,menu_id,rating)
 
     return showMenu()
