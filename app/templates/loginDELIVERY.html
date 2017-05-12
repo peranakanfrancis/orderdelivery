@@ -1,8 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <title> Delivery Information </title>
+        <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <title> Los Quatro Amigos </title>
+
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome-4.7.0/css/font-awesome.min.css') }}">
+
 
         <style>
         table
@@ -25,80 +34,159 @@
         }
         </style>
 
+
+        <script>
+        function hideDIV(id) {
+            var x = document.getElementById(id);
+            if (x.style.display === 'none') {
+                x.style.display = 'block';
+            } else {
+                x.style.display = 'none';
+            }
+        }
+        </script>
+
+
     </head>
 
     <body>
+
+
+     <div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="page-header">
+				<h1>
+					Los Quatro Amigos <br> <small> Deliverer Account - {{ session["user"] }} </small>
+				</h1>
+			</div>
+			<nav class="navbar navbar-default" role="navigation">
+				<div class="navbar-header">
+
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						 <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+					</button> <a class="navbar-brand" href="#">LQA</a>
+				</div>
+
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li class="active">
+							<a href="{{ url_for('index') }}">Home</a>
+						</li>
+
+					</ul>
+					<form class="navbar-form navbar-left" role="search" action={{ url_for('logout') }}>
+						<!-- <div class="form-group">
+							<input type="text" class="form-control">
+						 </div> -->
+						<button type="submit" class="btn btn-default">
+							Sign Out
+						</button>
+					</form>
+				</div>
+
+			</nav>
+		</div>
+	</div>
        <table>
+           <h3> Orders Requiring Action: </h3>
               <tr>
-                <th> Order Confitmation Number </th>
+                <th> Order ID </th>
                 <th> Customer Name </th>
                 <th> Customer's Phone Number </th>
                 <th> Customer's Address </th>
-                <th> Estimated Time of Arrival</th>
+                  <th> Action Fulfilled </th>
+                  <th> View Route </th>
+                  <th> Route </th>
               </tr>
-                * insert template crap here *
+               {% for order in all_delivery %}
+                   {# find user #}
+
               <tr>
+                   <!-- No Pending Orders -->
+                  {% if not all_delivery %}
+                      <td colspan="6" > Nothing to Action </td>
+                  {% else %}
+                  <!-- Pending Orders -->
+                      {# orderID #}
+                      <td> {{ order[0] }}</td>
+                      {# customer name #}
+                      <td> {% for user in all_users %}
+                          {% if user[0] == order[2]  %}
+                              {{ user[1] }} {{ user[2] }}
+                          {% endif %}{% endfor %} </td>
+                      {# customer phone number #}
+                      <td> {% for user in all_users %}
+                          {% if user[0] == order[2]  %}
+                              {{ user[11] }}
+                          {% endif %}{% endfor %}</td>
+                      {# customer address #}
+                      <td> {% for user in all_users %}
+                          {% if user[0] == order[2]  %}
+                              {{ user[4] }}, {{ user[5] }}, {{ user[6] }} {{ user[7] }}. {{ user[8] }}
+                          {% endif %}{% endfor %}</td>
+
+                      {# click to fulfill  #}
+                      <td> <button type="submit">
+                          Fulfilled
+                      </button></td>
+
+                      {# click to view route #}
+                      <td> <button onclick="hideDIV('{{ loop.index }}')" type="submit" >
+							View Route </button> </td>
+                      {# ze map #}
+                      <td> <iframe id="{{ loop.index }}" style=' background: transparent; width: 100%; height:100%; display:none'
+                                   src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyAgKmyYkCOortTy41gPshpZtjQ3TDK4P8s
+                                    &origin=160+Covenant+Avenue
+                                    &destination=
+                            {% for user in all_users %}
+                          {% if user[0] == order[2]  %}
+                              {{ user[10] }}+{{ user[9] }}
+                          {% endif %}{% endfor %}">
+
+                      </iframe> </td>
+                   {% endif %}
+               {% endfor %}
+
+              </tr>
+
+            </table>
+
+         <table>
+           <h3>Completed Orders:</h3>
+              <tr>
+                <th> Order Confirmation Number </th>
+                <th> Customer Name </th>
+                <th> Customer's Phone Number </th>
+                <th> Customer's Address </th>
+                  <th> Completed By</th>
+                <th> Issue Warning </th>
+              </tr>
+              <tr>
+
                 <td> Confirmation number </td>
                 <td> Customer Name </td>
                 <td> Customer's Phone Number </td>
                 <td> Customer's Address </td>
-                <td> Estimated Time of Arrival </td>
+                  <td> Deliverer's ID </td>
+                <td> <button type="submit" class="btn btn-default">
+							Issue Warning
+						</button> </td>
               </tr>
 
             </table>
 
 		</div>
-        {% for orders in all_orders  %}
-    {% print(orders) %}
-    {% endfor   %}
 
-
-
-
-    </body>
-
-
-{% if not session['logged_in'] == True %}
-{% print(session['logged_in']) %}
-
-<body>
-<form action="{{ url_for('submit_compliment') }}" method="POST">
-
-    <h6> List of Customers </h6>
-    {% for employee in employees %}
-    <p>{{ loop.index }} {{ employee[2]}} {{employee[3]}}</p>
-    {% endfor %}
-
-    <br /><textarea name="employee" cols="35" rows="1">Enter the name of the employee.
-    </textarea>
-
-
-
-
-    <br />
-  <textarea name="compliment" cols="50" rows="5">
-  Enter your compliment
-  </textarea><br />
-  <input type="submit" value="Submit compliment">
-</form>
-
-{% else %}
-
-{% print(session['logged_in']) %}
-<p>You need to log in to do that!</p>
-{% endif %}
-
-
-<h2>Delivery Information: </h2>
+<!--
+<h2>MAP::</h2>
 
                      <iframe src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyAgKmyYkCOortTy41gPshpZtjQ3TDK4P8s
                      &origin=160+Covenant+Avenue
-                     &destination=Columbia"
+                     &destination={# {{ all_orders[0][10] }},{{ all_orders[0][9] }}" #}
                              width="600" height="600" frameborder="0" style="border:0" allowfullscreen></iframe>
                     <br />
-                    <!-- <small>
-                        <a href="https://www.google.com/maps/"> </a>
-                    </small> -->
+-->
 </body>
 
 </html>
