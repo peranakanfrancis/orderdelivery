@@ -129,8 +129,7 @@ def view_delivery_page():
 def view_user_page():
     db = db_connect()
     # user_top_five = db.select_top5_rated() -- wait to orders is done
-    return render_template("loginUSER.html", top_five=db.select_top5_rated())
-
+    return render_template("loginUSER.html", top_five=db.select_top5_rated(), orders=db.select_user_orders(session.get("user")))
 
 # LOGIN AS CHEF -- make SURE TO INCLUDE SOME SECURITY
 @app.route('/loginChef')
