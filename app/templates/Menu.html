@@ -110,11 +110,11 @@
                         <p> Rating: {{ item[5]}}</p>
                         <p> Price: ${{ item[4] }} </p>
                         <p>enter quantity <input type="number" name="quantity" min="1" > </p>
-                        <form method="post" action="{{ url_for('submit_rating') }}">
+                      <!--  <form method="post" action="{{ url_for('submit_rating') }}">
                             <input type="hidden" name="chef_id" value="{{item[0]}}">
                             <input type="hidden" name="menu_id" value="{{item[2]}}">
                             <p>enter rating <input type="number" name="rating" min="0" max="5"> <input type="submit" value="Submit Rating"> </p>
-                        </form>
+                        </form> -->
                     </div>
                </div>
             {% endfor %}

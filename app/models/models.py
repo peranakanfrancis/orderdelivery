@@ -97,7 +97,7 @@ class db_connect:
     def insert_deliveryinfo(self,order_id,emp_id, user_id, status, cust_warning):
         self.cur = self.con.cursor()
         self.cur.execute("INSERT INTO deliveryinfo (order_id,emp_id, user_id, status, cust_warning) VALUES (?,?,?,?,?)",
-                        (order_id, emp_id, user_id, status, cust_warning) )
+                        (order_id,emp_id, user_id, status, cust_warning) )
         self.con.commit()
 
     def insert_menu(self,chef_id, menu_id, item_name, price, rating):
@@ -229,9 +229,14 @@ class db_connect:
 ##############END OF CART INSERT##################
 
     ###ORDER SELECT FUNCTIONS####
-    def select_orders(self,user_id):
+    def select_orders(self):
         result = self.cur.execute("SELECT * FROM orders").fetchall()
         return result
+
+    def delete_order(self,order_id):
+        self.cur.execute("DELETE FROM orders WHERE order_id = '{}'".format(order_id))
+        self.con.commit()
+
 
     ######### END OF ORDER SELECT FUNCTIONS ############
 
@@ -350,8 +355,21 @@ class db_connect:
         self.con.commit()
 
 
-    def update_delivery_stat(self,order_id):
-        self.cur.execute("UPDATE deliveryinfo set status = 1 where order_id = '%s'" %order_id)
+
+    def select_delivery_info(self):
+        result = self.cur.execute("SELECT * FROM deliveryinfo").fetchall()
+        return result
+
+    def update_delivery_status(self,order_id):
+        self.cur.execute("UPDATE deliveryinfo SET status = 1 WHERE order_id = '{}'".format(order_id))
+        self.con.commit()
+
+    def add_cust_warning(self,order_id):
+        self.cur.execute("UPDATE deliveryinfo SET custwarning = 1 WHERE order_id = '{}".format(order_id))
+        self.con.commit()
+
+    def delete_delivery_items(self):
+        self.cur.execute("DELETE FROM deliveryinfo WHERE status = 1 ")
         self.con.commit()
 
 
