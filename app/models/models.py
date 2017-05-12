@@ -98,7 +98,7 @@ class db_connect:
 
     def insert_menu(self,chef_id, menu_id, item_name, price, rating):
         self.cur = self.con.cursor()
-        self.cur.execute("INSERT INTO menu (chef_id, menu_id, item_name, price, rating) VALUES (?,?,?,?,?)",
+        self.cur.execute("INSERT INTO menus (chef_id, menu_id, item_name, price, rating) VALUES (?,?,?,?,?)",
                         (chef_id, menu_id, item_name, price, rating))
         self.con.commit()
 
@@ -194,11 +194,21 @@ class db_connect:
         result = self.cur.execute("Select * from menus").fetchall()
         return result
 
+
     def select_item_in_user_cart(self, user_id, chef_id, menu_id):
         result = self.cur.execute("SELECT menu_id from cart where user_id='{0}' and chef_id='{1}' and menu_id='{2}'".format(user_id,chef_id,menu_id)).fetchone()
         return result
 
 ####CART FUNCTIONS##############
+    def select_menu_id(self,chef_id,):
+        result = self.cur.execute("SELECT max(menu_id) FROM menus WHERE chef_id = '{}'".format(chef_id)).fetchone()
+        return result
+
+    def select_chef_id(self,chef_name):
+        result = self.cur.execute("SELECT emp_id FROM chefs where ")
+
+
+####CART INSERT FUNCTIONS##############
     def insert_cart_items(self, user_id, chef_id, menu_id, item_name, quantity):
         is_in_cart = db_connect.select_item_in_user_cart(self, user_id, chef_id, menu_id)
         if is_in_cart:
@@ -216,7 +226,14 @@ class db_connect:
 
 ##############END OF CART INSERT##################
 
-###CHEF SELECTORS###
+    ###ORDER SELECT FUNCTIONS####
+    def select_orders(self,user_id):
+        result = self.cur.execute("SELECT * FROM orders").fetchall()
+        return result
+
+    ######### END OF ORDER SELECT FUNCTIONS ############
+
+    ###CHEF SELECTORS###
 
     #GET chef name##
     def select_chef_name(self):
@@ -224,11 +241,28 @@ class db_connect:
         return result
 
     def select_chef_session(self,chef_id):
-        result = self.cur.execute("SELECT item_name FROM menus WHERE chef_id = '{}'".format(chef_id)).fetchall()
+        result = self.cur.execute("SELECT emp_fname FROM employees WHERE emp_id = '{}'".format(chef_id)).fetchone()
         return result
 
-    def select_chef_ratings(self,chef_id):
-        result = self.cur.execute("SEELCT ")
+    def select_chef_menu(self):
+        result = self.cur.execute("SELECT item_name, price, rating FROM menus ").fetchall()
+        return result
+
+    def update_menu_item(self,new_name,curr_item_name):
+        self.cur.execute("UPDATE menus SET item_name = '{}' where item_name = '{}'".format(new_name,curr_item_name))
+        self.con.commit()
+
+    def update_menu_price(self,new_price,curr_item):
+        self.cur.execute("UPDATE menus SET price = '{}' WHERE item_name = '{}'".format(new_price,curr_item))
+        self.con.commit()
+
+    def delete_menu_item(self,item_name):
+        self.cur.execute("DELETE FROM menus WHERE item_name = '{}'".format(item_name))
+        self.con.commit()
+
+
+
+
 ########## MANAGEMENT FUNCTIONS ##########################
 
         #COMPLAINTS - Will be neccessary for managers to review
@@ -349,3 +383,6 @@ emp_id = "C4"
 #print(db.select_user_info('edris'))
 db = db_connect()
 #print(db.select_chef_name())
+#db.insert_orders("1","edris","C1","1","10","1","0")
+#menu_id = db.select_menu_id('C1')
+#print(menu_id[0])

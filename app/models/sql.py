@@ -143,7 +143,7 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     c.execute('DROP TABLE if EXISTS menus')
     c.execute("""CREATE TABLE menus (
     chef_id VARCHAR(5) not null,
-    item_pic text not null,
+    item_pic text,
     menu_id VARCHAR(5) not null,
     item_name text not null,
     price decimal(5,2) not null,
