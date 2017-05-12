@@ -101,6 +101,25 @@ def logout():
 def view_delivery_page():
     db = db_connect()
     # change all_orders later....
+    #whichever delivery person is logged in will take an order.
+
+    delivery_person = session.get('user')
+    orders = db.select_orders()
+
+    #add over items in orders to delivery page.
+    for x in range(len(orders)):
+        db.insert_deliveryinfo(orders[x][0],delivery_person,orders[x][1],status="0",cust_warning="0")
+        db.delete_order(orders[x][0])
+
+    #contents of delivery info.
+    delivery_info = db.select_delivery_info()
+
+    #useful model functions:
+    #delete_order(order_id) - deletes order based off order #
+    #update_delivery_status(order_id) -changes delivery status to 1 (delivered)
+    #add_cust_warning(order_id) - changes cust_warning to 1
+    #delete_delivery_items() - deletes all items where status is 1.
+
     return render_template("loginDELIVERY.html", all_orders=db.select_user_info('test'))
 
 
