@@ -114,33 +114,30 @@ def view_delivery_page():
     db = db_connect()
     # change all_orders later....
 
-
-
     # contents of delivery info.
-    delivery_info = db.select_delivery_info()
+    delivery_info = db.select_incomplete_delivery_info()
+    all_compl_delivery = db.select_completed_delivery_info()
     user_info = db.select_all_registered_users()
-    # Thanks Eddy
-    # useful model functions:
-    # delete_order(order_id) - deletes order based off order #
-    # update_delivery_status(order_id) -changes delivery status to 1 (delivered)
-    # add_cust_warning(order_id) - changes cust_warning to 1
-    # delete_delivery_items() - deletes all items where status is 1.
-
-    return render_template("loginDELIVERY.html", all_delivery=delivery_info, all_users=user_info)
 
 
-# RETURN LONG or LAT OF USER (1 for long, else for lat)
-def get_longlat(user, l):
+    return render_template("loginDELIVERY.html", all_delivery=delivery_info, all_users=user_info, all_compl_delivery=all_compl_delivery)
+
+# For the Deliverer to Complete Delivery
+@app.route('/fulfill/<order_num>')
+def fulfill(order_num):
     db = db_connect()
+    db.update_delivery_status(order_num)
+    db.update_delivery_emp_id(session.get('user'), order_num)
+    flash("**Order Fulfilled & Moved to Completed Orders**")
+    return view_delivery_page()
 
-    user_info = db.select_user_info(user)
-
-    if l == 1:
-        return user_info[0][9]
-    else:
-        return user_info[0][10]
-
-# RETURN LAT OF USER
+# For the Deliverer to Issue a Warning
+@app.route('/issue_warning/<order_num>')
+def issue_warning(order_num):
+    db = db_connect()
+    db.add_cust_warning(order_num)
+    flash("**Warning Issued**", 'error')
+    return view_delivery_page()
 
 # LOGIN AS USER
 @app.route('/loginUser/')
@@ -258,25 +255,30 @@ def sign_up():
     # Check if username exists
     user_check = db.select_user_info(_userName)
 
+    # Checks if the address is valid for geopy
     try:
-        # If the username exists
-        if user_check and user_check[0][0] == _userName:
-            flash("Sorry, Username Exists", 'error')
-            return showSignUp()
-        # If the key fields are not entered
-        elif not _firstName or not _lastName or not _userName or not _password or not _address or not _city or not _state:
-            flash("Please Enter All Info with Asterisks")
-            return showSignUp()
-        # Insert User
-        else:
-            db.insert_users(_userName, _firstName, _lastName, _password, _address, _city, _state, _postal, _apt, _phone, acc_funds=0)
-            session["user"] = _userName
-            session["logged_in"] = True
-            session["role"] = "user"
-            return view_user_page()
-    except: # NOTE THIS CAPTURES ALL EXCEPTIONS
+        db_connect.eval_geo_coords(_address,_city,_postal)
+    except: # Note This Captures All Exceptiosn
         flash("Make Sure Your Address is Correct", "error")
         return showSignUp()
+
+
+    # If the username exists
+    if user_check and user_check[0][0] == _userName:
+        flash("Sorry, Username Exists", 'error')
+        return showSignUp()
+    # If the key fields are not entered
+    elif not _firstName or not _lastName or not _userName or not _password or not _address or not _city or not _state:
+       flash("Please Enter All Info with Asterisks")
+       return showSignUp()
+    # Insert User
+    else:
+        db.insert_users(_userName, _firstName, _lastName, _password, _address, _city, _state, _postal, _apt, _phone, acc_funds=0)
+        session["user"] = _userName
+        session["logged_in"] = True
+        session["role"] = "user"
+        return view_user_page()
+
 
 ###### DISPLAY COMPLIMENT/COMPLAINT FORM ##############
 

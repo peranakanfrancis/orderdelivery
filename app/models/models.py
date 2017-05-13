@@ -383,18 +383,28 @@ class db_connect:
                     %user_id)
         self.con.commit()
 
+    def select_completed_delivery_info(self):
+        result = self.cur.execute("SELECT * FROM deliveryinfo WHERE status = 1").fetchall()
+        return result
 
+    def select_incomplete_delivery_info(self):
+        result = self.cur.execute("SELECT * FROM deliveryinfo WHERE status = 0").fetchall()
+        return result
 
     def select_delivery_info(self):
         result = self.cur.execute("SELECT * FROM deliveryinfo").fetchall()
         return result
 
-    def update_delivery_status(self,order_id):
+    def update_delivery_status(self, order_id):
         self.cur.execute("UPDATE deliveryinfo SET status = 1 WHERE order_id = '{}'".format(order_id))
         self.con.commit()
 
+    def update_delivery_emp_id(self, empl_id, order_id):
+        self.cur.execute("UPDATE deliveryinfo SET emp_id = '{}' WHERE order_id='{}'".format(empl_id, order_id))
+        self.con.commit()
+
     def add_cust_warning(self,order_id):
-        self.cur.execute("UPDATE deliveryinfo SET custwarning = 1 WHERE order_id = '{}".format(order_id))
+        self.cur.execute("UPDATE deliveryinfo SET cust_warning = 1 WHERE order_id = '{}'".format(order_id))
         self.con.commit()
 
     def delete_delivery_items(self):
