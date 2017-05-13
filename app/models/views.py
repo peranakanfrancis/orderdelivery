@@ -343,7 +343,6 @@ def add_to_cart():
 
             quantity = int(count)
             try:
-
                 db.insert_cart_items(session.get("user"), menu_item[0], menu_item[2], menu_item[3], quantity)
             except:
                 flash("You need to login to do that")
@@ -354,9 +353,26 @@ def add_to_cart():
 @app.route('/checkout/<price>/<order_items>', methods=["GET",'POST'])
 def checkout(price, order_items):
     db = db_connect()
+
+    user = session.get("user")
+    is_user_VIP = db.select_user_VIP_status(user)
+
+    if is_user_VIP:
+        price = float(price) * .9
+
     try:
-        db.insert_orders(session.get("user"),order_items,price)
-        db.empty_cart(session.get("user"))
+        db.insert_orders(user,order_items,price)
+        db.update_user_order_count(user)
+        db.update_user_cash_spent(user, price)
+        db.empty_cart(user)
+
+        order_count = db.select_user_order_count(user)
+        cash_spent_so_far = db.select_user_cash_spent(user)
+
+        #VIP check: if this last checkout allowed customer to become VIP
+        if int(order_count[0]) >= 50 or float(cash_spent_so_far[0]) >= 500:
+            db.set_user_VIP_status(user)
+
     except:
         flash("You need to login to do that")
         return showLogIn()

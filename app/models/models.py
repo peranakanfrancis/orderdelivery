@@ -25,10 +25,10 @@ class db_connect:
                         (emp_id, emp_fname, emp_lname, address, city, state, postal, apt, phone, ssn, birthdate, salary, date_hired,hired) )
         self.con.commit()
 
-    def insert_users(self,user_id,f_name, l_name, password, address, city, state, postal, apt, phone, acc_funds=100,registered=0):
+    def insert_users(self,user_id,f_name, l_name, password, address, city, state, postal, apt, phone, acc_funds=100,registered=0,VIP=0,order_count=0,cash_spent=0):
         memb_since = datetime.now()
-        self.cur.execute("INSERT INTO users (user_id,f_name, l_name,password,address, city,state,postal,apt,phone,memb_since,acc_funds,registered) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
-                    (user_id, f_name, l_name, password, address, city, state, postal, apt, phone, memb_since, acc_funds,registered))
+        self.cur.execute("INSERT INTO users (user_id,f_name, l_name,password,address, city,state,postal,apt,phone,memb_since,acc_funds,registered,VIP,order_count,cash_spent) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                    (user_id, f_name, l_name, password, address, city, state, postal, apt, phone, memb_since, acc_funds,registered,VIP,order_count,cash_spent))
         self.con.commit()
 
 
@@ -273,7 +273,30 @@ class db_connect:
         self.cur.execute("DELETE FROM menus WHERE item_name = '{}'".format(item_name))
         self.con.commit()
 
+        ###VIP SELECTORS###
+    def select_user_VIP_status(self,user_id):
+        result = self.cur.execute("SELECT VIP FROM users WHERE user_id = '{}'".format(user_id)).fetchone()
+        return result
 
+    def set_user_VIP_status(self,user_id):
+        self.cur.execute("UPDATE users SET VIP = 1 WHERE user_id ='{}'".format(user_id))
+        self.con.commit()
+
+    def select_user_order_count(self,user_id):
+        result = self.cur.execute("SELECT order_count FROM users WHERE user_id = '{}'".format(user_id)).fetchone()
+        return result
+
+    def select_user_cash_spent(self,user_id):
+        result = self.cur.execute("SELECT cash_spent FROM users WHERE user_id = '{}'".format(user_id)).fetchone()
+        return result
+
+    def update_user_cash_spent(self, user_id, price):
+        self.cur.execute("UPDATE users SET cash_spent = cash_spent + {} WHERE user_id ='{}'".format(price, user_id))
+        self.con.commit()
+
+    def update_user_order_count(self, user_id):
+        self.cur.execute("UPDATE users SET order_count = order_count + 1 WHERE user_id ='{}'".format(user_id))
+        self.con.commit()
 
 
 ########## MANAGEMENT FUNCTIONS ##########################
