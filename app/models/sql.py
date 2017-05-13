@@ -134,9 +134,9 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     c.execute('DROP TABLE if EXISTS deliveryinfo')
     c.execute("""CREATE TABLE deliveryinfo (
     order_id INT PRIMARY KEY,
-    emp_id VARCHAR(5) not null,
+    emp_id VARCHAR(5),
     user_id VARCHAR(9) not null,
-    status ncahr(1) not null,
+    status char(1) not null,
     cust_warning boolean,
     FOREIGN KEY (emp_id) REFERENCES employees(emp_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id)

@@ -14,7 +14,7 @@
     
         <p>Click the "Try it" button to toggle between hiding and showing the DIV element:</p>
         
-        <button onclick="myFunction()">Try it</button>
+        <button onclick="myFunction('myDIV')">Try it</button>
         
         <div id="myDIV">
             <iframe src="https://www.vevo.com/watch/future/mask-off/USSM21700624" frameborder="0"></iframe>
@@ -23,8 +23,8 @@
         <p><b>Note:</b> The element will not take up any space when the display property set to "none".</p>
         
         <script>
-        function myFunction() {
-            var x = document.getElementById('myDIV');
+        function myFunction(id) {
+            var x = document.getElementById(id);
             if (x.style.display === 'none') {
                 x.style.display = 'block';
             } else {

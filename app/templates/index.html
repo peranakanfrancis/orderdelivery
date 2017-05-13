@@ -55,21 +55,32 @@
     <!-- Header -->
     <header id="top" class="header">
         <div class="text-vertical-center">
-              {% block body %}
+
 
          {% with messages = get_flashed_messages() %}
-                        {% if messages %}
-                            {% for message in messages %}
-                                <b>{{ message }} </b>
-                            {% endfor %}
-                        {% endif %}
-                    {% endwith %}
-            {% endblock %}
+             {% if messages %}
+                 {% for message in messages %}
+                     <b>{{ message }} </b>
+                 {% endfor %}
+             {% endif %}
+         {% endwith %}
+
             <h1>Los Quatro Amigos</h1>
             <h3> Lenny &#8226 Justin &#8226 Eddy &#8226 Ammar</h3>
             <br>
+
+        {% if session['logged_in'] %}
+        <a href = "{{ url_for('relogin') }}" class="btn btn-dark btn-lg">Your Page</a>
+        {% else %}
             <a href="/showLogIn" class="btn btn-dark btn-lg">Log In</a>
+        {% endif %}
+
             <a href="#about" class="btn btn-dark btn-lg">Find Out More</a>
+
+        {% if session['logged_in'] %}
+        <a href = "{{ url_for('logout') }}" class="btn btn-dark btn-lg">Log Out</a>
+        {% endif %}
+
         </div>
     </header>
 

@@ -65,6 +65,18 @@ def login():
         flash("Login Failed :(")
         return showLogIn()
 
+# For relogging in
+@app.route('/relogin')
+def relogin():
+    if session["role"] == "user":
+        return view_user_page()
+    if session["role"] == "manager":
+        return view_management_page()
+    if session["role"] == "chef":
+        return view_chef_page()
+    if session["role"] == "deliverer":
+        return view_delivery_page()
+
 
 # Role Checking Decorator to Ensure Only Eligible User Has Access
 def required_roles(*roles):
@@ -87,7 +99,7 @@ def get_current_user_role():
 # Controlling Logging Out
 @app.route('/logout/')
 def logout():
-
+    flash("You Successfully Logged Out.")
     # remove the un from the session if it is there
     session.pop('user', None)
     session.pop('role', None)
@@ -101,27 +113,34 @@ def logout():
 def view_delivery_page():
     db = db_connect()
     # change all_orders later....
-    #whichever delivery person is logged in will take an order.
 
-    delivery_person = session.get('user')
-    orders = db.select_orders()
 
-    #add over items in orders to delivery page.
-    for x in range(len(orders)):
-        db.insert_deliveryinfo(orders[x][0],delivery_person,orders[x][1],status="0",cust_warning="0")
-        db.delete_order(orders[x][0])
 
-    #contents of delivery info.
+    # contents of delivery info.
     delivery_info = db.select_delivery_info()
+    user_info = db.select_all_registered_users()
+    # Thanks Eddy
+    # useful model functions:
+    # delete_order(order_id) - deletes order based off order #
+    # update_delivery_status(order_id) -changes delivery status to 1 (delivered)
+    # add_cust_warning(order_id) - changes cust_warning to 1
+    # delete_delivery_items() - deletes all items where status is 1.
 
-    #useful model functions:
-    #delete_order(order_id) - deletes order based off order #
-    #update_delivery_status(order_id) -changes delivery status to 1 (delivered)
-    #add_cust_warning(order_id) - changes cust_warning to 1
-    #delete_delivery_items() - deletes all items where status is 1.
+    return render_template("loginDELIVERY.html", all_delivery=delivery_info, all_users=user_info)
 
-    return render_template("loginDELIVERY.html", all_orders=db.select_user_info('test'))
 
+# RETURN LONG or LAT OF USER (1 for long, else for lat)
+def get_longlat(user, l):
+    db = db_connect()
+
+    user_info = db.select_user_info(user)
+
+    if l == 1:
+        return user_info[0][9]
+    else:
+        return user_info[0][10]
+
+# RETURN LAT OF USER
 
 # LOGIN AS USER
 @app.route('/loginUser/')
@@ -193,7 +212,7 @@ def add_menu_item(chef):
     else:
         menu_id = str(int(menu_id[0]) + 1)
 
-    db.insert_menu(chef_id,menu_id,item_name,item_price,"")
+    db.insert_menu(chef_id, menu_id, item_name,item_price,"")
 
     return view_chef_page()
 
@@ -351,6 +370,7 @@ def add_to_cart():
     return showMenu()
 
 @app.route('/checkout/<price>/<order_items>', methods=["GET",'POST'])
+@required_roles('user')
 def checkout(price, order_items):
     db = db_connect()
 
@@ -376,6 +396,15 @@ def checkout(price, order_items):
     except:
         flash("You need to login to do that")
         return showLogIn()
+
+    db.insert_orders(session.get("user"),order_items,price)
+    db.empty_cart(session.get("user"))
+
+    #print(len(db.select_orders()))
+
+    # insert item into the deliveryinfo DB
+    db.insert_deliveryinfo(len(db.select_orders()), 'None', session.get("user"), status="0", cust_warning="0")
+
 
     return render_template("Order Confirmation.html", order=order_items, total_price=price)
 
