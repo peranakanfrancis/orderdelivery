@@ -292,7 +292,7 @@ def show_complaint_form():
 def submit_complaint():
     db = db_connect()
 
-    employee = request.form["employee"]
+    employee = request.form.get("employee")
     employee = employee.strip().split(" ")
     emp_fname = str(employee[0])
     emp_lname = employee[1]
@@ -309,22 +309,33 @@ def submit_complaint():
 
 @app.route('/show_compliment_form')
 def show_compliment_form():
-    return render_template("compliments.html")
+    db = db_connect()
+    print(session.get("user"))
+    return render_template("compliments.html", employees=db.select_all_hired_employees())
 
 
 @app.route('/submit_compliment', methods=["GET",'POST'])
 def submit_compliment():
     db = db_connect()
-    chef = request.form["chef"]
-    user = session['user']
-    compliment = request.form["compliment"]
-    try:
-        db.insert_compliments(user, chef, compliment)
-    except:
-        print("failed")
-        flash("Submittion failed")
-        return render_template("compliments.html")
-    return redirect("/")
+    # convert employee name to emp_id which is nec for insert function
+    employee = request.form.get("employee")
+    employee = employee.strip().split(" ")
+    emp_fname = str(employee[0])
+    emp_lname = employee[1]
+
+
+    user = session.get("user")
+    compliment = request.form.get("compliment")
+
+# try:
+    emp_id = db.select_employee_id_from_name(emp_fname, emp_lname)[0]
+    print(type(user), type(emp_id), type(compliment))
+    # db.insert_compliments(user, employee, compliment)
+# except:
+#     print("failed")
+#     flash("Submission failed")
+    return render_template("compliments.html", employees=db.select_all_hired_employees())
+    # return redirect("/")
 
 
 ######### MENU SECTION ###########
@@ -510,9 +521,15 @@ def decline_complaint(complaint_id,user_id):
 def accept_compliment(compliment_id):
     db = db_connect()
     db.confirm_compliment(compliment_id)
+    db.increment_compliment_count()
+    # if a customer is customer is VIP, their compliments count twice as much
+    is_user_VIP = db.select_user_VIP_status(session.get("user"))
+    if is_user_VIP:
+        pass
     #IDK what this is for. -Eddy
     # we need to check if the employee has 3 or more compliments. so we
     # use select_compliment to find out who the compliment is referring to
+    print(db.select_compliment(compliment_id))
     employee = db.select_compliment(compliment_id).empl_id
     if db.check_compliments(employee) >= 3:
         db.promote_employee(employee)

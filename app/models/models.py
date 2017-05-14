@@ -85,6 +85,10 @@ class db_connect:
         self.cur.execute("INSERT INTO compliments (user_id, emp_id, date_posted, compliment, approval) VALUES(?,?,?,?,?)", (user_id, emp_id, date, compliment, approved) )
         self.con.commit()
 
+    def increment_compliment_count(self,emp_id):
+        self.cur.execute("UPDATE employees SET compliments = compliments + 1 where emp_id = '{}'".format(emp_id))
+        self.con.commit()
+
     def insert_orders(self,user_id,menu_item,total_price):
         self.cur = self.con.cursor()
         self.cur.execute("INSERT INTO orders (user_id,menu_item,total_price) VALUES(?,?,?)",

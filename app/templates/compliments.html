@@ -1,6 +1,5 @@
 
-{% if not session['logged_in'] == True %}
-{% print(session['logged_in']) %}
+{% if session['logged_in'] == True %}
 <body>
 <form action="{{ url_for('submit_compliment') }}" method="POST">
 
