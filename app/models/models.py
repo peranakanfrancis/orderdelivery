@@ -86,7 +86,7 @@ class db_connect:
     def insert_compliments(self,user_id, emp_id, compliment, approved=0):
         date = datetime.now()
         self.cur = self.con.cursor()
-        self.cur.execute("INSERT INTO compliments (user_id, emp_id, date_posted, compliment, approval) VALUES(?,?,?,?,?)", (user_id, emp_id, date, compliment, approved) )
+        self.cur.execute("INSERT INTO compliments (user_id, emp_id, compliment, approval) VALUES(?,?,?,?)", (user_id, emp_id, compliment, approved) )
         self.con.commit()
 
     def increment_compliment_count(self,emp_id):

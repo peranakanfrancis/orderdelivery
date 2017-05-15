@@ -254,17 +254,16 @@ def sign_up():
     _address = request.form['address']
     _city = request.form['city']
     _state = request.form['state']
-    _postal = int(request.form['postal'])
+    _postal = request.form['postal']
     _apt = request.form['apt']
     _phone = request.form['phone']
 
     # Check if username exists
     user_check = db.select_user_info(_userName)
 
-
     # Checks if the address is valid for geopy
     try:
-        db.eval_geo_coords(_address, _city, _postal)
+        db_connect.eval_geo_coords(_address,_city,_postal)
     except: # Note This Captures All Exceptiosn
         flash("Make Sure Your Address is Correct", "error")
         return showSignUp()
@@ -305,14 +304,16 @@ def submit_complaint():
     emp_lname = employee[1]
     emp_id = db.select_employee_id_from_name(emp_fname, emp_lname)[0]
 
-    user = "Lenny"
+    user = session.get("user")
     complaint = request.form["complaint"]
-    try:
-        db.insert_complaints(user,emp_id,complaint)
-    except:
-        flash("Submittion failed")
-        return render_template("complaints.html")
-    return redirect("/")
+# try:
+    db.insert_complaints(user,emp_id,complaint)
+# except:
+    flash("Submission failed")
+
+
+    return render_template("complaints.html")
+    # return redirect("/")
 
 @app.route('/show_compliment_form')
 def show_compliment_form():
@@ -334,15 +335,16 @@ def submit_compliment():
     user = session.get("user")
     compliment = request.form.get("compliment")
 
-# try:
-    emp_id = db.select_employee_id_from_name(emp_fname, emp_lname)[0]
-    print(type(user), type(emp_id), type(compliment))
-    # db.insert_compliments(user, employee, compliment)
-# except:
-#     print("failed")
-#     flash("Submission failed")
-    return render_template("compliments.html", employees=db.select_all_hired_employees())
-    # return redirect("/")
+    try:
+        emp_id = db.select_employee_id_from_name(emp_fname, emp_lname)[0]
+
+        db.insert_compliments(user, emp_id, compliment)
+    except:
+        print("failed")
+        flash("Submission failed")
+        return render_template("compliments.html", employees=db.select_all_hired_employees())
+
+    return redirect("/")
 
 
 ######### MENU SECTION ###########
