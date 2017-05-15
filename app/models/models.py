@@ -78,9 +78,8 @@ class db_connect:
 
 
     def insert_complaints(self,user_id, emp_id, complaint, approved=0):
-        date = datetime.now()
         self.cur = self.con.cursor()
-        self.cur.execute("INSERT INTO complaints (user_id, emp_id, date_posted, complaint, approval) VALUES(?,?,?,?,?)", (user_id, emp_id, date, complaint, approved) )
+        self.cur.execute("INSERT INTO complaints (user_id, emp_id, complaint, approval) VALUES(?,?,?,?)", (user_id, emp_id, complaint, approved) )
         self.con.commit()
 
     def insert_compliments(self,user_id, emp_id, compliment, approved=0):

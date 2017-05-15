@@ -302,18 +302,21 @@ def submit_complaint():
     employee = employee.strip().split(" ")
     emp_fname = str(employee[0])
     emp_lname = employee[1]
-    emp_id = db.select_employee_id_from_name(emp_fname, emp_lname)[0]
 
     user = session.get("user")
-    complaint = request.form["complaint"]
-# try:
-    db.insert_complaints(user,emp_id,complaint)
-# except:
-    flash("Submission failed")
+    complaint = request.form.get("complaint")
 
 
-    return render_template("complaints.html")
-    # return redirect("/")
+    try:
+        emp_id = db.select_employee_id_from_name(emp_fname, emp_lname)[0]
+
+        db.insert_complaints(user, emp_id, complaint)
+    except:
+        print("failed")
+        flash("Submission failed")
+        return render_template("complaints.html", employees=db.select_all_hired_employees())
+
+    return redirect("/")
 
 @app.route('/show_compliment_form')
 def show_compliment_form():
