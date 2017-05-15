@@ -247,6 +247,11 @@ class db_connect:
         self.cur.execute("DELETE FROM orders WHERE order_id = '{}'".format(order_id))
         self.con.commit()
 
+    def select_order_items(self,user_id):
+        result = self.cur.execute("SELECT menu_item FROM orders WHERE user_id ='{}'".format(user_id)).fetchall()
+        return result
+
+
 
     ######### END OF ORDER SELECT FUNCTIONS ############
 

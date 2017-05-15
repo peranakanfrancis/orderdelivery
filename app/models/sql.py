@@ -109,7 +109,7 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     c.execute("""CREATE TABLE orders (
     order_id INTEGER PRIMARY KEY,
     user_id VARCHAR(9) not null,
-    menu_item VARCHAR(255) not null,
+    menu_item text not null,
     total_price decimal(5,2) not null,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
     )""")
@@ -163,7 +163,7 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     user_id varchar(5) not null,
     chef_id varchar(5) not null,
     menu_id varchar(5) not null,
-    item_name varchar(5) not null,
+    item_name text not null,
     qty int not null )""")
 
     ##sample data!##

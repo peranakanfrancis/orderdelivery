@@ -390,11 +390,24 @@ def checkout(price, order_items):
     user = session.get("user")
     is_user_VIP = db.select_user_VIP_status(user)
 
+    cart = db.select_user_cart(user)
+    print(cart)
+    items = []
+    print(len(cart))
+    print(len(order_items))
+
+    for x in range(len(cart)):
+        items.append((cart[x][3],cart[x][4]))
+
+
+    print(items)
+
     if is_user_VIP:
         price = float(price) * .9
 
+    items = str(items)
     try:
-        db.insert_orders(user,order_items,price)
+        db.insert_orders(user,items,price)
         db.update_user_order_count(user)
         db.update_user_cash_spent(user, price)
         db.empty_cart(user)
@@ -410,7 +423,7 @@ def checkout(price, order_items):
         flash("You need to login to do that")
         return showLogIn()
 
-    db.insert_orders(session.get("user"),order_items,price)
+    db.insert_orders(user,items,price)
     db.empty_cart(session.get("user"))
 
     #print(len(db.select_orders()))
