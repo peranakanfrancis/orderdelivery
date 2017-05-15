@@ -406,9 +406,9 @@ def checkout(price, order_items):
         items.append((cart[x][3],cart[x][4]))
 
 
-    print(items)
+    print(is_user_VIP)
 
-    if is_user_VIP:
+    if is_user_VIP == 1:
         price = float(price) * .9
 
     items = str(items)
