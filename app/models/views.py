@@ -47,6 +47,7 @@ def login():
         # user is not registered
         else:
             flash("A manager must register you first!")
+            flash("Be Sure to send your $100 Check :)")
             return showLogIn()
 
     if empl_check and empl_check[0][0] == 'M' and empl_check[1] == password:
@@ -237,7 +238,6 @@ def view_management_page():
 # Run SignUpPage
 @app.route('/showSignUp/')
 def showSignUp():
-    db = db_connect()
 
     return render_template('signup.html')
 
@@ -280,10 +280,9 @@ def sign_up():
     # Insert User
     else:
         db.insert_users(_userName, _firstName, _lastName, _password, _address, _city, _state, _postal, _apt, _phone, acc_funds=0)
-        session["user"] = _userName
-        session["logged_in"] = True
-        session["role"] = "user"
-        return view_user_page()
+        flash("Your Account is Now Pending Manager Approval.")
+        flash("Please send a $100 check to us so we can approve.")
+        return index()
 
 
 ###### DISPLAY COMPLIMENT/COMPLAINT FORM ##############

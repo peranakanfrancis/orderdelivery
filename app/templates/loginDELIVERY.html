@@ -145,10 +145,10 @@
                       </button></form></td>
 
                       {# click to view route #}
-                      <td> <button onclick="hideDIV('{{ loop.index }}')" type="submit" >
+                      <td> <button onclick="hideDIV('{{ order[0]}}')" type="submit" >
 							View Route </button> </td>
                       {# ze map #}
-                      <td> <iframe id="{{ loop.index }}" style=' background: transparent; width: 100%; height:100%; display:none'
+                      <td> <iframe id="{{ order[0] }}" style=' background: transparent; width: 100%; height:100%; display:none'
                                    src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyAgKmyYkCOortTy41gPshpZtjQ3TDK4P8s
                                     &origin=160+Covenant+Avenue
                                     &destination=
