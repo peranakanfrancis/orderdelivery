@@ -254,16 +254,17 @@ def sign_up():
     _address = request.form['address']
     _city = request.form['city']
     _state = request.form['state']
-    _postal = request.form['postal']
+    _postal = int(request.form['postal'])
     _apt = request.form['apt']
     _phone = request.form['phone']
 
     # Check if username exists
     user_check = db.select_user_info(_userName)
 
+
     # Checks if the address is valid for geopy
     try:
-        db_connect.eval_geo_coords(_address,_city,_postal)
+        db.eval_geo_coords(_address, _city, _postal)
     except: # Note This Captures All Exceptiosn
         flash("Make Sure Your Address is Correct", "error")
         return showSignUp()
