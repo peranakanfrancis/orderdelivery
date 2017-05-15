@@ -431,7 +431,7 @@ def checkout(price, order_items):
     print(user_info[13])
     ### Check if there is enough money in the account
     # Not enough money
-    if price > int(user_info[13]):
+    if int(price) > int(user_info[13]):
         flash("You Do Not Have Enough Money In Your Account")
         render_template(url_for(relogin))
 
