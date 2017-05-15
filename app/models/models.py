@@ -34,6 +34,8 @@ class db_connect:
 
         #Store longitude and latitude for google API
         coords = db_connect.eval_geo_coords(self,address,city,postal)
+
+
         #update longitude and latitude
         self.cur.execute("UPDATE users SET longitude = '{0}' WHERE user_id = '{1}'".format(coords[0],user_id))
         self.cur.execute("UPDATE users SET latitude = '{0}' WHERE user_id = '{1}'".format(coords[1],user_id))
