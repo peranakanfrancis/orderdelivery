@@ -298,6 +298,7 @@ def show_complaint_form():
 def submit_complaint():
     db = db_connect()
 
+    # insert_complaints function needs emp_id not name so we convert it here
     employee = request.form.get("employee")
     employee = employee.strip().split(" ")
     emp_fname = str(employee[0])
@@ -309,7 +310,6 @@ def submit_complaint():
 
     try:
         emp_id = db.select_employee_id_from_name(emp_fname, emp_lname)[0]
-
         db.insert_complaints(user, emp_id, complaint)
     except:
         print("failed")
@@ -435,8 +435,8 @@ def checkout(price, order_items):
         flash("You need to login to do that")
         return showLogIn()
 
-    db.insert_orders(user,items,price)
-    db.empty_cart(session.get("user"))
+    # db.insert_orders(user,items,price)
+    # db.empty_cart(session.get("user"))
 
     #print(len(db.select_orders()))
 
@@ -542,14 +542,16 @@ def decline_complaint(complaint_id,user_id):
     db.update_warnings(user_id)
     return view_management_page()
 
-@app.route('/add_compliment/<user>', methods=['GET'])
-def accept_compliment(compliment_id):
+@app.route('/add_compliment/<complaint_id>/<emp_id>', methods=['GET'])
+def accept_compliment(compliment_id, emp_id):
     db = db_connect()
     db.confirm_compliment(compliment_id)
+    employee = emp_id
+
     db.increment_compliment_count()
     # if a customer is customer is VIP, their compliments count twice as much
     is_user_VIP = db.select_user_VIP_status(session.get("user"))
-    if is_user_VIP:
+    if is_user_VIP == 1:
         pass
     #IDK what this is for. -Eddy
     # we need to check if the employee has 3 or more compliments. so we

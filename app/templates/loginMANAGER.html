@@ -342,8 +342,8 @@
                             {{ compliment[4] }}
                         </td>
                         <td>
-                            <button type="button" ><a href="{{ url_for('accept_compliment', compliment_id=compliment[0], emp_id=compliment[2]) }}"> Accept </a></button>
-                        </td>
+                            <button type="button" ><a href="{{ url_for('accept_compliment', complaint_id=compliment[0], emp_id=compliment[1]) }}"> Accept </a></button>
+                            <button type="button" ><a href="{{ url_for('decline_compliment',  complaint_id=compliment[0] , user_id=compliment[2]) }}"> Decline </a></button>                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
