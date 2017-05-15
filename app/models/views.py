@@ -263,7 +263,7 @@ def sign_up():
 
     # Checks if the address is valid for geopy
     try:
-        db_connect.eval_geo_coords(_address,_city,_postal)
+        db.eval_geo_coords(_address,_city,_postal)
     except: # Note This Captures All Exceptiosn
         flash("Make Sure Your Address is Correct", "error")
         return showSignUp()
