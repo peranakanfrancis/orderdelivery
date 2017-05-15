@@ -56,16 +56,18 @@ class db_connect:
         self.cur = self.con.cursor()
         # number of times menu item rated so far
         rating_quantity = db_connect.select_menu_rating_quantity(self, chef_id, menu_id)
-        rating_quantity = float(rating_quantity[0])
-        old_rating = db_connect.select_menu_rating(self, chef_id,menu_id)
-        old_rating = float(old_rating[0])
-        rating = float(rating)
+        old_rating = db_connect.select_menu_rating(self, chef_id, menu_id)
+        if not rating_quantity[0] or not old_rating[0]:
+            rating_quantity = 0
+            old_rating = 0
+        else:
+            rating_quantity = round(float(rating_quantity[0]), 2)
+            old_rating = round(float(old_rating[0]), 2)
+        rating = round(float(rating), 2)
 
         #math function to find the new average rating based on a new rating
         new_rating = ((rating_quantity*old_rating) + rating) / (rating_quantity+1)
-        print(old_rating)
-        print(new_rating)
-        print(rating_quantity)
+
         self.cur.execute("UPDATE menus SET rating = '{0}' WHERE chef_id='{1}' and menu_id='{2}'".format( new_rating, chef_id,menu_id))
         self.cur.execute(
             "UPDATE menus SET rating_quantity = {} + 1 WHERE chef_id='{}' and menu_id='{}'".format(rating_quantity, chef_id, menu_id))
@@ -145,6 +147,10 @@ class db_connect:
 
     def select_all_registered_users(self):
         result = self.cur.execute("SELECT * FROM users Where registered = 1").fetchall()
+        return result
+
+    def is_registered(self,user_id):
+        result = self.cur.execute("SELECT registered FROM users Where user_id='{}'".format(user_id)).fetchone()
         return result
 
         # GENERAL USER INFO

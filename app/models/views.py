@@ -38,10 +38,16 @@ def login():
 
     # Check user details against db
     if user_check and user_check[0][3] == password:
-        session["user"] = user_id
-        session["logged_in"] = True
-        session["role"] = "user"
-        return view_user_page()
+        # only let the user login if the manager has confirmed his registration
+        if int(db.is_registered(user_id)[0]) == 1:
+            session["user"] = user_id
+            session["logged_in"] = True
+            session["role"] = "user"
+            return view_user_page()
+        # user is not registered
+        else:
+            flash("A manager must register you first!")
+            return showLogIn()
 
     if empl_check and empl_check[0][0] == 'M' and empl_check[1] == password:
         session["user"] = user_id
