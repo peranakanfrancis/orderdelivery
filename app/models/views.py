@@ -401,6 +401,8 @@ def checkout(price, order_items):
     user = session.get("user")
     is_user_VIP = db.select_user_VIP_status(user)
 
+
+
     cart = db.select_user_cart(user)
     print(cart)
     items = []
@@ -417,6 +419,22 @@ def checkout(price, order_items):
         price = float(price) * .9
 
     items = str(items)
+
+    print("PRICE")
+    print(price)
+    print("ACCT MONEY")
+
+
+    ### Get User Information
+    user_info = db.select_user_info(user)[0]
+    print(user_info)
+    print(user_info[13])
+    ### Check if there is enough money in the account
+    # Not enough money
+    if price > int(user_info[13]):
+        flash("You Do Not Have Enough Money In Your Account")
+        render_template(url_for(relogin))
+
     try:
         db.insert_orders(user,items,price)
         db.update_user_order_count(user)
