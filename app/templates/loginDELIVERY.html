@@ -59,8 +59,8 @@
 				<h1>
 					Los Quatro Amigos <br> <small> Deliverer Account - {{ session["user"] }} </small>
 				</h1>
-
 			</div>
+
 			<nav class="navbar navbar-default" role="navigation">
 				<div class="navbar-header">
 
@@ -79,14 +79,10 @@
 
 					</ul>
 					<form class="navbar-form navbar-left" role="search" action={{ url_for('logout') }}>
-						<!-- <div class="form-group">
-							<input type="text" class="form-control">
-						 </div> -->
 						<button type="submit" class="btn btn-default">
 							Sign Out
 						</button>
 					</form>
-
 				</div>
 
 			</nav>
@@ -145,7 +141,7 @@
                       </button></form></td>
 
                       {# click to view route #}
-                      <td> <button onclick="hideDIV('{{ order[0]}}')" type="submit" >
+                      <td> <button onclick="hideDIV('{{ loop.index }}')" type="submit" >
 							View Route </button> </td>
                       {# ze map #}
                       <td> <iframe id="{{ order[0] }}" style=' background: transparent; width: 100%; height:100%; display:none'
