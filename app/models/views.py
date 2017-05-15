@@ -47,6 +47,7 @@ def login():
         # user is not registered
         else:
             flash("A manager must register you first!")
+            flash("Be Sure to send your $100 Check :)")
             return showLogIn()
 
     if empl_check and empl_check[0][0] == 'M' and empl_check[1] == password:
@@ -237,7 +238,6 @@ def view_management_page():
 # Run SignUpPage
 @app.route('/showSignUp/')
 def showSignUp():
-    db = db_connect()
 
     return render_template('signup.html')
 
@@ -263,7 +263,7 @@ def sign_up():
 
     # Checks if the address is valid for geopy
     try:
-        db_connect.eval_geo_coords(_address,_city,_postal)
+        db.eval_geo_coords(_address,_city,_postal)
     except: # Note This Captures All Exceptiosn
         flash("Make Sure Your Address is Correct", "error")
         return showSignUp()
@@ -280,10 +280,9 @@ def sign_up():
     # Insert User
     else:
         db.insert_users(_userName, _firstName, _lastName, _password, _address, _city, _state, _postal, _apt, _phone, acc_funds=0)
-        session["user"] = _userName
-        session["logged_in"] = True
-        session["role"] = "user"
-        return view_user_page()
+        flash("Your Account is Now Pending Manager Approval.")
+        flash("Please send a $100 check to us so we can approve.")
+        return index()
 
 
 ###### DISPLAY COMPLIMENT/COMPLAINT FORM ##############
@@ -402,6 +401,8 @@ def checkout(price, order_items):
     user = session.get("user")
     is_user_VIP = db.select_user_VIP_status(user)
 
+
+
     cart = db.select_user_cart(user)
     print(cart)
     items = []
@@ -418,6 +419,22 @@ def checkout(price, order_items):
         price = float(price) * .9
 
     items = str(items)
+
+    print("PRICE")
+    print(price)
+    print("ACCT MONEY")
+
+
+    ### Get User Information
+    user_info = db.select_user_info(user)[0]
+    print(user_info)
+    print(user_info[13])
+    ### Check if there is enough money in the account
+    # Not enough money
+    if price > int(user_info[13]):
+        flash("You Do Not Have Enough Money In Your Account")
+        render_template(url_for(relogin))
+
     try:
         db.insert_orders(user,items,price)
         db.update_user_order_count(user)
