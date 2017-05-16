@@ -203,6 +203,11 @@ class db_connect:
         result = self.cur.execute("SELECT item_name FROM menus").fetchall()
         return result
 
+    # Return Picture, by name - CHIN
+    def select_menu_pic(self,item_name):
+        result = self.cur.execute("SELECT item_pic FROM menus WHERE item_name = '{}'".format(item_name)).fetchone()
+        result = self.cur.execute("SELECT item_pic FROM menus WHERE item_name = '{}'".format(item_name)).fetchone()
+        return result
 
     def select_menu_price(self, chef_id, menu_id):
         result = self.cur.execute("SELECT price FROM menus WHERE chef_id='{0}' and menu_id='{1}'".format(chef_id, menu_id)).fetchone()

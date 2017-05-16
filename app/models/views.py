@@ -159,31 +159,32 @@ def view_user_page():
     db = db_connect()
     user_info = db.select_user_info(session.get("user"))[0]
 
-    #if int(user_info[17]) < 5:
-    #    top_five = db.select_top5_rated()
-    #else:
-     #   top_five = db.select_top_user_rated(session.get("user"))
-
-    print(db.select_order_items(session.get("user")))
-    user_orders = db.select_order_items(session.get("user"))
-    print("USER ORDERS")
-    for x in user_orders:
-        print(x[0])
-
-    # top 5 is most popular
-    # for registered and VIP = depends on their history
-
     # user_top_five = db.select_top5_rated() -- wait to orders is done
     #order_status = db.select_user_order_status(session.get("user"))
     #print(order_status)
     #orders = db.select_user_orders(session.get("user"))
     #print("order1 {}".format(orders))
     orders = db.select_join_orders_status(session.get("user"))
-    print(orders)
+
     #order = orders[0]#helps the indexing
 
-    top_five = db.select_top5_rated()
-    return render_template("loginUSER.html", top_five=top_five, orders=orders)#,order_status = order_status)
+    # Calculate Top 5 Dishes Ordered - CHIN
+    # FOR USER, SAY YOUR TOP MOST ORDERED DISH - what if you ordered less than 5 dishes?
+    top_five_all = db.select_top5_rated()
+
+    top_five_user = top5_user(session.get("user"))
+    i = 0
+
+    while len(top_five_user) < 5:
+        top_five_user.append(top_five_all[i])
+        i += 1
+
+    top_five = top_five_user
+    print(top_five)
+    # top 5 is most popular
+    # for registered and VIP = depends on their history
+
+    return render_template("loginUSER.html", top_five=top_five, orders=orders) # order_status = order_status)
 
 # LOGIN AS CHEF -- make SURE TO INCLUDE SOME SECURITY
 @app.route('/loginChef')
@@ -441,6 +442,52 @@ def add_to_cart():
 
     return showMenu()
 
+# Given String from Orders Database, Retrieve list of menu_item and qty
+# Precondition: s is a string
+# Postcondition: returns a, a list of menu_item and quantity where quantity is
+# following odd index
+def strip_orders(s):
+
+    item_name = s.lstrip('[')
+    item_name = item_name.rstrip(']')
+    item_name = item_name.replace('\'', '')
+
+    a = item_name.split(', ')
+    num_items = int(len(a)/2)
+
+    b = [[] * x for x in range(num_items)]
+
+    for i in range(len(a)):
+        if i % 2 == 0:
+            b[int(i/2)].append(a[i].lstrip('('))
+        else:
+            b[int((i-1) / 2)].append(a[i].rstrip(')'))
+
+    return b
+
+
+# Returns a 2D list with the total number of items the user bought of each
+# Precondition: user id
+def top5_user(user):
+    db = db_connect()
+    user_orders = db.select_user_orders(user)
+
+    top5 = []
+
+    for x in range(len(user_orders)): # for every order
+        a = strip_orders(user_orders[x][2]) # get the string array
+        print("A")
+        print(a)
+        for y in range(len(a)):  # for every item in the string array
+            if any(a[y][0] in c for c in top5):
+                top5[next((i for i, sublist in enumerate(top5) if a[y][0] in sublist), -1)][2] += int(a[y][1])
+            else:  # int a
+                top5.append([a[y][0], db.select_menu_pic(a[y][0])[0], int(a[y][1])])
+
+    top5 = sorted(top5, key=lambda z: z[2], reverse=True)
+
+    return top5
+
 @app.route('/checkout/<price>/<order_items>', methods=["GET",'POST'])
 @required_roles('user')
 def checkout(price, order_items):
@@ -476,6 +523,7 @@ def checkout(price, order_items):
 
     items = str(items)
 
+    print("ITEMS")
 
 
     # Get User Information - CHIN
@@ -489,26 +537,30 @@ def checkout(price, order_items):
 
 
 
-    try:
-        db.insert_orders(user,items,price)
-        db.update_user_order_count(user)
-        db.update_user_cash_spent(user, price)
-        db.empty_cart(user)
+
+    db.insert_orders(user,items,price)
+    db.update_user_order_count(user)
+    db.update_user_cash_spent(user, price)
+    db.empty_cart(user)
 
 
-        order_count = db.select_user_order_count(user)
-        cash_spent_so_far = db.select_user_cash_spent(user)
+    order_count = db.select_user_order_count(user)
+    cash_spent_so_far = db.select_user_cash_spent(user)
 
-    # Increase Dish Order Count - CHIN
+
+        # Increase Dish Order Count - CHIN
     for num in range(len(cart)):
         db.inc_ord_count(cart[num][4],cart[num][3])
 
-        # VIP check: if this last checkout allowed customer to become VIP
+            # VIP check: if this last checkout allowed customer to become VIP
     if int(order_count[0]) >= 50 or float(cash_spent_so_far[0]) >= 500:
         db.set_user_VIP_status(user)
+    db.subtract_acc_funds(price, user)
+
+    db.insert_deliveryinfo(len(db.select_orders()), 'None', session.get("user"), status="0", cust_warning="0")
+
 
         # Update Funds in the Account
-    db.subtract_acc_funds(price, user)
     #except:
      #   flash("You need to login to do that")
       #  return showLogIn()
@@ -517,7 +569,6 @@ def checkout(price, order_items):
     # db.empty_cart(session.get("user"))
 
     # insert item into the deliveryinfo DB
-    db.insert_deliveryinfo(len(db.select_orders()), 'None', session.get("user"), status="0", cust_warning="0")
 
 
     return render_template("Order Confirmation.html", order=order_items, total_price=price)

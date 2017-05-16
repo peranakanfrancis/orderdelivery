@@ -157,8 +157,6 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     FOREIGN KEY (chef_id) REFERENCES chefs(chef_id)
     )""")
 
-
-
     ##checkout-cart
     c.execute('DROP TABLE if EXISTS cart')
     c.execute("""CREATE TABLE cart (

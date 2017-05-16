@@ -10,6 +10,8 @@
     <meta name="author" content="">
     <!-- Global Bootstrap CSS -->
     <link href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}" rel="stylesheet">
+
+
     <link href="{{ url_for('static', filename='stylish-portfolio.css') }}" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="{{ url_for('static', filename='font-awesome-4.7.0/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
@@ -180,7 +182,6 @@
                     <h2>Our Top Dishes</h2>
                     <hr class="small">
 
-
                     <div id="myCarousel" class="carousel slide" data-ride="carousel">
                     <!-- Indicators-->
                         <ol class="carousel-indicators">
@@ -343,8 +344,10 @@
         <a id="to-top" href="#top" class="btn btn-dark btn-lg"><i class="fa fa-chevron-up fa-fw fa-1x"></i></a>
     </footer>
 
-    <!-- jQuery
-    <script src="../static/bootstrap/js/jquery.js"></script>-->
+
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/jquery.js') }}"></script>
+
 
     <!-- Bootstrap Core JavaScript
     <script src="../static/bootstrap/js/bootstrap.min.js"></script>-->
