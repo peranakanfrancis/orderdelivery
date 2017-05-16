@@ -422,20 +422,16 @@ def checkout(price, order_items):
 
     items = str(items)
 
-    print("PRICE")
-    print(price)
-    print("ACCT MONEY")
 
 
     ### Get User Information
     user_info = db.select_user_info(user)[0]
-    print(user_info)
-    print(user_info[13])
+
     ### Check if there is enough money in the account
     # Not enough money
-    if price > int(user_info[13]):
+    if int(price) > int(user_info[13]):
         flash("You Do Not Have Enough Money In Your Account")
-        render_template(url_for(relogin))
+        return relogin()
 
     try:
         db.insert_orders(user,items,price)
