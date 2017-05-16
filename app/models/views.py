@@ -11,6 +11,8 @@ import json
 ###### LOGIN ########
 
 # Run HomePage
+
+
 @app.route('/')
 def index():
     db = db_connect() # connect to the database
@@ -431,7 +433,7 @@ def checkout(price, order_items):
     print(user_info[13])
     ### Check if there is enough money in the account
     # Not enough money
-    if int(price) > int(user_info[13]):
+    if price > int(user_info[13]):
         flash("You Do Not Have Enough Money In Your Account")
         render_template(url_for(relogin))
 
@@ -452,8 +454,7 @@ def checkout(price, order_items):
         flash("You need to login to do that")
         return showLogIn()
 
-    db.insert_orders(user,items,price)
-    db.empty_cart(session.get("user"))
+
 
     #print(len(db.select_orders()))
 
