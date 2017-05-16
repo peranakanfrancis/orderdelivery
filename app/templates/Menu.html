@@ -102,12 +102,12 @@
                         <p style="font-size: 20px; text-align: center"><strong>{{ item[3] }}</strong></p>
 
                         <img src="{{ url_for('static', filename='img/foodimages/{}'.format(item[1])) }} " height="200" width="100%" style="user-select: none">
-                        <p>{{ item.item_description[0] }}</p>
+                        <p>{{ item_description[0] }}</p>
+
                             {% for number in range(0, item[5]| int) %}
                                    <i class="fa fa-heart" aria-hidden="true"></i>
                             {% endfor %}
                         <p> Rating: {{ item[5]}}</p>
-                        <p>{{ item_descrip }} </p>
                         <p> Price: ${{ item[4] }} </p>
                         <input type="hidden" name="user_id" value="{{user_id}}" >
                         <p> enter quantity <input type="number" name="quantity" min="0"> </p>
