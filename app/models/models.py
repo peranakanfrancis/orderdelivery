@@ -181,8 +181,9 @@ class db_connect:
 
 ############### END OF USER SELECT FUNCTIONS#######################################
 ###################################################################################
-####MENU SELECT FUNCTIONS##############
+                          ####MENU SELECT FUNCTIONS##############
 
+      # LENNY WROTE SELECT_ITEMS_DESCRIPTION -- IF ITS WRONG MY BAD -- #
     def select_menu_items_description(self):
         result = self.cur.execute("SELECT item_description FROM menus").fetchall()
         return result

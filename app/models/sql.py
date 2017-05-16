@@ -238,28 +238,28 @@ with sqlite3.connect("losquatroamigos.db") as connection:
 
         #CHEF MONICA#
     c.execute('INSERT INTO menus VALUES '
-              '("C3","Lobster Ceviche.jpg","1","Lobster Ceviche","24.00","2", "2", "LOL"),'
-              '("C3","Yelllow Tail Sashimi.jpg","2","Yellowtail Sashimi with Dry Miso and Yuza Sauce","24.00","2", "2","LOL"),'
-              '("C3","Shiromi Usuzukari.jpg","3","Shiromi Usuzukari","9.00","4", "2","LOL"),'
-              '("C3","Bigeye Tuna Tataki.jpg","4","Bigeye Tuna Tataki with Tosazu","19.00","4", "2","LOL"),'
-              '("C3","Sea Urchin Tempura.jpg","5","sea Urchin Tempura","9.00","4", "2","LOL"),'
-              '("C3","Rock Shrimp Tempura.jpg","6","Rock Shrimp Tempura with Ponzu","11.00","5", "2","LOL"),'
-              '("C3","Chilean Sea Bass.jpg","7","Chilean Sea Bass with Black Bean Sause","24.00","", "2","LOL"),'
+              '("C3","Lobster Ceviche.jpg","1","Lobster Ceviche","24.00","2", "2", "A delicious South American dish of marinated lobster and shrimp"),'
+              '("C3","Yelllow Tail Sashimi.jpg","2","Yellowtail Sashimi with Dry Miso and Yuza Sauce","24.00","2", "2","Bite-sized pieces of raw yellow tail eaaten with soy sauce and wasabi paste"),'
+              '("C3","Shiromi Usuzukari.jpg","3","Shiromi Usuzukari","9.00","4", "2","This thinly sliced fish is amazing, dipped in ponzu sauce with a bit of green onion."),'
+              '("C3","Bigeye Tuna Tataki.jpg","4","Bigeye Tuna Tataki with Tosazu","19.00","4", "2","This dish consists of fish steak, served slightly raw"),'
+              '("C3","Sea Urchin Tempura.jpg","5","sea Urchin Tempura","9.00","4", "2","Sea Urchin that has been battered and deep fried"),'
+              '("C3","Rock Shrimp Tempura.jpg","6","Rock Shrimp Tempura with Ponzu","11.00","5", "2","Rock Shrimp that has been battered and deep fried"),'
+              '("C3","Chilean Sea Bass.jpg","7","Chilean Sea Bass with Black Bean Sause","24.00","", "2","Perfectly boiled Lobster served with wasabi paste"),'
               '("C3","Lobster with Wasabi.jpg","8","Lobster with Wasabi Pepper Sause","28.00","5", "2","LOL"),'
-              '("C3","Kaki Age Donburi.jpg","9","Kaki Age Donburi","16.00","4", "2","LOL"),'
-              '("C3","Tempura Donburi.jpg","10","Tempura Donburi","14.00","4", "2","LOL"),'
-              '("C3","Ribeye Anticucho.jpg","11","Ribeye Anticucho","21.00","3", "2","LOL")')
+              '("C3","Kaki Age Donburi.jpg","9","Kaki Age Donburi","16.00","4", "2","Perfect for lunch, this meal is a rice bowl with vegetables"),'
+              '("C3","Tempura Donburi.jpg","10","Tempura Donburi","14.00","4", "2","Donburi that has been battered and deep fried"),'
+              '("C3","Ribeye Anticucho.jpg","11","Ribeye Anticucho","21.00","3", "2","Ribeye cooked to your liking served in thin slices with antichucho sauce")')
 
         #CHEF Rosita#
     c.execute('INSERT INTO menus VALUES '
-              '("C4","Pechuga de Pollo a la parrilla.jpg","1","Pechuga De Pollo A La Parrilla (Grilled Chicken Cutlet)","12.00","4", "2","LOL"),'
-              '("C4","Milanesa De res.jpg","2","Milanesa De Res (Breaded Steak)","15.00","4", "2","LOL"),'
-              '("C4","Carne de Enchilada.jpg","3","Carne Enchilada (Hot and Spicy Pork)","14.00","4", "2","LOL"),'
-              '("C4","Medio Pollo Rostizado.jpg","4","Medio Pollo Rostizado (Half Roasted Chicken)","12.00","4", "2","LOL"),'
-              '("C4","Pernil Horneado.jpg","5","Pernil Horneado (Roasted Pork)","14.00","4", "2","LOL"),'
-              '("C4","Bistec Encebollado.jpg","6","Bistec Encebollado (Steak with Onions)","17.00","3", "2","LOL"),'
-              '("C4","Carne de Cecina.jpg","7","Carne De Cecina (Jerky Beef Steak)","13.00","5", "2","LOL"),'
-              '("C4","Mole Poblano.jpg","8","Mole Poblano (Chicken with Mole)","15.00","5", "2","LOL")')
+              '("C4","Pechuga de Pollo a la parrilla.jpg","1","Pechuga De Pollo A La Parrilla (Grilled Chicken Cutlet)","12.00","4", "2","Grilled Chicken Breast with a side of rice and beans."),'
+              '("C4","Milanesa De res.jpg","2","Milanesa De Res (Breaded Steak)","15.00","4", "2","Beef Milanese served with rice"),'
+              '("C4","Carne de Enchilada.jpg","3","Carne Enchilada (Hot and Spicy Pork)","14.00","4", "2","Slice of pork with a spicy paste served with rice."),'
+              '("C4","Medio Pollo Rostizado.jpg","4","Medio Pollo Rostizado (Half Roasted Chicken)","12.00","4", "2","Half of Rotisserie Chicken served with plantains rice and beans"),'
+              '("C4","Pernil Horneado.jpg","5","Pernil Horneado (Roasted Pork)","14.00","4", "2","Roasted Pork with spicy sauce"),'
+              '("C4","Bistec Encebollado.jpg","6","Bistec Encebollado (Steak with Onions)","17.00","3", "2","Steak served with a side of spicy sauce and rice"),'
+              '("C4","Carne de Cecina.jpg","7","Carne De Cecina (Jerky Beef Steak)","13.00","5", "2","Jerky Styled Beef with a side salad and rice"),'
+              '("C4","Mole Poblano.jpg","8","Mole Poblano (Chicken with Mole)","15.00","5", "2","Chicken served with Mole sauce, which is chocolate based, and sprinkled with sunflower seeds")')
 
 
     #USERS###
