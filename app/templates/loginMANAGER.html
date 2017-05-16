@@ -82,15 +82,13 @@
                         {{ accept_user[1] }}
 
                     </td>
-                    <td>
-                        01/04/2012
-                    </td>
+
                     <td>
                         Pending
                     </td>
                     <td>
                         <button type="button" ><a href="{{ url_for('accept_user', user=accept_user[0] ) }}">Accept </a></button>
-                        <button type="button">Decline</button>
+                        <button type="button" ><a href="{{ url_for('decline_user', user=accept_user[0] ) }}">Decline </a></button>
                     </td>
                 </tr>
                 {% endfor %}

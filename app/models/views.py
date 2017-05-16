@@ -492,6 +492,13 @@ def accept_user(user):
     db.register(user)
     return view_management_page()
 
+@app.route('/decline_user/<user>', methods=['GET'])
+def decline_user(user):
+    db = db_connect()
+    db.delete_account(user)
+    return view_management_page()
+
+
 
 @app.route('/hire_employee/<empl_name>', methods=['GET'])
 def hire(empl_name):
