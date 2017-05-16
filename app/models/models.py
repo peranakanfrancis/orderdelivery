@@ -395,11 +395,12 @@ class db_connect:
 
         #demoting employee
     def check_complaints(self,emp_id):
-        result = self.cur.execute("SELECT count(*) FROM complaints WHERE emp_id = '%s'" %emp_id).fetchall()
+        result = self.cur.execute("SELECT count(*) FROM complaints WHERE emp_id = '{}' and approval=1".format(emp_id)).fetchall()
         return result
 
     def demote_employee(self,emp_id):
         self.cur.execute("UPDATE employees SET salary = salary - 5 WHERE emp_id = '%s'" %emp_id)
+        self.cur.execute("UPDATE employees SET demotions = demotions +1 WHERE emp_id = '%s'" % emp_id)
         self.con.commit()
 
     def confirm_complaint(self,complaint_id):

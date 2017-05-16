@@ -77,14 +77,15 @@ def login():
 # For relogging in
 @app.route('/relogin')
 def relogin():
-    if session["role"] == "user":
+    if session.get("role") == "user":
         return view_user_page()
-    if session["role"] == "manager":
+    if session.get("role") == "manager":
         return view_management_page()
-    if session["role"] == "chef":
+    if session.get("role") == "chef":
         return view_chef_page()
-    if session["role"] == "deliverer":
+    if session.get("role") == "deliverer":
         return view_delivery_page()
+
 
 
 # Role Checking Decorator to Ensure Only Eligible User Has Access
@@ -242,9 +243,11 @@ def view_management_page():
     hired_employees = db.select_all_hired_employees()
     unhired_employees = db.select_all_pending_employees()
     list_of_complaints = db.select_all_pending_complaints()
+    list_of_compliments = db.select_all_pending_compliments()
 
     return render_template("loginMANAGER.html", registered_users=registered, unregistered=unregistered_users,
-                           hired_employees=hired_employees, unhired_employees=unhired_employees, complaints=list_of_complaints )
+                           hired_employees=hired_employees, unhired_employees=unhired_employees, complaints=list_of_complaints,
+                           compliments=list_of_compliments)
 
 # Run SignUpPage
 @app.route('/showSignUp/')
@@ -578,11 +581,16 @@ def add_warning(user_id):
 def accept_complaint(complaint_id, emp_id):
     db = db_connect()
     db.confirm_complaint(complaint_id)
+
     #I dk what this is for. -Eddy
     employee = emp_id
-    if db.check_complaints(employee)[0][0] >= 3:
+
+    # check how many complaints there are against this employee
+    # if 3 or greater, demote the employee
+    if db.check_complaints(employee)[0][0] % 3 == 0:
         db.demote_employee(employee)
 
+    # if the employee has been demoted twice, fire him
         if db.check_demotions(employee)[0] >= 2:
             db.fire_employee(employee)
 
@@ -602,11 +610,11 @@ def accept_compliment(compliment_id, emp_id):
     db.confirm_compliment(compliment_id)
     employee = emp_id
 
-    db.increment_compliment_count()
+    db.increment_compliment_count(emp_id)
     # if a customer is customer is VIP, their compliments count twice as much
     is_user_VIP = db.select_user_VIP_status(session.get("user"))
     if is_user_VIP == 1:
-        pass
+        db.increment_compliment_count(emp_id)
     #IDK what this is for. -Eddy
     # we need to check if the employee has 3 or more compliments. so we
     # use select_compliment to find out who the compliment is referring to
@@ -618,12 +626,15 @@ def accept_compliment(compliment_id, emp_id):
 
     return view_management_page()
 
-@app.route('/delete_account')
-def delete_account():
+@app.route('/decline_compliment/<compliment_id>/<user_id>', methods=['GET'])
+def decline_compliment(compliment_id,user_id):
     db = db_connect()
-    db.delete_account(session.get("user"))
+    db.delete_compliment(compliment_id)
 
-    return logout()
+    return view_management_page()
+
+
+
 # Handles Any Page That Doesn't Exist
 @app.errorhandler(404)
 def PageNotFound(error):

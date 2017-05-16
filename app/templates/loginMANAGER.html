@@ -40,7 +40,7 @@
 							<a href="#">Menu</a>
 						</li>
 					</ul>
-					<form class="navbar-form navbar-left" role="search" action={{ url_for('logout') }}>
+					<form class="navbar-form navbar-left" role="search" action="{{ url_for('logout') }}">
 						<button type="submit" class="btn btn-default">
 							Sign Out
 						</button>
@@ -87,8 +87,8 @@
                         Pending
                     </td>
                     <td>
-                        <button type="button" ><a href="{{ url_for('accept_user', user=accept_user[0] ) }}">Accept </a></button>
-                        <button type="button" ><a href="{{ url_for('decline_user', user=accept_user[0] ) }}">Decline </a></button>
+                        <button type="button" ><a href="{{ url_for('accept_user', user=accept_user[2] ) }}">Accept </a></button>
+                        <button type="button" ><a href="{{ url_for('decline_user', user=accept_user[2] ) }}">Decline </a></button>
                     </td>
                 </tr>
                 {% endfor %}
@@ -287,7 +287,7 @@
                             {{ complaint[3] }}
                         </td>
                         <td>
-                            <button type="button" ><a href="{{ url_for('accept_complaint', complaint_id=complaint[0], emp_id=complaint[1]) }}"> Accept </a></button>
+                            <button type="button" ><a href="{{ url_for('accept_complaint', complaint_id=complaint[0], emp_id=complaint[2]) }}"> Accept </a></button>
                             <button type="button" ><a href="{{ url_for('decline_complaint',  complaint_id=complaint[0] , user_id=complaint[2]) }}"> Decline </a></button>
                         </td>
                     </tr>
@@ -336,8 +336,8 @@
                             {{ compliment[4] }}
                         </td>
                         <td>
-                            <button type="button" ><a href="{{ url_for('accept_compliment', complaint_id=compliment[0], emp_id=compliment[1]) }}"> Accept </a></button>
-                            <button type="button" ><a href="{{ url_for('decline_compliment',  complaint_id=compliment[0] , user_id=compliment[2]) }}"> Decline </a></button>                        </td>
+                            <button type="button" ><a href="{{ url_for('accept_compliment', compliment_id=compliment[0], emp_id=compliment[2]) }}"> Accept </a></button>
+                            <button type="button" ><a href="{{ url_for('decline_compliment',  compliment_id=compliment[0] , user_id=compliment[2]) }}"> Decline </a></button>                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
