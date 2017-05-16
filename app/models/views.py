@@ -233,6 +233,8 @@ def add_menu_item(chef):
 
     item_name = request.form['new_item']
     item_price = request.form['new_price']
+    description = request.form['description']
+
 
     chef_id = session.get('user')
 
@@ -248,7 +250,7 @@ def add_menu_item(chef):
     else:
         menu_id = str(int(menu_id[0]) + 1)
 
-    db.insert_menu(chef_id, menu_id, item_name,item_price,"")
+    db.insert_menu(chef_id, menu_id, item_name,item_price,"",description,"0")#zero for order_count
 
     return view_chef_page()
 
@@ -746,6 +748,13 @@ def decline_compliment(compliment_id,user_id):
 
     return view_management_page()
 
+@app.route('/delete_account')
+def delete_account():
+    db = db_connect()
+    user = session.get('user')
+    db.delete_account(user)
+
+    return render_template('index.html')
 
 
 # Handles Any Page That Doesn't Exist

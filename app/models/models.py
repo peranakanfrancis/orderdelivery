@@ -110,10 +110,11 @@ class db_connect:
                         (order_id,emp_id, user_id, status, cust_warning) )
         self.con.commit()
 
-    def insert_menu(self,chef_id, menu_id, item_name, price, rating):
+    def insert_menu(self,chef_id, menu_id, item_name, price, rating,description,order_count):
         self.cur = self.con.cursor()
-        self.cur.execute("INSERT INTO menus (chef_id, menu_id, item_name, price, rating) VALUES (?,?,?,?,?)",
-                        (chef_id, menu_id, item_name, price, rating))
+        self.cur.execute("INSERT INTO menus (chef_id, menu_id, item_name, price, rating,item_description,order_count) "
+                         "VALUES (?,?,?,?,?,?,?)",
+                        (chef_id, menu_id, item_name, price, rating,description,order_count))
         self.con.commit()
 
     ################## END OF INSERT INTO DATABASE ###################################
