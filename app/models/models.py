@@ -21,8 +21,9 @@ class db_connect:
         self.con.commit()
 
     def insert_employees(self,emp_id,emp_fname, emp_lname, address, city, state, postal, apt, phone, ssn, birthdate,salary,date_hired, hired=0):
-        self.cur.execute("INSERT INTO employees (emp_id,emp_fname,emp_lname,address,city, state, postal, apt, phone, ssn, birthdate, salary, date_hired, hired) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-                        (emp_id, emp_fname, emp_lname, address, city, state, postal, apt, phone, ssn, birthdate, salary, date_hired,hired) )
+        today = datetime.today()
+        self.cur.execute("INSERT INTO employees (emp_id,emp_fname,emp_lname,address,city, state, postal, apt, phone, ssn, birthdate, salary, date_hired, hired, last_ordered) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                        (emp_id, emp_fname, emp_lname, address, city, state, postal, apt, phone, ssn, birthdate, salary, date_hired,hired, today) )
         self.con.commit()
 
     def insert_users(self,user_id,f_name, l_name, password, address, city, state, postal, apt, phone, acc_funds=100,registered=0,VIP=0,order_count=0,cash_spent=0):
@@ -139,6 +140,17 @@ class db_connect:
     def select_all_pending_employees(self):
         result = self.cur.execute("SELECT * FROM employees WHERE hired = 0").fetchall()
         return result
+
+    def select_time_last_ordered(self, emp_id):
+        result = self.cur.execute("SELECT last_ordered FROM employees WHERE emp_id = '{}'".format(emp_id)).fetchone()
+        return result
+
+    def update_employee_last_ordered(self, emp_id):
+        today = datetime.today()
+        print("emp")
+        print(emp_id)
+        self.cur.execute("UPDATE employees SET last_ordered = '{}' WHERE emp_id='{}'".format(today,emp_id))
+        self.con.commit()
 
     ################# USER SELECT FUNCTIONS#########################################
     #SELECT ALL UNREGISTERED USERS

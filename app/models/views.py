@@ -3,6 +3,8 @@ from flask import render_template,redirect, request, flash,g,session,url_for,jso
 from app.models.models import db_connect
 from .forms import *
 from functools import wraps # for the role_required decorator
+from datetime import date, datetime
+import ast
 import json
 ###db_connect contains all query methods##
 #db = db_connect()
@@ -245,9 +247,24 @@ def view_management_page():
     list_of_complaints = db.select_all_pending_complaints()
     list_of_compliments = db.select_all_pending_compliments()
 
+    # this function runs everytime manager opens his personal page
+    # we use this to find out if how long its been since a chef's item has last been ordered.
+    # if its been 3 or more days, we indicate that and let the manager know
+    for employee in hired_employees:
+        emp_id = employee[0]
+        # only check the time if the employee is a chef
+        if emp_id[0] == 'C':
+            time_last_ordered = db.select_time_last_ordered(emp_id)[0]
+            get_time_elaspsed_between_orders(time_last_ordered)
+
     return render_template("loginMANAGER.html", registered_users=registered, unregistered=unregistered_users,
                            hired_employees=hired_employees, unhired_employees=unhired_employees, complaints=list_of_complaints,
                            compliments=list_of_compliments)
+
+def get_time_elaspsed_between_orders(time_last_ordered):
+    current_date = datetime.today()
+
+
 
 # Run SignUpPage
 @app.route('/showSignUp/')
@@ -412,22 +429,30 @@ def add_to_cart():
 def checkout(price, order_items):
     db = db_connect()
 
+
     user = session.get("user")
     is_user_VIP = db.select_user_VIP_status(user)
 
+    list_of_order_items = ast.literal_eval(order_items)
+
+    # update the time someone ordered from this chef
+    for order_item in list_of_order_items:
+        emp_id = order_items[1][0]
+        print(order_item)
+        db.update_employee_last_ordered(emp_id)
 
 
     cart = db.select_user_cart(user)
-    print(cart)
+    # print(cart)
     items = []
-    print(len(cart))
-    print(len(order_items))
+    # print(len(cart))
+    # print(len(order_items))
 
     for x in range(len(cart)):
         items.append((cart[x][3],cart[x][4]))
 
 
-    print(is_user_VIP)
+    # print(is_user_VIP)
 
     if is_user_VIP == 1:
         price = float(price) * .9
@@ -445,11 +470,14 @@ def checkout(price, order_items):
         flash("You Do Not Have Enough Money In Your Account")
         return relogin()
 
+
+
     try:
         db.insert_orders(user,items,price)
         db.update_user_order_count(user)
         db.update_user_cash_spent(user, price)
         db.empty_cart(user)
+
 
         order_count = db.select_user_order_count(user)
         cash_spent_so_far = db.select_user_cash_spent(user)
