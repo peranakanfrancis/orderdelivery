@@ -151,8 +151,8 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     item_name text not null,
     price decimal(5,2) not null,
     rating varchar(1),
-    rating_quantity varchar(5),
-    item_description text,
+    rating_quantity varchar(5),
+    item_description text not null,
     order_count varchar(5) not null,
     FOREIGN KEY (chef_id) REFERENCES chefs(chef_id)
     )""")
