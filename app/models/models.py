@@ -165,14 +165,13 @@ class db_connect:
         self.con.commit()
 
         # TOP FIVE RATED FOODS OF USER
-    def select_top_user_rated(self,user_id):
-        result = self.cur.execute(
-            "SELECT menu_item,rating FROM ratings WHERE user_id = '%s' ORDER BY rate DESC LIMIT 5" % user_id).fetchall()
+    def select_top_user_rated(self, user_id):
+        result = self.cur.execute("SELECT item_name, item_pic, rating FROM menus WHERE user_id = '{}' ORDER BY rating DESC LIMIT 5".format(user_id)).fetchall()
         return result
 
-        # VISITORS TOP 5 RATED FOOD (GET THIS FROM ALL RATED FOOD)
+        # VISITORS TOP 5 RATED FOOD (GET THIS FROM ALL RATED FOOD) - CHIN
     def select_top5_rated(self):
-        result = self.cur.execute("SELECT item_name, item_pic, rating FROM menus ORDER BY rating DESC LIMIT 5 ").fetchall()
+        result = self.cur.execute("SELECT item_name, item_pic, rating FROM menus ORDER BY order_count DESC LIMIT 5 ").fetchall()
         return result
 
     def select_user_cart(self, user_id):
@@ -228,6 +227,15 @@ class db_connect:
     def select_chef_id(self,chef_name):
         result = self.cur.execute("SELECT emp_id FROM chefs where ")
 
+####UPDATE ACCT FUNDS############## - CHIN
+    def subtract_acc_funds(self, amt, user_id):
+        self.cur.execute("UPDATE users SET acc_funds = acc_funds-'{}' WHERE user_id = '{}'".format(amt, user_id))
+        self.con.commit()
+
+####UPDATE ORDER COUNT############## - CHIN
+    def inc_ord_count(self, amt, item_name):
+        self.cur.execute("UPDATE menus SET order_count = order_count+'{}' WHERE item_name = '{}'".format(amt, item_name))
+        self.con.commit()
 
 ####CART INSERT FUNCTIONS##############
     def insert_cart_items(self, user_id, chef_id, menu_id, item_name, quantity):
@@ -303,6 +311,7 @@ class db_connect:
     def update_menu_price(self,new_price,curr_item):
         self.cur.execute("UPDATE menus SET price = '{}' WHERE item_name = '{}'".format(new_price,curr_item))
         self.con.commit()
+
 
     def delete_menu_item(self,item_name):
         self.cur.execute("DELETE FROM menus WHERE item_name = '{}'".format(item_name))

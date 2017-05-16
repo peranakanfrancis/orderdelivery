@@ -148,11 +148,28 @@ def issue_warning(order_num):
     flash("**Warning Issued**", 'error')
     return view_delivery_page()
 
+
 # LOGIN AS USER
 @app.route('/loginUser/')
 @required_roles('user')
 def view_user_page():
     db = db_connect()
+    user_info = db.select_user_info(session.get("user"))[0]
+
+    #if int(user_info[17]) < 5:
+    #    top_five = db.select_top5_rated()
+    #else:
+     #   top_five = db.select_top_user_rated(session.get("user"))
+
+    print(db.select_order_items(session.get("user")))
+    user_orders = db.select_order_items(session.get("user"))
+    print("USER ORDERS")
+    for x in user_orders:
+        print(x[0])
+
+    # top 5 is most popular
+    # for registered and VIP = depends on their history
+
     # user_top_five = db.select_top5_rated() -- wait to orders is done
     #order_status = db.select_user_order_status(session.get("user"))
     #print(order_status)
@@ -421,7 +438,7 @@ def checkout(price, order_items):
     print(len(order_items))
 
     for x in range(len(cart)):
-        items.append((cart[x][3],cart[x][4]))
+        items.append((cart[x][3], cart[x][4]))
 
 
     print(is_user_VIP)
@@ -433,37 +450,40 @@ def checkout(price, order_items):
 
 
 
-    ### Get User Information
+    # Get User Information - CHIN
     user_info = db.select_user_info(user)[0]
 
-    ### Check if there is enough money in the account
-    # Not enough money
+    # Check if there is enough money in the account - CHIN
+    # Not enough money - CHIN
     if int(price) > int(user_info[13]):
         flash("You Do Not Have Enough Money In Your Account")
         return relogin()
 
-    try:
-        db.insert_orders(user,items,price)
-        db.update_user_order_count(user)
-        db.update_user_cash_spent(user, price)
-        db.empty_cart(user)
+  #  try:
+    db.insert_orders(user,items,price)
+    db.update_user_order_count(user)
+    db.update_user_cash_spent(user, price)
+    db.empty_cart(user)
 
-        order_count = db.select_user_order_count(user)
-        cash_spent_so_far = db.select_user_cash_spent(user)
+    order_count = db.select_user_order_count(user)
+    cash_spent_so_far = db.select_user_cash_spent(user)
 
-        #VIP check: if this last checkout allowed customer to become VIP
-        if int(order_count[0]) >= 50 or float(cash_spent_so_far[0]) >= 500:
-            db.set_user_VIP_status(user)
+    # Increase Dish Order Count - CHIN
+    for num in range(len(cart)):
+        db.inc_ord_count(cart[num][4],cart[num][3])
 
-    except:
-        flash("You need to login to do that")
-        return showLogIn()
+        # VIP check: if this last checkout allowed customer to become VIP
+    if int(order_count[0]) >= 50 or float(cash_spent_so_far[0]) >= 500:
+        db.set_user_VIP_status(user)
+
+        # Update Funds in the Account
+    db.subtract_acc_funds(price, user)
+    #except:
+     #   flash("You need to login to do that")
+      #  return showLogIn()
 
     # db.insert_orders(user,items,price)
     # db.empty_cart(session.get("user"))
-
-
-    #print(len(db.select_orders()))
 
     # insert item into the deliveryinfo DB
     db.insert_deliveryinfo(len(db.select_orders()), 'None', session.get("user"), status="0", cust_warning="0")
