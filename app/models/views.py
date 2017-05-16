@@ -650,6 +650,16 @@ def decline_user(user):
     return view_management_page()
 
 
+# DEPOSIT MONEY - CHIN
+@app.route('/deposit_money/', methods=["POST"])
+def deposit_money():
+    db = db_connect()
+    amount = request.form["money"]
+    print(amount)
+
+    db.inc_acc_funds(amount, session.get('user'))
+    flash("Funds Deposited")
+    return view_user_page()
 
 @app.route('/hire_employee/<empl_name>', methods=['GET'])
 def hire(empl_name):

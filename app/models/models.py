@@ -251,6 +251,10 @@ class db_connect:
         self.cur.execute("UPDATE users SET acc_funds = acc_funds-'{}' WHERE user_id = '{}'".format(amt, user_id))
         self.con.commit()
 
+    def inc_acc_funds(self,amt,user_id):
+        self.cur.execute("UPDATE users SET acc_funds = acc_funds+'{}' WHERE user_id = '{}'".format(amt, user_id))
+        self.con.commit()
+
 ####UPDATE ORDER COUNT############## - CHIN
     def inc_ord_count(self, amt, item_name):
         self.cur.execute("UPDATE menus SET order_count = order_count+'{}' WHERE item_name = '{}'".format(amt, item_name))

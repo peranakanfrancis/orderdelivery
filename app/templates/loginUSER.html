@@ -49,6 +49,7 @@
                                     <li>
                                         <a href="#top_dishes">TOP DISHES</a>
                                     </li>
+
                                     <li>
                                         <form class="navbar-form navbar-left" role="search" action={{ url_for('logout') }}>
                                             <!-- <div class="form-group">
@@ -93,6 +94,42 @@
              {% endif %}
          {% endwith %}
                         </font></div>
+
+                            <h3 class="text-center">
+                                Deposit Money
+                            </h3>
+                        <table class="table-condensed" width="50%">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Funds to Transfer
+                                        </th>
+                                        <th>
+                                            Action Button
+                                        </th>
+                                    </tr>
+
+                                    <tr>
+
+                                        <td>
+                                            <form action="{{ url_for('deposit_money') }}" method="POST">
+                                                <input type="number" class="input_form_sign d_block active_inp" placeholder="$" name="money" autocomplete="off">
+                                            </form>
+
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-default">
+                                                  Deposit Money
+                                              </button>
+
+
+                                        </td>
+
+                                    </tr>
+                                </thead>
+                        </table>
+
+
                             <h3 class="text-center">
                                 Order History
                             </h3>
