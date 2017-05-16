@@ -379,8 +379,8 @@ def showMenu():
         item_price = db.select_menu_price(item[1],item[2])
         # total price so far = price * quantity
         total_price += item_price[0] * item[4]
-    return render_template('Menu.html',databaseitems = db.select_menu_items(),numbers=db.select_menu_rating_numbers(),
-                           menu_items=db.select_menu(), cart=items_in_cart, sum_of_items=total_price, user_id=session.get("user"))
+    return render_template('Menu.html',databaseitems = db.select_menu_items(),item_description = db.select_menu_items_description(), numbers=db.select_menu_rating_numbers(),
+                           menu_items=db.select_menu(), cart=items_in_cart, sum_of_items=total_price, user_id=session.get("user")) #Lenny added the item_description stuff here, I may be doing this wrong#
 
 @app.route('/add_to_cart', methods=["GET",'POST'])
 def add_to_cart():
