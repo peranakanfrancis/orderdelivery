@@ -108,9 +108,10 @@
                                    <i class="fa fa-heart" aria-hidden="true"></i>
                             {% endfor %}
                         <p> Rating: {{ item[5]}}</p>
+                        <p> </p>
                         <p> Price: ${{ item[4] }} </p>
                         <input type="hidden" name="user_id" value="{{user_id}}" >
-                        <p>enter quantity <input type="number" name="quantity" min="0"> </p>
+                        <p> enter quantity <input type="number" name="quantity" min="0"> </p>
                     </div>
                </div>
             {% endfor %}

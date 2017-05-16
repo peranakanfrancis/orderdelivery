@@ -1,4 +1,4 @@
-chef_id,menu_id,item_pic,item_name,price,rating
+chef_id,menu_id,item_pic,item_name,item_desc,price,rating
 C2,1,Tacos de Bistec.jpg,Taco de Bistec (Steak),14,2
 C2,2,Tacos de Pollo.jpg,Taco de Pollo (Chicken),11,4
 C2,3,Tacos de Chorizo.jpg,Taco de Chorizo (Sausage),9,5
