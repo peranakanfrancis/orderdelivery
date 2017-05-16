@@ -40,6 +40,7 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     demotions int,
     compliments int,
     complaints int,
+    last_ordered [timestamp] timestamp,
     PRIMARY KEY (emp_id)
     )""")
 
@@ -177,44 +178,44 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     ##CHEFS##
         #CHEF JUAN#
     c.execute('INSERT INTO employees VALUES ("C1","pizza","Juan","Gonzalez","160 Convent Ave",'
-              '"New York","NY", "10031","4L","2126507000","123456789","1985-05-21","25.50","2017-01-01", 1,0,0,0)')
+              '"New York","NY", "10031","4L","2126507000","123456789","1985-05-21","25.50","2017-01-01", 1,0,0,0,"2017-01-01")')
     c.execute('INSERT INTO chefs VALUES ("1","C1","Juan\'s Mole","")')
 
         #CHEF MIGGY#
     c.execute('INSERT INTO employees VALUES ("C2","pizza","Miguel","Dominguez","160 Convent Ave",'
-              '"New York", "NY", "10031", "5L","2126507000","123456789","1979-02-02","25.50","2017-01-01", 1,0,0,0)')
+              '"New York", "NY", "10031", "5L","2126507000","123456789","1979-02-02","25.50","2017-01-01", 1,0,0,0,"2017-01-01")')
     c.execute('INSERT INTO chefs VALUES("2","C2","Miggy\'s Seafood","")')
 
         #Chef Monica#
     c.execute('INSERT INTO employees VALUES ("C3","pizza","Monica","Gonzalez","160 Convent Ave",'
-              '"New York","NY", "10031","6L","2126507000","123456789","1991-08-21","25.50","2017-01-01", 1,0,0,0)')
+              '"New York","NY", "10031","6L","2126507000","123456789","1991-08-21","25.50","2017-01-01", 1,0,0,0,"2017-01-01")')
     c.execute('INSERT INTO chefs VALUES ("3","C3","Monica\'s Sweets","")')
 
         #Chef Rosita#
     c.execute('INSERT INTO employees VALUES ("C4","pizza","Rosita","Rodriguez","160 Convent Ave",'
-              '"New York","NY", "10031","2L","2126507000","123456789","1980-05-21","25.50","2017-01-01", 1,0,0,0)')
+              '"New York","NY", "10031","2L","2126507000","123456789","1980-05-21","25.50","2017-01-01", 1,0,0,0,"2017-01-01")')
     c.execute('INSERT INTO chefs VALUES ("4","C4","Rosita\'s Gill Grill","") ')
 
     ##Delivery Personnel##
 
         #Delivery Boy Dave
     c.execute('INSERT INTO employees VALUES ("D1","pizza","David","Jones","160 Convent Ave",'
-              '"New York","NY", "10031","4A","2126507000","123456789","1994-08-21","10.50","2017-01-01", 1,0,0,0)')
+              '"New York","NY", "10031","4A","2126507000","123456789","1994-08-21","10.50","2017-01-01", 1,0,0,0,"2017-01-01")')
 
         #Delivery Boy Max
     c.execute('INSERT INTO employees VALUES ("D2","pizza","Max","Young","160 Convent Ave",'
-              '"New York","NY", "10031","2P","2126507000","123456789","1990-09-11","10.50","2017-01-01", 1,0,0,0)')
+              '"New York","NY", "10031","2P","2126507000","123456789","1990-09-11","10.50","2017-01-01", 1,0,0,0,"2017-01-01")')
 
     ##END OF DELIVERY PERSONNEL DATA##
 
     ##Managers##
         #Manager Emily#
     c.execute('INSERT INTO employees VALUES ("M1","pizza","Emily","Dickerson","160 Convent Ave",'
-              '"New York","NY", "10031","4B","2126507000","123456789","1985-01-21","27.50","2017-01-01", 0,0,0,0)')
+              '"New York","NY", "10031","4B","2126507000","123456789","1985-01-21","27.50","2017-01-01", 0,0,0,0,"2017-01-01")')
 
         #Manager Jeff#
     c.execute('INSERT INTO employees VALUES ("M2","pizza","Jeff","Edwards","160 Convent Ave",'
-              '"New York","NY", "10031","1C","2126507000","123456789","1994-08-21","10.50","2017-01-01", 0,0,0,0)')
+              '"New York","NY", "10031","1C","2126507000","123456789","1994-08-21","10.50","2017-01-01", 0,0,0,0,"2017-01-01"   )')
 
 
     ###### END OF MANAGER DATA##
@@ -239,28 +240,28 @@ with sqlite3.connect("losquatroamigos.db") as connection:
 
         #CHEF MONICA#
     c.execute('INSERT INTO menus VALUES '
-              '("C3","Lobster Ceviche.jpg","1","Lobster Ceviche","24.00","2", "2", "LOL","0"),'
-              '("C3","Yelllow Tail Sashimi.jpg","2","Yellowtail Sashimi with Dry Miso and Yuza Sauce","24.00","2", "2","LOL","0"),'
-              '("C3","Shiromi Usuzukari.jpg","3","Shiromi Usuzukari","9.00","4", "2","LOL","0"),'
-              '("C3","Bigeye Tuna Tataki.jpg","4","Bigeye Tuna Tataki with Tosazu","19.00","4", "2","LOL","0"),'
-              '("C3","Sea Urchin Tempura.jpg","5","sea Urchin Tempura","9.00","4", "2","LOL","0"),'
-              '("C3","Rock Shrimp Tempura.jpg","6","Rock Shrimp Tempura with Ponzu","11.00","5", "2","LOL","0"),'
-              '("C3","Chilean Sea Bass.jpg","7","Chilean Sea Bass with Black Bean Sause","24.00","", "2","LOL","0"),'
+              '("C3","Lobster Ceviche.jpg","1","Lobster Ceviche","24.00","2", "2", "A delicious South American dish of marinated lobster and shrimp","0"),'
+              '("C3","Yelllow Tail Sashimi.jpg","2","Yellowtail Sashimi with Dry Miso and Yuza Sauce","24.00","2", "2","Bite-sized pieces of raw yellow tail eaaten with soy sauce and wasabi paste","0"),'
+              '("C3","Shiromi Usuzukari.jpg","3","Shiromi Usuzukari","9.00","4", "2","This thinly sliced fish is amazing, dipped in ponzu sauce with a bit of green onion.","0"),'
+              '("C3","Bigeye Tuna Tataki.jpg","4","Bigeye Tuna Tataki with Tosazu","19.00","4", "2","This dish consists of fish steak, served slightly raw","0"),'
+              '("C3","Sea Urchin Tempura.jpg","5","sea Urchin Tempura","9.00","4", "2","Sea Urchin that has been battered and deep fried","0"),'
+              '("C3","Rock Shrimp Tempura.jpg","6","Rock Shrimp Tempura with Ponzu","11.00","5", "2","Rock Shrimp that has been battered and deep fried","0"),'
+              '("C3","Chilean Sea Bass.jpg","7","Chilean Sea Bass with Black Bean Sause","24.00","", "2","Perfectly boiled Lobster served with wasabi paste","0"),'
               '("C3","Lobster with Wasabi.jpg","8","Lobster with Wasabi Pepper Sause","28.00","5", "2","LOL","0"),'
-              '("C3","Kaki Age Donburi.jpg","9","Kaki Age Donburi","16.00","4", "2","LOL","0"),'
-              '("C3","Tempura Donburi.jpg","10","Tempura Donburi","14.00","4", "2","LOL","0"),'
-              '("C3","Ribeye Anticucho.jpg","11","Ribeye Anticucho","21.00","3", "2","LOL","0")')
+              '("C3","Kaki Age Donburi.jpg","9","Kaki Age Donburi","16.00","4", "2","Perfect for lunch, this meal is a rice bowl with vegetables","0"),'
+              '("C3","Tempura Donburi.jpg","10","Tempura Donburi","14.00","4", "2","Donburi that has been battered and deep fried","0"),'
+              '("C3","Ribeye Anticucho.jpg","11","Ribeye Anticucho","21.00","3", "2","Ribeye cooked to your liking served in thin slices with antichucho sauce","0")')
 
         #CHEF Rosita#
     c.execute('INSERT INTO menus VALUES '
-              '("C4","Pechuga de Pollo a la parrilla.jpg","1","Pechuga De Pollo A La Parrilla (Grilled Chicken Cutlet)","12.00","4", "2","LOL","0"),'
-              '("C4","Milanesa De res.jpg","2","Milanesa De Res (Breaded Steak)","15.00","4", "2","LOL","1"),'
-              '("C4","Carne de Enchilada.jpg","3","Carne Enchilada (Hot and Spicy Pork)","14.00","4", "2","LOL","2"),'
-              '("C4","Medio Pollo Rostizado.jpg","4","Medio Pollo Rostizado (Half Roasted Chicken)","12.00","4", "2","LOL","4"),'
-              '("C4","Pernil Horneado.jpg","5","Pernil Horneado (Roasted Pork)","14.00","4", "2","LOL","3"),'
-              '("C4","Bistec Encebollado.jpg","6","Bistec Encebollado (Steak with Onions)","17.00","3", "2","LOL","9"),'
-              '("C4","Carne de Cecina.jpg","7","Carne De Cecina (Jerky Beef Steak)","13.00","5", "2","LOL","8"),'
-              '("C4","Mole Poblano.jpg","8","Mole Poblano (Chicken with Mole)","15.00","5", "2","LOL","10")')
+              '("C4","Pechuga de Pollo a la parrilla.jpg","1","Pechuga De Pollo A La Parrilla (Grilled Chicken Cutlet)","12.00","4", "2","Grilled Chicken Breast with a side of rice and beans.","0"),'
+              '("C4","Milanesa De res.jpg","2","Milanesa De Res (Breaded Steak)","15.00","4", "2","Beef Milanese served with rice","0"),'
+              '("C4","Carne de Enchilada.jpg","3","Carne Enchilada (Hot and Spicy Pork)","14.00","4", "2","Slice of pork with a spicy paste served with rice.","0"),'
+              '("C4","Medio Pollo Rostizado.jpg","4","Medio Pollo Rostizado (Half Roasted Chicken)","12.00","4", "2","Half of Rotisserie Chicken served with plantains rice and beans","0"),'
+              '("C4","Pernil Horneado.jpg","5","Pernil Horneado (Roasted Pork)","14.00","4", "2","Roasted Pork with spicy sauce","0"),'
+              '("C4","Bistec Encebollado.jpg","6","Bistec Encebollado (Steak with Onions)","17.00","3", "2","Steak served with a side of spicy sauce and rice","0"),'
+              '("C4","Carne de Cecina.jpg","7","Carne De Cecina (Jerky Beef Steak)","13.00","5", "2","Jerky Styled Beef with a side salad and rice","0"),'
+              '("C4","Mole Poblano.jpg","8","Mole Poblano (Chicken with Mole)","15.00","5", "2","Chicken served with Mole sauce, which is chocolate based, and sprinkled with sunflower seeds","0")')
 
 
     #USERS###

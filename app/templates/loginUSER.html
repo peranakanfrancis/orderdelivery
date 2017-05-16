@@ -12,11 +12,17 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+          <style>
+              body
+              {
+                  background-color: #F5F0EC;
+              }
+          </style>
       </head>
 
       <body>
 
-            <h1> Los Quatro Amigos</h1> <h4>Hello!{{ session['user'] }}</h4>
+            <h1> Los Quatro Amigos</h1> <h4>Hello! {{ session['user'] }}</h4>
     
             <div class="container-fluid">
                 <div class="row">
@@ -65,6 +71,9 @@
                                     </li>
                                     <li>
                                         <a href="{{url_for('show_complaint_form')}}">COMPLAIN</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{('delete_account')}}">Delete Account</a>
                                     </li>
                                 </ul>
                             </div>

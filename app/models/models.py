@@ -21,8 +21,9 @@ class db_connect:
         self.con.commit()
 
     def insert_employees(self,emp_id,emp_fname, emp_lname, address, city, state, postal, apt, phone, ssn, birthdate,salary,date_hired, hired=0):
-        self.cur.execute("INSERT INTO employees (emp_id,emp_fname,emp_lname,address,city, state, postal, apt, phone, ssn, birthdate, salary, date_hired, hired) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-                        (emp_id, emp_fname, emp_lname, address, city, state, postal, apt, phone, ssn, birthdate, salary, date_hired,hired) )
+        today = datetime.today()
+        self.cur.execute("INSERT INTO employees (emp_id,emp_fname,emp_lname,address,city, state, postal, apt, phone, ssn, birthdate, salary, date_hired, hired, last_ordered) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                        (emp_id, emp_fname, emp_lname, address, city, state, postal, apt, phone, ssn, birthdate, salary, date_hired,hired, today) )
         self.con.commit()
 
     def insert_users(self,user_id,f_name, l_name, password, address, city, state, postal, apt, phone, acc_funds=100,registered=0,VIP=0,order_count=0,cash_spent=0):
@@ -140,6 +141,17 @@ class db_connect:
         result = self.cur.execute("SELECT * FROM employees WHERE hired = 0").fetchall()
         return result
 
+    def select_time_last_ordered(self, emp_id):
+        result = self.cur.execute("SELECT last_ordered FROM employees WHERE emp_id = '{}'".format(emp_id)).fetchone()
+        return result
+
+    def update_employee_last_ordered(self, emp_id):
+        today = datetime.today()
+        print("emp")
+        print(emp_id)
+        self.cur.execute("UPDATE employees SET last_ordered = '{}' WHERE emp_id='{}'".format(today,emp_id))
+        self.con.commit()
+
     ################# USER SELECT FUNCTIONS#########################################
     #SELECT ALL UNREGISTERED USERS
     def select_all_unregistered_users(self):
@@ -180,8 +192,9 @@ class db_connect:
 
 ############### END OF USER SELECT FUNCTIONS#######################################
 ###################################################################################
-####MENU SELECT FUNCTIONS##############
+                          ####MENU SELECT FUNCTIONS##############
 
+      # LENNY WROTE SELECT_ITEMS_DESCRIPTION -- IF ITS WRONG MY BAD -- #
     def select_menu_items_description(self):
         result = self.cur.execute("SELECT item_description FROM menus").fetchall()
         return result
@@ -395,8 +408,9 @@ class db_connect:
 
         #Promoting employee increases their salary by 5 dollars.
     def check_compliments(self,emp_id):
-        result = self.cur.execute("SELECT count(*) FROM compliments WHERE emp_id = '%s'" %emp_id).fetchall()
+        result = self.cur.execute("SELECT compliments FROM employees WHERE emp_id = '%s'" %emp_id).fetchall()
         return result
+
 
     def promote_employee(self,emp_id):
         self.cur.execute("UPDATE employees SET salary = salary + 5 where emp_id = '%s'" % emp_id)
@@ -404,11 +418,12 @@ class db_connect:
 
         #demoting employee
     def check_complaints(self,emp_id):
-        result = self.cur.execute("SELECT count(*) FROM complaints WHERE emp_id = '%s'" %emp_id).fetchall()
+        result = self.cur.execute("SELECT count(*) FROM complaints WHERE emp_id = '{}' and approval=1".format(emp_id)).fetchall()
         return result
 
     def demote_employee(self,emp_id):
         self.cur.execute("UPDATE employees SET salary = salary - 5 WHERE emp_id = '%s'" %emp_id)
+        self.cur.execute("UPDATE employees SET demotions = demotions +1 WHERE emp_id = '%s'" % emp_id)
         self.con.commit()
 
     def confirm_complaint(self,complaint_id):

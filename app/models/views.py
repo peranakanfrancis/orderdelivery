@@ -3,6 +3,8 @@ from flask import render_template,redirect, request, flash,g,session,url_for,jso
 from app.models.models import db_connect
 from .forms import *
 from functools import wraps # for the role_required decorator
+from datetime import date, datetime
+import ast
 import json
 ###db_connect contains all query methods##
 #db = db_connect()
@@ -77,14 +79,15 @@ def login():
 # For relogging in
 @app.route('/relogin')
 def relogin():
-    if session["role"] == "user":
+    if session.get("role") == "user":
         return view_user_page()
-    if session["role"] == "manager":
+    if session.get("role") == "manager":
         return view_management_page()
-    if session["role"] == "chef":
+    if session.get("role") == "chef":
         return view_chef_page()
-    if session["role"] == "deliverer":
+    if session.get("role") == "deliverer":
         return view_delivery_page()
+
 
 
 # Role Checking Decorator to Ensure Only Eligible User Has Access
@@ -259,9 +262,26 @@ def view_management_page():
     hired_employees = db.select_all_hired_employees()
     unhired_employees = db.select_all_pending_employees()
     list_of_complaints = db.select_all_pending_complaints()
+    list_of_compliments = db.select_all_pending_compliments()
+
+    # this function runs everytime manager opens his personal page
+    # we use this to find out if how long its been since a chef's item has last been ordered.
+    # if its been 3 or more days, we indicate that and let the manager know
+    for employee in hired_employees:
+        emp_id = employee[0]
+        # only check the time if the employee is a chef
+        if emp_id[0] == 'C':
+            time_last_ordered = db.select_time_last_ordered(emp_id)[0]
+            get_time_elaspsed_between_orders(time_last_ordered)
 
     return render_template("loginMANAGER.html", registered_users=registered, unregistered=unregistered_users,
-                           hired_employees=hired_employees, unhired_employees=unhired_employees, complaints=list_of_complaints )
+                           hired_employees=hired_employees, unhired_employees=unhired_employees, complaints=list_of_complaints,
+                           compliments=list_of_compliments)
+
+def get_time_elaspsed_between_orders(time_last_ordered):
+    current_date = datetime.today()
+
+
 
 # Run SignUpPage
 @app.route('/showSignUp/')
@@ -393,8 +413,8 @@ def showMenu():
         item_price = db.select_menu_price(item[1],item[2])
         # total price so far = price * quantity
         total_price += item_price[0] * item[4]
-    return render_template('Menu.html',databaseitems = db.select_menu_items(),numbers=db.select_menu_rating_numbers(),
-                           menu_items=db.select_menu(), cart=items_in_cart, sum_of_items=total_price, user_id=session.get("user"))
+    return render_template('Menu.html',databaseitems = db.select_menu_items(),item_description = db.select_menu_items_description(), numbers=db.select_menu_rating_numbers(),
+                           menu_items=db.select_menu(), cart=items_in_cart, sum_of_items=total_price, user_id=session.get("user")) #Lenny added the item_description stuff here, I may be doing this wrong#
 
 @app.route('/add_to_cart', methods=["GET",'POST'])
 def add_to_cart():
@@ -426,22 +446,30 @@ def add_to_cart():
 def checkout(price, order_items):
     db = db_connect()
 
+
     user = session.get("user")
     is_user_VIP = db.select_user_VIP_status(user)
 
+    list_of_order_items = ast.literal_eval(order_items)
+
+    # update the time someone ordered from this chef
+    for order_item in list_of_order_items:
+        emp_id = order_items[1][0]
+        print(order_item)
+        db.update_employee_last_ordered(emp_id)
 
 
     cart = db.select_user_cart(user)
-    print(cart)
+    # print(cart)
     items = []
-    print(len(cart))
-    print(len(order_items))
+    # print(len(cart))
+    # print(len(order_items))
 
     for x in range(len(cart)):
-        items.append((cart[x][3], cart[x][4]))
+        items.append((cart[x][3],cart[x][4]))
 
 
-    print(is_user_VIP)
+    # print(is_user_VIP)
 
     if is_user_VIP == 1:
         price = float(price) * .9
@@ -459,14 +487,17 @@ def checkout(price, order_items):
         flash("You Do Not Have Enough Money In Your Account")
         return relogin()
 
-  #  try:
-    db.insert_orders(user,items,price)
-    db.update_user_order_count(user)
-    db.update_user_cash_spent(user, price)
-    db.empty_cart(user)
 
-    order_count = db.select_user_order_count(user)
-    cash_spent_so_far = db.select_user_cash_spent(user)
+
+    try:
+        db.insert_orders(user,items,price)
+        db.update_user_order_count(user)
+        db.update_user_cash_spent(user, price)
+        db.empty_cart(user)
+
+
+        order_count = db.select_user_order_count(user)
+        cash_spent_so_far = db.select_user_cash_spent(user)
 
     # Increase Dish Order Count - CHIN
     for num in range(len(cart)):
@@ -508,6 +539,22 @@ def submit_rating():
 
     if rating != '':
         db.insert_ratings(chef_id,menu_id,rating)
+
+        average_rating = db.select_menu_rating(chef_id, menu_id)[0]
+        number_of_ratings = db.select_menu_rating_quantity(chef_id, menu_id)[0]
+
+        # if the chef has consistently low ratings, we demote them. Below are the conditions
+        # to check if the ratings are "consistently low"
+        if float(rating) <= 2 and float(average_rating) <= 1.5 and float(number_of_ratings) > 15:
+            try:
+              db.demote_employee(chef_id)
+
+              # if the employee has been demoted twice, fire him
+              if db.check_demotions(chef_id)[0] >= 2:
+                  db.fire_employee(chef_id)
+            except:
+                flash("that chef no longer works here")
+                redirect("/")
     else:
         flash("enter a number")
 
@@ -598,11 +645,16 @@ def add_warning(user_id):
 def accept_complaint(complaint_id, emp_id):
     db = db_connect()
     db.confirm_complaint(complaint_id)
+
     #I dk what this is for. -Eddy
     employee = emp_id
-    if db.check_complaints(employee)[0][0] >= 3:
+
+    # check how many complaints there are against this employee
+    # if 3 or greater, demote the employee
+    if db.check_complaints(employee)[0][0] % 3 == 0:
         db.demote_employee(employee)
 
+    # if the employee has been demoted twice, fire him
         if db.check_demotions(employee)[0] >= 2:
             db.fire_employee(employee)
 
@@ -616,25 +668,29 @@ def decline_complaint(complaint_id,user_id):
     db.update_warnings(user_id)
     return view_management_page()
 
-@app.route('/add_compliment/<complaint_id>/<emp_id>', methods=['GET'])
+@app.route('/add_compliment/<compliment_id>/<emp_id>', methods=['GET'])
 def accept_compliment(compliment_id, emp_id):
     db = db_connect()
     db.confirm_compliment(compliment_id)
     employee = emp_id
 
-    db.increment_compliment_count()
+    db.increment_compliment_count(emp_id)
     # if a customer is customer is VIP, their compliments count twice as much
     is_user_VIP = db.select_user_VIP_status(session.get("user"))
     if is_user_VIP == 1:
-        pass
-    #IDK what this is for. -Eddy
-    # we need to check if the employee has 3 or more compliments. so we
-    # use select_compliment to find out who the compliment is referring to
-    print(db.select_compliment(compliment_id))
-    employee = db.select_compliment(compliment_id).empl_id
-    if db.check_compliments(employee) >= 3:
+        db.increment_compliment_count(emp_id)
+
+    print(db.check_compliments(employee))
+    if int(db.check_compliments(employee)[0][0]) % 3 == 0:
         db.promote_employee(employee)
         db.delete_complaint(employee)
+
+    return view_management_page()
+
+@app.route('/decline_compliment/<compliment_id>/<user_id>', methods=['GET'])
+def decline_compliment(compliment_id,user_id):
+    db = db_connect()
+    db.delete_compliment(compliment_id)
 
     return view_management_page()
 
