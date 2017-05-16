@@ -154,7 +154,16 @@ def issue_warning(order_num):
 def view_user_page():
     db = db_connect()
     # user_top_five = db.select_top5_rated() -- wait to orders is done
-    return render_template("loginUSER.html", top_five=db.select_top5_rated(), orders=db.select_user_orders(session.get("user")))
+    #order_status = db.select_user_order_status(session.get("user"))
+    #print(order_status)
+    #orders = db.select_user_orders(session.get("user"))
+    #print("order1 {}".format(orders))
+    orders = db.select_join_orders_status(session.get("user"))
+    print(orders)
+    #order = orders[0]#helps the indexing
+
+    top_five = db.select_top5_rated()
+    return render_template("loginUSER.html", top_five=top_five, orders=orders)#,order_status = order_status)
 
 # LOGIN AS CHEF -- make SURE TO INCLUDE SOME SECURITY
 @app.route('/loginChef')
@@ -483,6 +492,28 @@ def submit_rating():
         flash("enter a number")
 
     return show_ratings()
+
+@app.route('/delivery_rating/<order_id>',methods=["GET","POST"])
+def delivery_rating(order_id):
+    #print("hello")
+    print(order_id)
+    order_id = order_id[0]#for some reason order_id returns a number followed by a " e.g 1"
+    db = db_connect()
+    status = db.select_order_status(order_id)
+
+    print(status[0])
+
+    if int(status[0]) == 0:
+        flash("Your order has not been delivered yet!")
+
+    else:
+        rating = request.form["delivery_rating"]
+        db.update_delivery_rating(order_id,rating)
+        flash("Thank you for rating!")
+    return view_user_page()
+
+
+
 
 # EMPLOYEE MANAGEMENT TOOLS
 @app.route('/accept_user/<user>', methods=['GET'])

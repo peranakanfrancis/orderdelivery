@@ -255,6 +255,11 @@ class db_connect:
         result = self.cur.execute("SELECT * FROM orders WHERE user_id='{}'".format(user_id)).fetchall()
         return result
 
+    def select_join_orders_status(self,user_id):
+        result = self.cur.execute("SELECT orders.*, deliveryinfo.status FROM orders INNER JOIN "
+                                  "deliveryinfo ON orders.order_id = deliveryinfo.order_id WHERE deliveryinfo.user_id ='{}'".format(user_id)).fetchall()
+        return result
+
     def delete_order(self,order_id):
         self.cur.execute("DELETE FROM orders WHERE order_id = '{}'".format(order_id))
         self.con.commit()
@@ -262,6 +267,15 @@ class db_connect:
     def select_order_items(self,user_id):
         result = self.cur.execute("SELECT menu_item FROM orders WHERE user_id ='{}'".format(user_id)).fetchall()
         return result
+
+    def select_order_status(self,order_id):
+        result = self.cur.execute("SELECT status FROM deliveryinfo WHERE order_id = '{}'".format(order_id)).fetchone()
+        return result
+
+    def select_user_order_status(self,user_id):
+        result = self.cur.execute("SELECT status FROM deliveryinfo WHERE user_id = '{}'".format(user_id)).fetchall()
+        return result
+
 
 
 
@@ -430,6 +444,14 @@ class db_connect:
 
     def delete_delivery_items(self):
         self.cur.execute("DELETE FROM deliveryinfo WHERE status = 1 ")
+        self.con.commit()
+
+    def select_delivery_rating(self,order_id):
+        result = self.cur.execute("SELECT delviery_rating FROM deliveryinfo WHERE order_id = '{}".format(order_id)).fetchone()
+        return result
+
+    def update_delivery_rating(self,order_id,rating):
+        self.cur.execute("UPDATE deliveryinfo SET delivery_rating = '{}' WHERE order_id = '{}'".format(rating,order_id))
         self.con.commit()
 
 

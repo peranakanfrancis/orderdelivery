@@ -136,6 +136,7 @@ with sqlite3.connect("losquatroamigos.db") as connection:
     user_id VARCHAR(9) not null,
     status char(1) not null,
     cust_warning char(1) not null,
+    delivery_rating char(1),
     FOREIGN KEY (emp_id) REFERENCES employees(emp_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
     )""")

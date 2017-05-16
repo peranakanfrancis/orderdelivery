@@ -38,6 +38,9 @@
                                         <a href="{{ url_for('showMenu') }}">MENU</a>
                                     </li>
                                     <li>
+                                        <a href="{{ url_for('show_ratings')}}">RATE FOOD</a>
+                                    </li>
+                                    <li>
                                         <a href="#top_dishes">TOP DISHES</a>
                                     </li>
                                     <li>
@@ -56,6 +59,14 @@
                                         <span class="glyphicon glyphicon-warning-sign"></span> <input type="text" class="form-control" placeholder="Number of Warnings" style="width: 25px">
                                     </div>
                                 </form>
+                                <ul class="nav navbar-nav">
+                                    <li>
+                                        <a href="{{url_for('show_compliment_form')}}">COMPLIMENT</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{url_for('show_complaint_form')}}">COMPLAIN</a>
+                                    </li>
+                                </ul>
                             </div>
                         </nav>
                     </div>
@@ -92,6 +103,9 @@
                                         <th>
                                             Status
                                         </th>
+                                        <th>
+                                            Rate Delivery
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -107,7 +121,19 @@
                                             {{ order[3] }}
                                         </td>
                                         <td>
+                                            {% if order[4] == "0" %}
                                             Processed
+                                            {% else %}
+                                            Delivered
+                                            {% endif %}
+
+                                        </td>
+                                        <td>
+                                            <form method = "post" action= {{url_for('delivery_rating', order_id = order[0])}}">
+                                                <input type="text" name="delivery_rating" min="0" max ="5">
+                                                <input type="submit" value="rate">
+                                            </form>
+
                                         </td>
                                     </tr>
                                 {% endfor %}
