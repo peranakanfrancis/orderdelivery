@@ -11,6 +11,8 @@ import json
 ###### LOGIN ########
 
 # Run HomePage
+
+
 @app.route('/')
 def index():
     db = db_connect() # connect to the database
@@ -454,6 +456,7 @@ def checkout(price, order_items):
 
     # db.insert_orders(user,items,price)
     # db.empty_cart(session.get("user"))
+
 
     #print(len(db.select_orders()))
 
