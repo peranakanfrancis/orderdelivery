@@ -386,8 +386,9 @@ class db_connect:
 
         #Promoting employee increases their salary by 5 dollars.
     def check_compliments(self,emp_id):
-        result = self.cur.execute("SELECT count(*) FROM compliments WHERE emp_id = '%s'" %emp_id).fetchall()
+        result = self.cur.execute("SELECT compliments FROM employees WHERE emp_id = '%s'" %emp_id).fetchall()
         return result
+
 
     def promote_employee(self,emp_id):
         self.cur.execute("UPDATE employees SET salary = salary + 5 where emp_id = '%s'" % emp_id)

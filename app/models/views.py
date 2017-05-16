@@ -604,7 +604,7 @@ def decline_complaint(complaint_id,user_id):
     db.update_warnings(user_id)
     return view_management_page()
 
-@app.route('/add_compliment/<complaint_id>/<emp_id>', methods=['GET'])
+@app.route('/add_compliment/<compliment_id>/<emp_id>', methods=['GET'])
 def accept_compliment(compliment_id, emp_id):
     db = db_connect()
     db.confirm_compliment(compliment_id)
@@ -615,12 +615,9 @@ def accept_compliment(compliment_id, emp_id):
     is_user_VIP = db.select_user_VIP_status(session.get("user"))
     if is_user_VIP == 1:
         db.increment_compliment_count(emp_id)
-    #IDK what this is for. -Eddy
-    # we need to check if the employee has 3 or more compliments. so we
-    # use select_compliment to find out who the compliment is referring to
-    print(db.select_compliment(compliment_id))
-    employee = db.select_compliment(compliment_id).empl_id
-    if db.check_compliments(employee) >= 3:
+
+    print(db.check_compliments(employee))
+    if int(db.check_compliments(employee)[0][0]) % 3 == 0:
         db.promote_employee(employee)
         db.delete_complaint(employee)
 
