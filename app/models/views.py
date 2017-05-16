@@ -184,7 +184,7 @@ def view_user_page():
     # top 5 is most popular
     # for registered and VIP = depends on their history
 
-    return render_template("loginUSER.html", top_five=top_five, orders=orders) # order_status = order_status)
+    return render_template("loginUSER.html", top_five=top_five, orders=orders)  # order_status = order_status)
 
 # LOGIN AS CHEF -- make SURE TO INCLUDE SOME SECURITY
 @app.route('/loginChef')
@@ -459,6 +459,7 @@ def strip_orders(s):
 
     for i in range(len(a)):
         if i % 2 == 0:
+
             b[int(i/2)].append(a[i].lstrip('('))
         else:
             b[int((i-1) / 2)].append(a[i].rstrip(')'))

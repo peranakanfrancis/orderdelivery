@@ -58,14 +58,17 @@
     <!-- if the items == 0 and the sum of total for items in the shopping cart is 0 -->
     {% if sum_of_items == 0 %}
         <h1> Cart is Empty </h1>
+
     <!-- then display that the cart is empty -->
     {% else %}
 
         <h1 style="margin-bottom: 25px"> Shopping Cart</h1>
     <div class="container-fluid">
+
         <form method="post" action="/menu">
 
             <div class="row">
+
                   <div class="col-md-4">
                     <!-- databaseitems is a dictionary in python, in -->
                     {% for item in cart %}
@@ -92,6 +95,12 @@
     {% endif %}
 <br>
     <h1 style="font-size: 61px; text-align: center"> Menu </h1>
+    <div>
+     <ul class="nav navbar-nav">
+                <li>
+                    <button type="button"><a href="{{ url_for('relogin') }}">Your Page</a></button></li>
+                </ul>
+    </div>
 <br>
 
     <!-- This form creates the menu and everything between the div is the actual menu  -->
