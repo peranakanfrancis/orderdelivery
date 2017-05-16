@@ -491,6 +491,22 @@ def submit_rating():
 
     if rating != '':
         db.insert_ratings(chef_id,menu_id,rating)
+
+        average_rating = db.select_menu_rating(chef_id, menu_id)[0]
+        number_of_ratings = db.select_menu_rating_quantity(chef_id, menu_id)[0]
+
+        # if the chef has consistently low ratings, we demote them. Below are the conditions
+        # to check if the ratings are "consistently low"
+        if float(rating) <= 2 and float(average_rating) <= 1.5 and float(number_of_ratings) > 15:
+            try:
+              db.demote_employee(chef_id)
+
+              # if the employee has been demoted twice, fire him
+              if db.check_demotions(chef_id)[0] >= 2:
+                  db.fire_employee(chef_id)
+            except:
+                flash("that chef no longer works here")
+                redirect("/")
     else:
         flash("enter a number")
 
