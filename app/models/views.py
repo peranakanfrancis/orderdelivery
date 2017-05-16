@@ -618,8 +618,12 @@ def accept_compliment(compliment_id, emp_id):
 
     return view_management_page()
 
+@app.route('/delete_account')
+def delete_account():
+    db = db_connect()
+    db.delete_account(session.get("user"))
 
-
+    return logout()
 # Handles Any Page That Doesn't Exist
 @app.errorhandler(404)
 def PageNotFound(error):
