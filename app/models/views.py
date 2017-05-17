@@ -658,7 +658,7 @@ def deposit_money():
     print(amount)
 
     db.inc_acc_funds(amount, session.get('user'))
-    flash("Funds Deposited")
+    flash("Funds Deposited: $"+amount)
     return view_user_page()
 
 @app.route('/hire_employee/<empl_name>', methods=['GET'])
