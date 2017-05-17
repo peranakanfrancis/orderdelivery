@@ -48,7 +48,14 @@
 	</div>
 	<div class="row">
 		<div class="col-md-12">
-            <button type = "button"><a href="/">Home</a></button>
+            <ul class="nav navbar-nav">
+                <li><button type ="submit" class = "btn btn-default"><a href="{{ url_for('index') }}">Home</a></button></li>
+            <li><form class="navbar-form navbar-left" role="search" action={{ url_for('logout') }}>
+						<button type="submit" class="btn btn-default">
+							Sign Out
+						</button>
+					</form></li>
+                </ul>
 		</div>
 </div>
 	<div class="row">
@@ -89,14 +96,16 @@
             <table>
               <form action ="{{url_for('add_menu_item',chef = chef[0]) }}" method = 'POST'>
                   <tr>
-                      <th>
+                      <td>
                             <p>Add new Item
                             <input type="text" name ="new_item"> </input>
                                 Add Price
-                            <input type="text" name ="new_price"></input>
-                          <input type="submit" value="Submit"> </input>
+                                <input type="text" name ="new_price"></input>
+                                Add Description
+                                <input type="text" name ="description"></input>
+
                                 </p>
-                      </th>
+                      </td>
 
                       <th>
                           <input type="submit" value="Add new Item"> </input>
