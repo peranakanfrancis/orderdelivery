@@ -15,6 +15,10 @@
               {
                   background-color: #F5F0EC;
               }
+              .Warnings
+              {
+                 padding-top: 8px;
+              }
           </style>
       </head>
 
@@ -61,15 +65,10 @@
                                 </ul>
                                 <form class="navbar-form navbar-left" role="search">
                                     <div class="form-group">
-<<<<<<< HEAD
 
-                                        <span class="glyphicon glyphicon-warning-sign"></span> {{warnings[0]}}
-
-=======
-                                        {% for warn in warnings %}
-                                        <span class="glyphicon glyphicon-warning-sign"></span> <input type= text class="form-control" placeholder="Number of Warnings" style="width: 25px">
-                                        {% endfor %}
->>>>>>> origin/master
+                                        <div class="Warnings">
+                                        <span class="glyphicon glyphicon-warning-sign"></span> {{ warnings[0] }}
+                                        </div>
                                     </div>
                                 </form>
                                 <ul class="nav navbar-nav">
@@ -109,7 +108,7 @@
                                 <thead>
                                     <tr>
                                         <th>
-                                            Funds to Transfer
+                                            Current Funds: ${{ user_info[13] }}
                                         </th>
 
                                     </tr>

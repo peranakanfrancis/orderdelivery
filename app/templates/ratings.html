@@ -53,10 +53,9 @@
 
 {% block content %}
 
-<br>
     <h1 style="font-size: 61px; text-align: center"> Rate Our Menu </h1>
 <br>
-<div class="row">
+   <div class="row">
                     <div class="col-md-12">
                         <nav class="navbar navbar-default" role="navigation">
                             <div class="navbar-header">
@@ -72,7 +71,7 @@
                                         <a href="{{ url_for('index') }}">HOME</a>
                                     </li>
                                     <li>
-                                        <a href="{{url_for('relogin')}}">YOUR PAGE</a>
+                                        <a href="{{ url_for('relogin')}}">YOUR PAGE</a>
                                     </li>
 
 
@@ -91,6 +90,7 @@
                         </nav>
                     </div>
                 </div>
+<br>
 
     <!-- This form creates the menu and everything between the div is the actual menu  -->
 
