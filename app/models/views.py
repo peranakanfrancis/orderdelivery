@@ -332,7 +332,8 @@ def submit_complaint():
     employee = request.form.get("employee")
     employee = employee.strip().split(" ")
     emp_fname = str(employee[0])
-    emp_lname = employee[1]
+    if len(employee) > 1:
+        emp_lname = employee[1]
 
     user = session.get("user")
     complaint = request.form.get("complaint")
@@ -361,8 +362,10 @@ def submit_compliment():
     # convert employee name to emp_id which is nec for insert function
     employee = request.form.get("employee")
     employee = employee.strip().split(" ")
+    print(employee)
     emp_fname = str(employee[0])
-    emp_lname = employee[1]
+    if len(employee) > 1:
+        emp_lname = employee[1]
 
 
     user = session.get("user")
