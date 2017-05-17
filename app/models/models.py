@@ -174,6 +174,7 @@ class db_connect:
 
         # USERS CAN DELETE THEIR ACCOUNT IF THEY WISH TO DO SO. (MANAGERS MAY ALSO USE THIS TO REMOVE USER FROM WEBSITE)
     def delete_account(self,user_id):
+        print("deleting " + user_id)
         self.cur.execute("DELETE FROM users WHERE user_id = '%s'" % user_id)
         self.con.commit()
 
