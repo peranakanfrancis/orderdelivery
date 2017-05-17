@@ -52,7 +52,7 @@ class db_connect:
     #INSERT MORE MONEY INTO ACCOUNT
     def insert_funds(self,user_id,new_funds):
         self.cur = self.con.cursor()
-        self.cur.execute("UPDATE user set acc_funds = acc_funds + '%s' WHERE user_id = '%s'" %new_funds %user_id)
+        self.cur.execute("UPDATE users set acc_funds = acc_funds + '{}' WHERE user_id = '{}'".format(new_funds,user_id))
         self.con.commit()
 
     def insert_ratings(self, chef_id, menu_id, rating):

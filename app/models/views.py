@@ -685,6 +685,8 @@ def delivery_rating(order_id):
 def accept_user(user):
     db = db_connect()
     db.register(user)
+    db.insert_funds(user,100)
+
     return view_management_page()
 
 @app.route('/decline_user/<user>', methods=['GET'])
