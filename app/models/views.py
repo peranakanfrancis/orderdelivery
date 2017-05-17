@@ -533,6 +533,10 @@ def top5_user(user):
 def checkout(price, order_items):
     db = db_connect()
 
+    items = strip_orders(order_items)
+    print(type(order_items))
+    print(order_items)
+
 
     user = session.get("user")
     is_user_VIP = db.select_user_VIP_status(user)
@@ -542,7 +546,7 @@ def checkout(price, order_items):
     # update the time someone ordered from this chef
     for order_item in list_of_order_items:
         emp_id = order_items[1][0]
-        print(order_item)
+        # print(order_item)
         db.update_employee_last_ordered(emp_id)
 
 
@@ -717,10 +721,18 @@ def fire(empl_name):
     db.fire_employee(empl_name)
     return view_management_page()
 
-@app.route('/upgrade_user/<user>', methods=['GET'])
-def upgrade(empl_name):
+@app.route('/upgrade_user/<user_id>', methods=['GET'])
+def upgrade(user_id):
     db = db_connect()
-    db.upgrade_user(empl_name)
+    print(user_id)
+    db.update_VIP_status(user_id, "1")
+    return view_management_page()
+
+@app.route('/downgrade_user/<user_id>', methods=['GET'])
+def downgrade(user_id):
+    db = db_connect()
+    print(user_id)
+    db.update_VIP_status(user_id, "0")
     return view_management_page()
 
 

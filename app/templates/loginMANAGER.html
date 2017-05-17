@@ -180,29 +180,30 @@
 					</tr>
 				</thead>
 				<tbody>
-                     {% for registered_users in registered %}
+                     {% for registered_user in registered_users %}
                         <tr>
                             <td>
                                  {{ loop.index }}
                             </td>
                             <td>
-                                {{ registered_users[1] }} {{ registered_users[2] }}
+                                {{ registered_user[1] }} {{ registered_user[2] }}
                             </td>
                             <td>
                                 01/04/2012
                             </td>
                             <td>
-                                VIP
+                                {{ registered_user[14] }}
+                                {% if registered_user[14] == "1" %}
+                                    VIP
+                                {% else %}
+                                    Normal Customer
+                                {% endif %}
                             </td>
+
                             <td>
-                                <form >
-                                    <span class="glyphicon glyphicon-warning-sign"></span> <input type="text" name="first_name" style="width: 25px"/>
-                                </form>
-                            </td>
-                            <td>
-                                <button type="button" ><a href="{{ url_for('upgrade', user_id=registered_users[0]) }}">Upgrade_VIP </a></button>
-                                <button type="button" ><a href="{{ url_for('downgrade', user_id=registered_users[0]) }}">Downgrade_VIP </a></button>
-                                <button type="button" ><a href="{{ url_for('delete', user_id=registered_users[0]) }}">Delete Account </a></button>
+                                <button type="button" ><a href="{{ url_for('upgrade', user_id=registered_user[0]) }}">Upgrade_VIP </a></button>
+                                <button type="button" ><a href="{{ url_for('downgrade', user_id=registered_user[0]) }}">Downgrade_VIP </a></button>
+                                <button type="button" ><a href="{{ url_for('delete_account', user_id=registered_user[0]) }}">Delete Account </a></button>
                             </td>
                         </tr>
                      {% endfor %}
