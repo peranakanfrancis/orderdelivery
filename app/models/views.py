@@ -728,7 +728,6 @@ def fire(empl_name):
 @app.route('/upgrade_user/<user_id>', methods=['GET'])
 def upgrade(user_id):
     db = db_connect()
-    print(user_id)
     db.update_VIP_status(user_id, "1")
     return view_management_page()
 
