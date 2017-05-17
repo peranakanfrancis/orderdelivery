@@ -468,6 +468,19 @@ def add_to_cart():
 
     return showMenu()
 
+@app.route('/empty_cart', methods=["GET",'POST'])
+def empty_cart():
+    db = db_connect()
+    user = session.get("user")
+
+    try:
+        db.empty_cart(user)
+    except:
+        flash("you need to login")
+        return showLogIn()
+
+    return showMenu()
+
 # Given String from Orders Database, Retrieve list of menu_item and qty
 # Precondition: s is a string
 # Postcondition: returns a, a list of menu_item and quantity where quantity is

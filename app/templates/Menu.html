@@ -89,6 +89,7 @@ Menu
             </div>
                 <h1> Total Price</h1>
                 <h2>${{ sum_of_items }}</h2>
+            <button type="button" ><a href="{{ url_for('empty_cart') }}">Empty Cart </a></button>
             <button type="button" ><a href="{{ url_for('checkout', price=sum_of_items, order_items=cart ) }}">Checkout </a></button>        </form>
     </div>
     {% endif %}
