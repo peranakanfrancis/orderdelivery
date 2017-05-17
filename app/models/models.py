@@ -172,6 +172,7 @@ class db_connect:
         result = self.cur.execute("SELECT * FROM users WHERE user_id = '%s'" %user_id).fetchall()
         return result
 
+
         # USERS CAN DELETE THEIR ACCOUNT IF THEY WISH TO DO SO. (MANAGERS MAY ALSO USE THIS TO REMOVE USER FROM WEBSITE)
     def delete_account(self,user_id):
         print("deleting " + user_id)
@@ -308,8 +309,25 @@ class db_connect:
         result = self.cur.execute("SELECT status FROM deliveryinfo WHERE user_id = '{}'".format(user_id)).fetchall()
         return result
 
+    def update_order_count(self,user_id):
+        self.cur.execute("UPDATE users SET order_count = order_count +1 WHERE user_id = '{}'".format(user_id))
+        self.con.commit()
 
+    def select_order_count(self,user_id):
+        result = self.cur.execute("SELECT order_count FROM users WHERE user_id = '{}'".format(user_id)).fetchone()
+        return result
 
+    def select_cash_spent(self,user_id):
+        result = self.cur.execute("SELECT cash_spent FROM users WHERE user_id = '{}'".format(user_id)).fetchone()
+        return result
+
+    def reset_cash_spent(self,user_id):
+        self.cur.execute("UPDATE users SET cash_spent = 0 WHERE user_id = '{}'".format(user_id))
+        self.con.commit()
+
+    def reset_order_count(self,user_id):
+        self.cur.execute("UPDATE users SET order_count = 0 WHERE user_id = '{}'".format(user_id))
+        self.con.commit()
 
     ######### END OF ORDER SELECT FUNCTIONS ############
 
@@ -345,6 +363,10 @@ class db_connect:
     def select_user_VIP_status(self,user_id):
         result = self.cur.execute("SELECT VIP FROM users WHERE user_id = '{}'".format(user_id)).fetchone()
         return result
+
+    def update_VIP_status(self,user,status):
+        self.cur.execute("UPDATE users SET VIP ='{}' WHERE user_id = '{}'".format(status,user))
+        self.con.commit()
 
     def set_user_VIP_status(self,user_id):
         self.cur.execute("UPDATE users SET VIP = 1 WHERE user_id ='{}'".format(user_id))
@@ -382,6 +404,10 @@ class db_connect:
         result = self.cur.execute("SELECT * FROM compliments WHERE approval=0").fetchall()
         return result
 
+    def select_userid_complaints(self,complaint_id):
+        result = self.cur.execute("SELECT user_id FROM complaints WHERE complaint_id ='{}'".format(complaint_id)).fetchone()
+        return result
+
         #COMPLIMENTS -Will be neccessary for managers to review
     def select_compliments(self,compliment_id):
         result = self.cur.execute("SELECT compliment, date_posted FROM compliments WHERE compliment_id = '%s'" %compliment_id).fetchall()
@@ -394,6 +420,10 @@ class db_connect:
         #Accept Registration
     def register(self,user_id):
         self.cur.execute("UPDATE users SET registered=1 WHERE user_id = '%s'" %user_id)
+        self.con.commit()
+
+    def deregister(self,user_id):
+        self.cur.execute("UPDATE users SET registered=0 WHERE user_id = '{}'".format(user_id))
         self.con.commit()
 
         #hire employee
@@ -448,9 +478,26 @@ class db_connect:
 
 #update warnings in users table. Do this by counting the number of true boolean values a user has in the warnings column
 # of delivery info table.
-    def update_warnings(self,user_id):
-        self.cur.execute("UPDATE users set warnings = (SELECT count(cust_warning) FROM deliveryinfo where user_id = '%s')"
-                    %user_id)
+    #def update_warnings(self,user_id):
+    #    self.cur.execute("UPDATE users set warnings = (SELECT count(cust_warning) FROM deliveryinfo where user_id = '%s')"
+    #                %user_id)
+    #    self.con.commit()
+
+    def add_warning(self,user_id):
+        self.cur.execute("UPDATE users SET warnings = warnings+1 WHERE user_id = '{}'".format(user_id))
+        self.con.commit()
+
+    def select_warnings(self,user_id):
+        result = self.cur.execute("SELECT warnings FROM users WHERE user_id = '{}'".format(user_id)).fetchone()
+        return result
+
+    #get user_id from order_id in deliveryinfo
+    def select_user_delivery(self,order_id):
+        result = self.cur.execute("SELECT user_id FROM deliveryinfo WHERE order_id ='{}'".format(order_id)).fetchone()
+        return result
+
+    def clear_warnings(self,user_id):
+        self.cur.execute("UPDATE users SET warnings = 0 WHERE user_id = '{}'".format(user_id))
         self.con.commit()
 
     def select_completed_delivery_info(self):

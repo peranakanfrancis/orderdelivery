@@ -149,6 +149,23 @@ def fulfill(order_num):
 def issue_warning(order_num):
     db = db_connect()
     db.add_cust_warning(order_num)
+    print(order_num)
+    #now update warnings in user table
+    #get user first!
+    user = db.select_user_delivery(order_num)
+    print(user[0])
+    db.add_warning(user[0])
+    print(db.select_warnings(user[0]))
+    # if user is VIP and has 2 warnings, demote status, and clear cash spent + order count
+    if db.select_user_VIP_status(user[0])[0] == '1' and db.select_warnings(user[0])[0] > 1:
+        db.update_VIP_status(user[0], "0")
+        db.clear_warnings(user[0])
+        db.reset_cash_spent(user[0])
+        db.reset_order_count(user[0])
+    # if regular user and has 3 warnings, deregister, and remove warnings.
+    if db.select_user_VIP_status(user[0])[0] == '0' and db.select_warnings(user[0])[0] > 2:
+        db.deregister(user[0])
+        db.clear_warnings(user[0])
     flash("**Warning Issued**", 'error')
     return view_delivery_page()
 
@@ -166,6 +183,9 @@ def view_user_page():
     #orders = db.select_user_orders(session.get("user"))
     #print("order1 {}".format(orders))
     orders = db.select_join_orders_status(session.get("user"))
+
+    warnings = db.select_warnings(session.get('user'))
+    print(warnings)
 
     #order = orders[0]#helps the indexing
 
@@ -185,7 +205,7 @@ def view_user_page():
     # top 5 is most popular
     # for registered and VIP = depends on their history
 
-    return render_template("loginUSER.html", top_five=top_five, orders=orders)  # order_status = order_status)
+    return render_template("loginUSER.html", warnings = warnings,top_five=top_five, orders=orders)  # order_status = order_status)
 
 # LOGIN AS CHEF -- make SURE TO INCLUDE SOME SECURITY
 @app.route('/loginChef')
@@ -566,6 +586,12 @@ def checkout(price, order_items):
 
     db.insert_deliveryinfo(len(db.select_orders()), 'None', session.get("user"), status="0", cust_warning="0")
 
+    #update order_count and update VIP status if neccessary
+    db.update_order_count(user)
+    if db.select_order_count(user)[0] == '50' or  db.select_cash_spent(user)[0] > '500':
+        db.update_VIP_status(user,"0")
+
+
 
         # Update Funds in the Account
     #except:
@@ -731,9 +757,25 @@ def accept_complaint(complaint_id, emp_id):
 @app.route('/decline_complaint/<complaint_id>/<user_id>', methods=['GET'])
 def decline_complaint(complaint_id,user_id):
     db = db_connect()
+    print(complaint_id)
+    user = db.select_userid_complaints(complaint_id)
+    print(user)
+    db.add_warning(user[0])
     db.delete_complaint(complaint_id)
 
-    db.update_warnings(user_id)
+    #print(db.select_warnings(user[0]))
+    #if user is VIP and has 2 warnings, demote status, and clear cash spent + order count
+    if db.select_user_VIP_status(user[0])[0] == '1' and db.select_warnings(user[0])[0] >1:
+        db.update_VIP_status(user[0],"0")
+        db.clear_warnings(user[0])
+        db.reset_cash_spent(user[0])
+        db.reset_order_count(user[0])
+    #if regular user and has 3 warnings, deregister, and remove warnings.
+    if db.select_user_VIP_status(user[0])[0] == '0' and db.select_warnings(user[0])[0] >2:
+        db.deregister(user[0])
+        db.clear_warnings(user[0])
+
+
     return view_management_page()
 
 @app.route('/add_compliment/<compliment_id>/<emp_id>', methods=['GET'])

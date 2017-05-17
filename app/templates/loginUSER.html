@@ -63,7 +63,9 @@
                                 </ul>
                                 <form class="navbar-form navbar-left" role="search">
                                     <div class="form-group">
+                                        {% for warn in warnings %}
                                         <span class="glyphicon glyphicon-warning-sign"></span> <input type="text" class="form-control" placeholder="Number of Warnings" style="width: 25px">
+                                        {% endfor %}
                                     </div>
                                 </form>
                                 <ul class="nav navbar-nav">
