@@ -72,7 +72,7 @@
 			</nav>
                     <img src="{{ url_for('static', filename='img/delivery.gif') }}" style="width: 40%; height: 40%">
 
-        <!--
+
 	<div class="row">
 		<div class="col-md-6">
             <h2>Order Confirmation:</h2>
@@ -84,14 +84,14 @@
               <tr>
                 <td> Centro comercial Moctezuma </td>
                 <td> Francisco Chang </td>
-                <td>Mexico </td>
+                <td> Mexico </td>
               </tr>
 
             </table>
 
 		</div>
 
-	</div> -->
+	</div>
 </div>
 
      <!-- jQuery -->
@@ -100,27 +100,6 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="../static/bootstrap/js/bootstrap.min.js"></script>
 
-        <script>
-            var onMapMouseleaveHandler = function(event)
-                {
-                    var that = $(this);
-                    that.on('click', onMapClickHandler);
-                    that.off('mouseleave', onMapMouseleaveHandler);
-                    that.find('iframe').css("pointer-events", "none");
-                }
-            var onMapClickHandler = function(event)
-                {
-                        var that = $(this);
-                        // Disable the click handler until the user leaves the map area
-                        that.off('click', onMapClickHandler);
-                        // Enable scrolling zoom
-                        that.find('iframe').css("pointer-events", "auto");
-                        // Handle the mouse leave event
-                        that.on('mouseleave', onMapMouseleaveHandler);
-                }
-                // Enable map zooming with mouse scroll when the user clicks the map
-            $('.map').on('click', onMapClickHandler);
-            </script>
     </body>
 
 </html>

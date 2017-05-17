@@ -2,8 +2,7 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %}
-
-    Food Items
+Menu
 {% endblock %}
 
 {% block styles %}
@@ -62,7 +61,7 @@
     <!-- then display that the cart is empty -->
     {% else %}
 
-        <h1 style="margin-bottom: 25px"> Shopping Cart</h1>
+        <h1 style="margin-bottom: 25px"> <i class="fa fa-shopping-cart" aria-hidden="true">Shopping Cart</i> </h1>
     <div class="container-fluid">
 
         <form method="post" action="/menu">
@@ -128,8 +127,7 @@
             {% endfor %}
 
     </div>
-
-        <input type="submit" value="Add To Cart">
+        <input type="submit" value="Add To Cart" style="width: 100%; height: 45px; background-color: #f2dede; border-color: black">
     </form>
 
     <br>
