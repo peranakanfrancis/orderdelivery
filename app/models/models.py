@@ -93,6 +93,11 @@ class db_connect:
         self.cur.execute("UPDATE employees SET compliments = compliments + 1 where emp_id = '{}'".format(emp_id))
         self.con.commit()
 
+    def reset_compliments(self,emp_id):
+        self.cur.execute("UPDATE employees SET compliments = 0 WHERE emp_id = '{}'".format(emp_id))
+        self.con.commit()
+
+
     def insert_orders(self,user_id,menu_item,total_price):
         self.cur = self.con.cursor()
         self.cur.execute("INSERT INTO orders (user_id,menu_item,total_price) VALUES(?,?,?)",
@@ -417,6 +422,10 @@ class db_connect:
         self.cur.execute("DELETE FROM complaints WHERE complaint_id = '%s'" % complaint_id)
         self.con.commit()
 
+    def decrement_complaint(self,emp_id):
+        self.cur.execute("UPDATE employees SET complaints = complaints -1 WHERE emp_id = '{}'".format(emp_id))
+        self.con.commit()
+
         #Accept Registration
     def register(self,user_id):
         self.cur.execute("UPDATE users SET registered=1 WHERE user_id = '%s'" %user_id)
@@ -435,6 +444,15 @@ class db_connect:
         self.cur.execute("UPDATE employees SET demotions = demotions + 1 WHERE emp_id = '%s'" %emp_id)
         self.con.commit()
 
+    def decrease_complaint(self,emp_id):
+        self.cur.execute("UPDATE employees SET complaints = complaints -1 WHERE emp_id = '{}'".format(emp_id))
+        self.con.commit()
+
+    def select_demotions(self,emp_id):
+        result = self.cur.execute("SELECT demotions FROM employees WHERE emp_id = '{}'".format(emp_id)).fetchone()
+        return result
+
+
     def decrease_demotions(self,emp_id):
         self.cur.execute("UPDATE employees SET demotions = demotions - 1 WHERE emp_id = '%s'" %emp_id)
         self.con.commit()
@@ -449,7 +467,7 @@ class db_connect:
 
         #Promoting employee increases their salary by 5 dollars.
     def check_compliments(self,emp_id):
-        result = self.cur.execute("SELECT compliments FROM employees WHERE emp_id = '%s'" %emp_id).fetchall()
+        result = self.cur.execute("SELECT compliments FROM employees WHERE emp_id = '%s'" %emp_id).fetchone()
         return result
 
 
@@ -459,7 +477,7 @@ class db_connect:
 
         #demoting employee
     def check_complaints(self,emp_id):
-        result = self.cur.execute("SELECT count(*) FROM complaints WHERE emp_id = '{}' and approval=1".format(emp_id)).fetchall()
+        result = self.cur.execute("SELECT complaints FROM employees WHERE emp_id = '{}'".format(emp_id)).fetchone()
         return result
 
     def demote_employee(self,emp_id):
@@ -471,9 +489,14 @@ class db_connect:
         self.cur.execute("UPDATE complaints SET approval = 1 where complaint_id = '%s'" %complaint_id)
         self.con.commit()
 
+    def add_complaint(self,emp_id):
+        self.cur.execute("UPDATE employees SET complaints = complaints +1 WHERE emp_id = '{}'".format(emp_id))
+        self.con.commit()
+
     def confirm_compliment(self,compliment_id):
         self.cur.execute("UPDATE compliments SET approval = 1 where compliment_id = '%s'" % compliment_id)
         self.con.commit()
+
 
 
 #update warnings in users table. Do this by counting the number of true boolean values a user has in the warnings column

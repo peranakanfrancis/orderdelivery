@@ -634,6 +634,7 @@ def submit_rating():
               db.demote_employee(chef_id)
 
               # if the employee has been demoted twice, fire him
+              print(db.check_demotions())[0]
               if db.check_demotions(chef_id)[0] >= 2:
                   db.fire_employee(chef_id)
             except:
@@ -718,9 +719,11 @@ def promote(empl_name):
 
 @app.route('/demote/<empl_name>', methods=['GET'])
 def demote(empl_name):
+    #empl_is actually emp_id!
     db = db_connect()
     db.add_demotions(empl_name)
-    db.demote_employee(empl_name)
+
+
     print(db.check_demotions(empl_name)[0])
     try:
         if db.check_demotions(empl_name)[0] > 1:
@@ -739,17 +742,17 @@ def add_warning(user_id):
 def accept_complaint(complaint_id, emp_id):
     db = db_connect()
     db.confirm_complaint(complaint_id)
+    db.add_complaint(emp_id)
 
-    #I dk what this is for. -Eddy
     employee = emp_id
 
     # check how many complaints there are against this employee
     # if 3 or greater, demote the employee
-    if db.check_complaints(employee)[0][0] % 3 == 0:
+    if db.check_complaints(employee)[0] > 2:
         db.demote_employee(employee)
 
     # if the employee has been demoted twice, fire him
-        if db.check_demotions(employee)[0] >= 2:
+        if int(db.check_demotions(employee)[0]) >= 2:
             db.fire_employee(employee)
 
     return view_management_page()
@@ -782,18 +785,25 @@ def decline_complaint(complaint_id,user_id):
 def accept_compliment(compliment_id, emp_id):
     db = db_connect()
     db.confirm_compliment(compliment_id)
+
     employee = emp_id
 
     db.increment_compliment_count(emp_id)
+    #if int(db.select_employee_info(emp_id)[17]) > 0:
+     #   db.decrease_complaint(emp_id)
+
     # if a customer is customer is VIP, their compliments count twice as much
     is_user_VIP = db.select_user_VIP_status(session.get("user"))
     if is_user_VIP == 1:
         db.increment_compliment_count(emp_id)
 
     print(db.check_compliments(employee))
-    if int(db.check_compliments(employee)[0][0]) % 3 == 0:
+    if int(db.check_compliments(employee)[0]) > 2:
         db.promote_employee(employee)
-        db.delete_complaint(employee)
+        if int(db.check_complaints(emp_id)[0]) > 0:
+            db.decrement_complaint(employee)
+        db.reset_compliments(emp_id)#reset compliments once promoted
+
 
     return view_management_page()
 
