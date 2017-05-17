@@ -226,7 +226,7 @@
 								Salary
 							</th>
 							<th>
-								Action
+								Employee ID
 							</th>
 						</tr>
 					</thead>
@@ -243,13 +243,9 @@
                       ${{employees[12]}}
                       </td>
                       <td>
-                      Chef
+                      {{employees[0]}}
                       </td>
-                      <td>
-                      <form >
-                      <span class="fa fa-exclamation-triangle" aria-hidden="true"> </span> <input type="text" name="first_name" style="width: 25px"/>
-                      </form>
-                      </td>
+                     
                       <td>
                       <button type="button" ><a href="{{ url_for('promote', empl_name=employees[0]) }}"> Promote </a></button>
                       <button type="button" ><a href="{{ url_for('demote', empl_name=employees[0]) }}"> Demote </a></button>
