@@ -735,10 +735,14 @@ def upgrade(user_id):
 @app.route('/downgrade_user/<user_id>', methods=['GET'])
 def downgrade(user_id):
     db = db_connect()
-    print(user_id)
     db.update_VIP_status(user_id, "0")
     return view_management_page()
 
+@app.route('/deregister_user/<user_id>', methods=['GET'])
+def deregister(user_id):
+    db = db_connect()
+    db.deregister(user_id)
+    return view_management_page()
 
 @app.route('/promote/<empl_name>', methods=['GET'])
 def promote(empl_name):

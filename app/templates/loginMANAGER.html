@@ -203,7 +203,7 @@
                             <td>
                                 <button type="button" ><a href="{{ url_for('upgrade', user_id=registered_user[0]) }}">Upgrade_VIP </a></button>
                                 <button type="button" ><a href="{{ url_for('downgrade', user_id=registered_user[0]) }}">Downgrade_VIP </a></button>
-                                <button type="button" ><a href="{{ url_for('delete_account', user_id=registered_user[0]) }}">Delete Account </a></button>
+                                <button type="button" ><a href="{{ url_for('deregister', user_id=registered_user[0]) }}">Delete Account </a></button>
                             </td>
                         </tr>
                      {% endfor %}
