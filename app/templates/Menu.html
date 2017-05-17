@@ -144,7 +144,6 @@ Menu
 
                         <img src="{{ url_for('static', filename='img/foodimages/{}'.format(item[1])) }} " height="200" width="100%" style="user-select: none">
                         <p>{{ item_description[0][0] }}</p>
-
                             {% for number in range(0, item[5]| int) %}
                                    <i class="fa fa-heart" aria-hidden="true"></i>
                             {% endfor %}

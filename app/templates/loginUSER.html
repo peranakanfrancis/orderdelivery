@@ -10,8 +10,6 @@
         <link href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}" rel="stylesheet">
         <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
           <style>
               body
               {
@@ -63,9 +61,15 @@
                                 </ul>
                                 <form class="navbar-form navbar-left" role="search">
                                     <div class="form-group">
+<<<<<<< HEAD
 
                                         <span class="glyphicon glyphicon-warning-sign"></span> {{warnings[0]}}
 
+=======
+                                        {% for warn in warnings %}
+                                        <span class="glyphicon glyphicon-warning-sign"></span> <input type= text class="form-control" placeholder="Number of Warnings" style="width: 25px">
+                                        {% endfor %}
+>>>>>>> origin/master
                                     </div>
                                 </form>
                                 <ul class="nav navbar-nav">
@@ -84,6 +88,7 @@
                     </div>
                 </div>
                 <!-- End of Navigation bar -->
+
                 <!-- Beginning of small description -->
                     <div class="row">
                         <div class="col-md-12">
@@ -118,9 +123,6 @@
                                                   Deposit Money
                                               </button>
                                             </form>
-
-
-
                                         </td>
 
                                     </tr>
