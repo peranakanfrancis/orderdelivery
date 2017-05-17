@@ -132,7 +132,9 @@ def view_delivery_page():
     all_compl_delivery = db.select_completed_delivery_info()
     user_info = db.select_all_registered_users()
 
-
+    print("COMPLETED")
+    print(all_compl_delivery)
+    print(user_info)
     return render_template("loginDELIVERY.html", all_delivery=delivery_info, all_users=user_info, all_compl_delivery=all_compl_delivery)
 
 # For the Deliverer to Complete Delivery
@@ -205,7 +207,7 @@ def view_user_page():
     # top 5 is most popular
     # for registered and VIP = depends on their history
 
-    return render_template("loginUSER.html", warnings = warnings,top_five=top_five, orders=orders)  # order_status = order_status)
+    return render_template("loginUSER.html", warnings = warnings,top_five=top_five, orders=orders, user_info=user_info)  # order_status = order_status)
 
 # LOGIN AS CHEF -- make SURE TO INCLUDE SOME SECURITY
 @app.route('/loginChef')
