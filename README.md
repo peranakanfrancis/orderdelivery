@@ -10,8 +10,8 @@
 - [Project Specification](https://github.com/justinfchin/losquatroamigos/blob/master/logistics/srs.pdf)
 - [Project Design](https://github.com/justinfchin/losquatroamigos/blob/master/logistics/dr.pdf)
 
--**Language**: Python
--**Technologies**: Geopy, Flask, Bootstrap
+- **Language**: Python
+- **Technologies**: Geopy, Flask, Bootstrap
 
 # Overview
 ![overview](https://github.com/justinfchin/losquatroamigos/blob/master/overview.gif?raw)
