@@ -6,12 +6,12 @@
         - Spring 2017
 
 ## More Details
-- [Project Requirements]()
-- [Project Specification]()
-- [Project Design]()
+- [Project Requirements](https://github.com/justinfchin/losquatroamigos/blob/master/logistics/req.pdf)
+- [Project Specification](https://github.com/justinfchin/losquatroamigos/blob/master/logistics/srs.pdf)
+- [Project Design](https://github.com/justinfchin/losquatroamigos/blob/master/logistics/dr.pdf)
 
-- **Language**: Python
-- **Technologies**: Geopy, Flask, Bootstrap
+-**Language**: Python
+-**Technologies**: Geopy, Flask, Bootstrap
 
 # Overview
 ![overview](https://github.com/justinfchin/losquatroamigos/blob/master/overview.gif?raw)
