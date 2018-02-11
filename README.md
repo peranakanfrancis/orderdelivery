@@ -1,18 +1,24 @@
-# losquatroamigos
+# LosQuatroAmigos - Restaurant Website
+> Online Restaurant Order & Delivery System
 
-CSC 332 - Software Engineering Project - Restaurant Delivery System
+- For:
+    - CCNY CSC332 Software Engineering
+        - Spring 2017
 
-# Language
-Python3
+## More Details
+- [Project Requirements]()
+- [Project Specification]()
+- [Project Design]()
 
-## To get started
-`pip install -r requirements.txt`
+- **Language**: Python
+- **Technologies**: Geopy, Flask, Bootstrap
 
-## To run the app
+# Overview
+![overview](https://github.com/justinfchin/losquatroamigos/blob/master/overview.gif?raw)
 
-- clone repo
-- cd into directory
-- `python run.py`
-
-The app will run on localhost http://127.0.0.1:5000
+## How to Run
+1. `pip install -r requirements.txt`
+2. clone repo & cd into directory
+3. `python run.py`
+4. The app will run on localhost http://127.0.0.1:5000
 
